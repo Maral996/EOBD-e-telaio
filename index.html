@@ -2,15 +2,13 @@
 <html lang="it">
 <head>
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="22fcdb45-4809-417b-9a01-c9683960b17b" type="text/javascript" async></script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HCL5TVJMD5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HCL5TVJMD5');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HCL5TVJMD5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HCL5TVJMD5');
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,21 +20,19 @@
         .container { max-width: 650px; margin: auto; }
         header { background: #1a73e8; color: white; padding: 25px; border-radius: 15px; margin-bottom: 20px; text-align: center; }
         #barra-ricerca { 
-    width: 100%; 
-    padding: 18px; 
-    font-size: 18px; 
-    border-radius: 12px; 
-    border: 2px solid #1a73e8; /* Colore più visibile */
-    margin-bottom: 20px; 
-    box-sizing: border-box; 
-    outline: none;
-    position: relative; 
-    z-index: 9999; /* Lo porta sopra a tutto */
-    background-color: #ffffff !important;
-    display: block !important;
-}
-
-        
+            width: 100%; 
+            padding: 18px; 
+            font-size: 18px; 
+            border-radius: 12px; 
+            border: 2px solid #1a73e8; 
+            margin-bottom: 20px; 
+            box-sizing: border-box; 
+            outline: none;
+            position: relative; 
+            z-index: 9999; 
+            background-color: #ffffff !important;
+            display: block !important;
+        }
         .nascosto { display: none; }
         button { width: 100%; padding: 22px; margin: 10px 0; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 12px; background: white; color: #1a73e8; border: 2px solid #e0e0e0; transition: 0.2s; text-transform: uppercase; }
         button:hover { background: #f8faff; border-color: #1a73e8; transform: translateY(-2px); }
@@ -63,10 +59,10 @@
 <body>
 
 <div class="container">
-    <header><h1>World's car 
-      
-      sito in aggiornamento!!
-    </h1></header>
+    <header>
+        <h1>World's car</h1>
+        <p style="margin:0; font-size:14px; opacity:0.8;">Sito in aggiornamento!!</p>
+    </header>
 
     <input type="text" id="barra-ricerca" placeholder="🔍 Cerca marca o modello..." onkeyup="ricercaVeloce()">
     <div id="risultati-ricerca" class="nascosto"></div>
@@ -104,26 +100,25 @@
     </div>
 
     <div id="sezione-contatti">
-    <h3 style="color: #1a73e8;">Richiedi un modello</h3>
-    <p style="font-size: 14px; color: #555;">Non trovi una procedura? Scrivimi e la aggiungerò.</p>
-    <form action="https://formspree.io/f/tuocodice" method="POST" style="text-align: left;">
-        <label class="etichetta">Nome</label>
-        <input type="text" name="nome" placeholder="Il tuo nome" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;">
-        
-        <label class="etichetta">Email</label>
-        <input type="email" name="_replyto" placeholder="La tua email" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;">
-        
-        <label class="etichetta">Cosa manca?</label>
-        <textarea name="messaggio" placeholder="Modello, anno e info mancante..." required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; height:80px; box-sizing: border-box; font-family: inherit;"></textarea>
-        
-        <button type="submit" style="background:#333; color:white; padding:15px; border:none; width:100%; border-radius:10px; cursor:pointer;">INVIA RICHIESTA</button>
-        
-        <p style="font-size: 10px; color: #888; margin-top: 10px; text-align: center;">
-            Inviando accetti che i tuoi dati vengano usati per risponderti. Per gestire i tuoi dati scrivi a: <strong>tua-email-corretta@gmail.com</strong>.
-        </p>
-    </form>
-</div>
-
+        <h3 style="color: #1a73e8;">Richiedi un modello</h3>
+        <p style="font-size: 14px; color: #555;">Non trovi una procedura? Scrivimi e la aggiungerò.</p>
+        <form action="https://formspree.io/f/tuocodice" method="POST" style="text-align: left;">
+            <label class="etichetta">Nome</label>
+            <input type="text" name="nome" placeholder="Il tuo nome" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;">
+            
+            <label class="etichetta">Email</label>
+            <input type="email" name="_replyto" placeholder="La tua email" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;">
+            
+            <label class="etichetta">Cosa manca?</label>
+            <textarea name="messaggio" placeholder="Modello, anno e info mancante..." required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; height:80px; box-sizing: border-box; font-family: inherit;"></textarea>
+            
+            <button type="submit" style="background:#333; color:white; padding:15px; border:none; width:100%; border-radius:10px; cursor:pointer;">INVIA RICHIESTA</button>
+            
+            <p style="font-size: 10px; color: #888; margin-top: 10px; text-align: center;">
+                Inviando accetti che i tuoi dati vengano usati per risponderti. Per gestire i tuoi dati scrivi a: <strong>tua-email-corretta@gmail.com</strong>.
+            </p>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -139,30 +134,28 @@
         },
         ibride: {
             "Toyota": [{ modello: "Yaris Hybrid", anni: "2020+", telaio: "Sotto sedile passeggero", eobd: "Presa bianca lato guida", procedura: "Mettere in P, acc. 2 volte, mettere in N, acc. 2 volte..." }]
-        }
+        },
         tagliandi: {
-    "Fiat": [
-        { 
-            modello: "Panda 1.2 Fire", 
-            motore: "188A4000",
-            tagliando: "Ogni 20.000 km o 1 anno", 
-            olio: "2.8 Litri 5W40 ACEA C3", 
-            filtri: "Olio: L316, Aria: A1145",
-            note: "Sostituire candele ogni 40.000 km"
-        }
-    ],
-    "Toyota": [
-        {
-            modello: "Yaris 1.5 Hybrid",
-            motore: "M15A-FXE",
-            tagliando: "Ogni 15.000 km o 1 anno",
-            olio: "3.6 Litri 0W-16",
-            filtri: "Olio: T104, Aria: T122",
-            note: "Controllo sistema ibrido obbligatorio"
-        }
-    ]
-},
-
+            "Fiat": [
+                { 
+                    modello: "Panda 1.2 Fire", 
+                    motore: "188A4000",
+                    tagliando: "Ogni 20.000 km o 1 anno", 
+                    olio: "2.8 Litri 5W40 ACEA C3", 
+                    filtri: "Olio: L316, Aria: A1145",
+                    note: "Sostituire candele ogni 40.000 km"
+                }
+            ],
+            "Toyota": [
+                {
+                    modello: "Yaris 1.5 Hybrid",
+                    motore: "M15A-FXE",
+                    tagliando: "Ogni 15.000 km o 1 anno",
+                    olio: "3.6 Litri 0W-16",
+                    filtri: "Olio: T104, Aria: T122",
+                    note: "Controllo sistema ibrido obbligatorio"
+                }
+            ]
         }
     };
 
@@ -176,102 +169,103 @@
     }
 
     function vaiAMarche(cat) {
-        categoriaCorrente = cat; nascondiTutti();
+        categoriaCorrente = cat; 
+        nascondiTutti();
         document.getElementById('livello-marche').classList.remove('nascosto');
         let container = document.getElementById('lista-marche');
         container.innerHTML = "";
-        Object.keys(database[cat]).forEach(marca => {
-            container.innerHTML += `<button onclick="vaiAModelli('${marca}')">${marca}</button>`;
-        });
+        if(database[cat]) {
+            Object.keys(database[cat]).forEach(marca => {
+                container.innerHTML += `<button onclick="vaiAModelli('${marca}')">${marca}</button>`;
+            });
+        }
     }
 
     function vaiAModelli(marca) {
-        marcaCorrente = marca; nascondiTutti();
+        marcaCorrente = marca; 
+        nascondiTutti();
         document.getElementById('livello-modelli').classList.remove('nascosto');
         let container = document.getElementById('lista-modelli');
         container.innerHTML = "";
         database[categoriaCorrente][marca].forEach((item, index) => {
-            container.innerHTML += `<button onclick="mostraScheda(${index})">${item.modello} (${item.anni})</button>`;
+            container.innerHTML += `<button onclick="mostraScheda(${index})">${item.modello}</button>`;
         });
     }
 
     function mostraScheda(index) {
-    let veicolo = database[categoriaCorrente][marcaCorrente][index];
-    nascondiTutti();
-    document.getElementById('livello-scheda').classList.remove('nascosto');
-    
-    let htmlDati = `<h2>${marcaCorrente} ${veicolo.modello}</h2>`;
-    
-    // SEZIONE TAGLIANDI
-    if(categoriaCorrente === 'tagliandi') {
-        htmlDati += `
-            <span class="etichetta">Codice Motore:</span><span class="info-testo">${veicolo.motore || 'N/D'}</span>
-            <span class="etichetta">Intervallo Manutenzione:</span><span class="info-testo">${veicolo.tagliando}</span>
-            <div class="box-ibrido" style="background: #fff3e0; border-left-color: #ff9800; padding:15px; margin-top:15px;">
-                <span class="etichetta" style="color: #e65100;">Dati Tecnici Olio:</span>
-                <span class="info-testo" style="border:none"><strong>Quantità:</strong> ${veicolo.olio}</span>
-            </div>
-            <span class="etichetta">Filtri / Ricambi:</span><span class="info-testo">${veicolo.filtri}</span>
-            ${veicolo.note ? `<span class="etichetta">Note Officina:</span><span class="info-testo">${veicolo.note}</span>` : ''}
-        `;
-    } 
-    // SEZIONE TELAIO / OBD / IBRIDE
-    else {
-        htmlDati += `<p><strong>Periodo:</strong> ${veicolo.anni}</p>`;
-        if(veicolo.telaio) htmlDati += `<span class="etichetta">Posizione Telaio:</span><span class="info-testo">${veicolo.telaio}</span>`;
-        if(veicolo.eobd) htmlDati += `<span class="etichetta">Presa EOBD:</span><span class="info-testo">${veicolo.eobd}</span>`;
-        if(veicolo.procedura) htmlDati += `<div class="box-ibrido"><span class="etichetta" style="color:#1b5e20">Procedura Manutenzione:</span><span class="info-testo" style="border:none">${veicolo.procedura}</span></div>`;
+        let veicolo = database[categoriaCorrente][marcaCorrente][index];
+        nascondiTutti();
+        document.getElementById('livello-scheda').classList.remove('nascosto');
+        
+        let htmlDati = `<h2>${marcaCorrente} ${veicolo.modello}</h2>`;
+        
+        if(categoriaCorrente === 'tagliandi') {
+            htmlDati += `
+                <span class="etichetta">Codice Motore:</span><span class="info-testo">${veicolo.motore || 'N/D'}</span>
+                <span class="etichetta">Intervallo Manutenzione:</span><span class="info-testo">${veicolo.tagliando}</span>
+                <div class="box-ibrido" style="background: #fff3e0; border-left-color: #ff9800; padding:15px; margin-top:15px;">
+                    <span class="etichetta" style="color: #e65100;">Dati Tecnici Olio:</span>
+                    <span class="info-testo" style="border:none"><strong>Quantità:</strong> ${veicolo.olio}</span>
+                </div>
+                <span class="etichetta">Filtri / Ricambi:</span><span class="info-testo">${veicolo.filtri}</span>
+                ${veicolo.note ? `<span class="etichetta">Note Officina:</span><span class="info-testo">${veicolo.note}</span>` : ''}
+            `;
+        } else {
+            htmlDati += `<p><strong>Periodo:</strong> ${veicolo.anni || 'N/D'}</p>`;
+            if(veicolo.telaio) htmlDati += `<span class="etichetta">Posizione Telaio:</span><span class="info-testo">${veicolo.telaio}</span>`;
+            if(veicolo.eobd) htmlDati += `<span class="etichetta">Presa EOBD:</span><span class="info-testo">${veicolo.eobd}</span>`;
+            if(veicolo.procedura) htmlDati += `<div class="box-ibrido"><span class="etichetta" style="color:#1b5e20">Procedura Manutenzione:</span><span class="info-testo" style="border:none">${veicolo.procedura}</span></div>`;
+        }
+        document.getElementById('dati-veicolo').innerHTML = htmlDati;
     }
-    
-    document.getElementById('dati-veicolo').innerHTML = htmlDati;
-}
-
 
     function ricercaVeloce() {
-    let campo = document.getElementById('barra-ricerca');
-    let input = campo.value.toLowerCase();
-    
-    // Tracciamento Google (solo se scrivi più di 3 caratteri)
-    if (input.length > 3) { 
-        history.replaceState(null, "", "?q=" + encodeURIComponent(input)); 
-    }
+        let campo = document.getElementById('barra-ricerca');
+        let input = campo.value.toLowerCase();
+        
+        if (input.length > 3) { 
+            history.replaceState(null, "", "?q=" + encodeURIComponent(input)); 
+        }
 
-    if (input.length < 2) { 
-        // Se cancelli tutto, torna alla Home senza nascondere la barra
+        if (input.length < 2) { 
+            nascondiTutti();
+            document.getElementById('livello-categoria').classList.remove('nascosto');
+            document.getElementById('sezione-contatti').classList.remove('nascosto');
+            return; 
+        }
+
         nascondiTutti();
-        document.getElementById('livello-categoria').classList.remove('nascosto');
-        document.getElementById('sezione-contatti').classList.remove('nascosto');
-        return; 
-    }
+        let risultatiDiv = document.getElementById('risultati-ricerca');
+        risultatiDiv.classList.remove('nascosto');
+        risultatiDiv.innerHTML = "";
 
-    nascondiTutti();
-    let risultatiDiv = document.getElementById('risultati-ricerca');
-    risultatiDiv.classList.remove('nascosto');
-    risultatiDiv.innerHTML = "";
-
-    for (let cat in database) {
-        for (let marca in database[cat]) {
-            database[cat][marca].forEach((v, i) => {
-                if ((marca + " " + v.modello).toLowerCase().includes(input)) {
-                    let d = document.createElement('div');
-                    d.className = 'scheda-risultato';
-                    d.innerHTML = `<strong>${marca} ${v.modello}</strong> <br> <small>${cat.toUpperCase()}</small>`;
-                    d.onclick = () => { categoriaCorrente = cat; marcaCorrente = marca; mostraScheda(i); };
-                    risultatiDiv.appendChild(d);
-                }
-            });
+        for (let cat in database) {
+            for (let marca in database[cat]) {
+                database[cat][marca].forEach((v, i) => {
+                    if ((marca + " " + v.modello).toLowerCase().includes(input)) {
+                        let d = document.createElement('div');
+                        d.className = 'scheda-risultato';
+                        d.innerHTML = `<strong>${marca} ${v.modello}</strong> <br> <small>${cat.toUpperCase()}</small>`;
+                        d.onclick = () => { categoriaCorrente = cat; marcaCorrente = marca; mostraScheda(i); };
+                        risultatiDiv.appendChild(d);
+                    }
+                });
+            }
         }
     }
-}
-
 
     function nascondiTutti() {
         ['livello-categoria', 'livello-marche', 'livello-modelli', 'livello-scheda', 'risultati-ricerca', 'sezione-contatti'].forEach(id => {
-            if(document.getElementById(id)) document.getElementById(id).classList.add('nascosto');
+            let el = document.getElementById(id);
+            if(el) el.classList.add('nascosto');
         });
     }
 
-    function tornaIndietro(id) { nascondiTutti(); document.getElementById(id).classList.remove('nascosto'); if(id=='livello-categoria') document.getElementById('sezione-contatti').classList.remove('nascosto');}
+    function tornaIndietro(id) { 
+        nascondiTutti(); 
+        document.getElementById(id).classList.remove('nascosto'); 
+        if(id=='livello-categoria') document.getElementById('sezione-contatti').classList.remove('nascosto');
+    }
 </script>
 </body>
 </html>
