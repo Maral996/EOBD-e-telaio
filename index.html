@@ -16,9 +16,43 @@
     <title>World's car</title>
     
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 650px; margin: auto; }
-        header { background: #1a73e8; color: white; padding: 25px; border-radius: 15px; margin-bottom: 20px; text-align: center; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 80px; color: #333; }
+        .container { max-width: 650px; margin: auto; padding: 15px; }
+        
+        /* HEADER FISSO */
+        header { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            height: 70px;
+            background: #1a73e8; 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 15px;
+            z-index: 10000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        header h1 { font-size: 18px; margin: 0; text-transform: uppercase; flex-grow: 1; text-align: center; }
+
+        /* TASTI NAVIGAZIONE FISSI */
+        .nav-fissa {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            text-transform: uppercase;
+            min-width: 80px;
+        }
+        .nav-fissa:disabled { opacity: 0.3; cursor: default; }
+
         #barra-ricerca { 
             width: 100%; 
             padding: 18px; 
@@ -29,225 +63,177 @@
             box-sizing: border-box; 
             outline: none;
             position: relative; 
-            z-index: 9999; 
+            z-index: 999; 
             background-color: #ffffff !important;
-            display: block !important;
         }
+
         .nascosto { display: none; }
-        button { width: 100%; padding: 22px; margin: 10px 0; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 12px; background: white; color: #1a73e8; border: 2px solid #e0e0e0; transition: 0.2s; text-transform: uppercase; }
-        button:hover { background: #f8faff; border-color: #1a73e8; transform: translateY(-2px); }
-        .btn-categoria { background: #1a73e8; color: white; border: none; }
-        .btn-ibride { background: #28a745; color: white; border: none; }
-        .btn-indietro { background: #6c757d; color: white; width: 48%; border: none; }
-        .btn-home { background: #333; color: white; width: 48%; border: none; }
-        .btn-stampa { background: #ff9800; color: white; border: none; margin-top: 15px; }
-        .nav-buttons { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
-        .scheda-finale { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: left; }
-        .etichetta { font-weight: bold; color: #1a73e8; text-transform: uppercase; font-size: 13px; display: block; margin-top: 15px; }
-        .info-testo { font-size: 18px; margin-bottom: 8px; display: block; border-bottom: 1px solid #eee; padding-bottom: 8px; }
-        .box-ibrido { background: #e8f5e9; padding: 15px; border-left: 5px solid #28a745; margin-top: 20px; border-radius: 8px; }
-        .scheda-risultato { background: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; cursor: pointer; border-left: 5px solid #1a73e8; text-align: left; }
-        #sezione-contatti { margin-top: 40px; padding: 20px; background: #fff; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: center; }
+        
+        /* PULSANTI MENU PRINCIPALE */
+        button.main-btn { 
+            width: 100%; 
+            padding: 22px; 
+            margin: 10px 0; 
+            font-size: 17px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border-radius: 12px; 
+            background: white; 
+            color: #1a73e8; 
+            border: 2px solid #e0e0e0; 
+            transition: 0.2s; 
+            text-transform: uppercase; 
+        }
+        button.main-btn:hover { background: #f8faff; border-color: #1a73e8; }
+        
+        .btn-categoria { background: #1a73e8 !important; color: white !important; border: none; }
+        .btn-ibride { background: #28a745 !important; color: white !important; border: none; }
+        .btn-tagliandi { background: #e91e63 !important; color: white !important; border: none; }
+        .btn-stampa { background: #ff9800; color: white; border: none; margin-top: 15px; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; }
+
+        .scheda-finale { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: left; margin-top: 10px; }
+        .etichetta { font-weight: bold; color: #1a73e8; text-transform: uppercase; font-size: 12px; display: block; margin-top: 15px; }
+        .info-testo { font-size: 17px; margin-bottom: 5px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .box-ibrido { background: #e8f5e9; padding: 15px; border-left: 5px solid #28a745; margin-top: 15px; border-radius: 8px; }
+        .scheda-risultato { background: white; padding: 15px; margin-bottom: 10px; border-radius: 10px; cursor: pointer; border-left: 5px solid #1a73e8; }
+
+        #sezione-contatti { margin-top: 30px; padding: 20px; background: #fff; border-radius: 15px; text-align: center; }
         
         @media print {
-            button, #barra-ricerca, header, .btn-home, .btn-indietro, #sezione-contatti { display: none !important; }
-            body { background: white; padding: 0; }
-            .scheda-finale { box-shadow: none; border: 1px solid #ccc; width: 100%; }
+            header, #barra-ricerca, .btn-stampa, #sezione-contatti { display: none !important; }
+            body { padding-top: 0; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>World's car</h1>
-        <p style="margin:0; font-size:14px; opacity:0.8;">Sito in aggiornamento!!</p>
-    </header>
+<header>
+    <button class="nav-fissa" id="btn-indietro-fisso" onclick="vaIndietroUniversale()" disabled>Indietro</button>
+    <h1>World's Car</h1>
+    <button class="nav-fissa" onclick="vaiAllaHome()">Home</button>
+</header>
 
+<div class="container">
     <input type="text" id="barra-ricerca" placeholder="🔍 Cerca marca o modello..." onkeyup="ricercaVeloce()">
     <div id="risultati-ricerca" class="nascosto"></div>
 
     <div id="livello-categoria">
-        <button class="btn-categoria" onclick="vaiAMarche('auto')">AUTO (TELAIO / OBD)</button>
-        <button class="btn-categoria" onclick="vaiAMarche('moto')">MOTO / CICLOMOTORI</button>
-        <button class="btn-ibride" onclick="vaiAMarche('ibride')">AUTO IBRIDE (MANUTENZIONE)</button>
-        <button style="background: #e91e63; color: white; border: none;" onclick="vaiAMarche('tagliandi')">PIANI TAGLIANDO</button>
+        <button class="main-btn btn-categoria" onclick="vaiAMarche('auto')">AUTO (TELAIO / OBD)</button>
+        <button class="main-btn btn-categoria" onclick="vaiAMarche('moto')">MOTO / CICLOMOTORI</button>
+        <button class="main-btn btn-ibride" onclick="vaiAMarche('ibride')">AUTO IBRIDE (MANUTENZIONE)</button>
+        <button class="main-btn btn-tagliandi" onclick="vaiAMarche('tagliandi')">PIANI TAGLIANDO</button>
     </div>
 
     <div id="livello-marche" class="nascosto">
         <div id="lista-marche"></div>
-        <div class="nav-buttons">
-            <button class="btn-indietro" onclick="tornaIndietro('livello-categoria')">INDIETRO</button>
-            <button class="btn-home" onclick="vaiAllaHome()">HOME</button>
-        </div>
     </div>
 
     <div id="livello-modelli" class="nascosto">
         <div id="lista-modelli"></div>
-        <div class="nav-buttons">
-            <button class="btn-indietro" onclick="tornaIndietro('livello-marche')">INDIETRO</button>
-            <button class="btn-home" onclick="vaiAllaHome()">HOME</button>
-        </div>
     </div>
 
     <div id="livello-scheda" class="nascosto">
         <div id="dati-veicolo" class="scheda-finale"></div>
         <button class="btn-stampa" onclick="window.print()">STAMPA SCHEDA</button>
-        <div class="nav-buttons">
-            <button class="btn-indietro" onclick="tornaIndietro('livello-modelli')">INDIETRO</button>
-            <button class="btn-home" onclick="vaiAllaHome()">HOME</button>
-        </div>
     </div>
 
     <div id="sezione-contatti">
         <h3 style="color: #1a73e8;">Richiedi un modello</h3>
-        <p style="font-size: 14px; color: #555;">Non trovi una procedura? Scrivimi e la aggiungerò.</p>
         <form action="https://formspree.io/f/tuocodice" method="POST" style="text-align: left;">
-            <label class="etichetta">Nome</label>
-            <input type="text" name="nome" placeholder="Il tuo nome" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;">
-            
-            <label class="etichetta">Email</label>
-            <input type="email" name="_replyto" placeholder="La tua email" required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;">
-            
-            <label class="etichetta">Cosa manca?</label>
-            <textarea name="messaggio" placeholder="Modello, anno e info mancante..." required style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; height:80px; box-sizing: border-box; font-family: inherit;"></textarea>
-            
-            <button type="submit" style="background:#333; color:white; padding:15px; border:none; width:100%; border-radius:10px; cursor:pointer;">INVIA RICHIESTA</button>
-            
-            <p style="font-size: 10px; color: #888; margin-top: 10px; text-align: center;">
-                Inviando accetti che i tuoi dati vengano usati per risponderti.
-            </p>
+            <input type="text" name="nome" placeholder="Il tuo nome" required style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;">
+            <input type="email" name="_replyto" placeholder="La tua email" required style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;">
+            <textarea name="messaggio" placeholder="Modello e info mancante..." required style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ccc; height:60px; box-sizing: border-box;"></textarea>
+            <button type="submit" style="background:#333; color:white; padding:12px; width:100%; border-radius:8px; border:none; cursor:pointer;">INVIA</button>
         </form>
     </div>
 </div>
 
 <script>
     const database = {
-        auto: {
-            "Fiat": [
-                { modello: "Panda", anni: "2012-2020", telaio: "Vano motore dx", eobd: "Sotto cruscotto sx" },
-                { modello: "500 Hybrid", anni: "2020+", telaio: "Vano motore dx", eobd: "Sotto volante", procedura: "Premere freno e acceleratore per 30 secondi..." }
-            ]
-        },
-        moto: {
-            "Ducati": [{ modello: "Monster", anni: "Tutte", telaio: "Cannotto sterzo", eobd: "Sotto sella" }]
-        },
-        ibride: {
-            "Toyota": [{ modello: "Yaris Hybrid", anni: "2020+", telaio: "Sotto sedile passeggero", eobd: "Presa bianca lato guida", procedura: "Mettere in P, acc. 2 volte, mettere in N, acc. 2 volte..." }]
-        },
-        tagliandi: {
-            "Fiat": [
-                { 
-                    modello: "Panda 1.2 Fire", 
-                    motore: "188A4000",
-                    tagliando: "Ogni 20.000 km o 1 anno", 
-                    olio: "2.8 Litri 5W40 ACEA C3", 
-                    filtri: "Olio: L316, Aria: A1145",
-                    note: "Sostituire candele ogni 40.000 km"
-                }
-            ],
-            "Toyota": [
-                {
-                    modello: "Yaris 1.5 Hybrid",
-                    motore: "M15A-FXE",
-                    tagliando: "Ogni 15.000 km o 1 anno",
-                    olio: "3.6 Litri 0W-16",
-                    filtri: "Olio: T104, Aria: T122",
-                    note: "Controllo sistema ibrido obbligatorio"
-                }
-            ]
-        }
+        auto: { "Fiat": [{ modello: "Panda", anni: "2012-2020", telaio: "Vano motore dx", eobd: "Sotto cruscotto sx" }] },
+        moto: { "Ducati": [{ modello: "Monster", anni: "Tutte", telaio: "Cannotto sterzo", eobd: "Sotto sella" }] },
+        ibride: { "Toyota": [{ modello: "Yaris Hybrid", anni: "2020+", telaio: "Sotto sedile passeggero", eobd: "Presa bianca", procedura: "Procedura test..." }] },
+        tagliandi: { "Fiat": [{ modello: "Panda 1.2 Fire", motore: "188A4000", tagliando: "20.000km/1anno", olio: "2.8L 5W40 ACEA C3", filtri: "Olio: L316", note: "" }] }
     };
 
-    let categoriaCorrente = "", marcaCorrente = "";
+    let categoriaCorrente = "", marcaCorrente = "", livelloAttuale = "categoria";
 
     function vaiAllaHome() {
+        livelloAttuale = "categoria";
         document.getElementById('barra-ricerca').value = "";
+        document.getElementById('btn-indietro-fisso').disabled = true;
         nascondiTutti();
         document.getElementById('livello-categoria').classList.remove('nascosto');
         document.getElementById('sezione-contatti').classList.remove('nascosto');
+        window.scrollTo(0,0);
     }
 
     function vaiAMarche(cat) {
-        categoriaCorrente = cat; 
+        categoriaCorrente = cat; livelloAttuale = "marche";
+        document.getElementById('btn-indietro-fisso').disabled = false;
         nascondiTutti();
         document.getElementById('livello-marche').classList.remove('nascosto');
         let container = document.getElementById('lista-marche');
         container.innerHTML = "";
-        if(database[cat]) {
-            Object.keys(database[cat]).forEach(marca => {
-                container.innerHTML += `<button onclick="vaiAModelli('${marca}')">${marca}</button>`;
-            });
-        }
+        Object.keys(database[cat]).forEach(marca => {
+            container.innerHTML += `<button class="main-btn" onclick="vaiAModelli('${marca}')">${marca}</button>`;
+        });
+        window.scrollTo(0,0);
     }
 
     function vaiAModelli(marca) {
-        marcaCorrente = marca; 
+        marcaCorrente = marca; livelloAttuale = "modelli";
         nascondiTutti();
         document.getElementById('livello-modelli').classList.remove('nascosto');
         let container = document.getElementById('lista-modelli');
         container.innerHTML = "";
         database[categoriaCorrente][marca].forEach((item, index) => {
-            container.innerHTML += `<button onclick="mostraScheda(${index})">${item.modello}</button>`;
+            container.innerHTML += `<button class="main-btn" onclick="mostraScheda(${index})">${item.modello}</button>`;
         });
+        window.scrollTo(0,0);
     }
 
     function mostraScheda(index) {
         let veicolo = database[categoriaCorrente][marcaCorrente][index];
+        livelloAttuale = "scheda";
         nascondiTutti();
         document.getElementById('livello-scheda').classList.remove('nascosto');
         
         let htmlDati = `<h2>${marcaCorrente} ${veicolo.modello}</h2>`;
-        
         if(categoriaCorrente === 'tagliandi') {
-            htmlDati += `
-                <span class="etichetta">Codice Motore:</span><span class="info-testo">${veicolo.motore || 'N/D'}</span>
-                <span class="etichetta">Intervallo Manutenzione:</span><span class="info-testo">${veicolo.tagliando}</span>
-                <div class="box-ibrido" style="background: #fff3e0; border-left-color: #ff9800; padding:15px; margin-top:15px;">
-                    <span class="etichetta" style="color: #e65100;">Dati Tecnici Olio:</span>
-                    <span class="info-testo" style="border:none"><strong>Quantità:</strong> ${veicolo.olio}</span>
-                </div>
-                <span class="etichetta">Filtri / Ricambi:</span><span class="info-testo">${veicolo.filtri}</span>
-                ${veicolo.note ? `<span class="etichetta">Note Officina:</span><span class="info-testo">${veicolo.note}</span>` : ''}
-            `;
+            htmlDati += `<span class="etichetta">Motore:</span><span class="info-testo">${veicolo.motore}</span><span class="etichetta">Intervallo:</span><span class="info-testo">${veicolo.tagliando}</span><div class="box-ibrido" style="background:#fff3e0; border-left-color:#ff9800"><span class="etichetta" style="color:#e65100">Olio:</span><span class="info-testo" style="border:none">${veicolo.olio}</span></div><span class="etichetta">Filtri:</span><span class="info-testo">${veicolo.filtri}</span>`;
         } else {
-            htmlDati += `<p><strong>Periodo:</strong> ${veicolo.anni || 'N/D'}</p>`;
-            if(veicolo.telaio) htmlDati += `<span class="etichetta">Posizione Telaio:</span><span class="info-testo">${veicolo.telaio}</span>`;
-            if(veicolo.eobd) htmlDati += `<span class="etichetta">Presa EOBD:</span><span class="info-testo">${veicolo.eobd}</span>`;
-            if(veicolo.procedura) htmlDati += `<div class="box-ibrido"><span class="etichetta" style="color:#1b5e20">Procedura Manutenzione:</span><span class="info-testo" style="border:none">${veicolo.procedura}</span></div>`;
+            htmlDati += `<p><strong>Anni:</strong> ${veicolo.anni || 'N/D'}</p>`;
+            if(veicolo.telaio) htmlDati += `<span class="etichetta">Telaio:</span><span class="info-testo">${veicolo.telaio}</span>`;
+            if(veicolo.eobd) htmlDati += `<span class="etichetta">EOBD:</span><span class="info-testo">${veicolo.eobd}</span>`;
+            if(veicolo.procedura) htmlDati += `<div class="box-ibrido"><span class="etichetta">Manutenzione:</span><span class="info-testo">${veicolo.procedura}</span></div>`;
         }
         document.getElementById('dati-veicolo').innerHTML = htmlDati;
+        window.scrollTo(0,0);
+    }
+
+    function vaIndietroUniversale() {
+        if(livelloAttuale === "marche") vaiAllaHome();
+        else if(livelloAttuale === "modelli") vaiAMarche(categoriaCorrente);
+        else if(livelloAttuale === "scheda") vaiAModelli(marcaCorrente);
     }
 
     function ricercaVeloce() {
-        let campo = document.getElementById('barra-ricerca');
-        let input = campo.value.toLowerCase();
-        
-        if (input.length > 3) { 
-            history.replaceState(null, "", "?q=" + encodeURIComponent(input)); 
-        }
-
-        if (input.length < 2) { 
-            nascondiTutti();
-            document.getElementById('livello-categoria').classList.remove('nascosto');
-            document.getElementById('sezione-contatti').classList.remove('nascosto');
-            return; 
-        }
-
+        let input = document.getElementById('barra-ricerca').value.toLowerCase();
+        if (input.length < 2) { vaiAllaHome(); return; }
         nascondiTutti();
-        let risultatiDiv = document.getElementById('risultati-ricerca');
-        risultatiDiv.classList.remove('nascosto');
-        risultatiDiv.innerHTML = "";
-
+        document.getElementById('risultati-ricerca').classList.remove('nascosto');
+        let div = document.getElementById('risultati-ricerca');
+        div.innerHTML = "";
         for (let cat in database) {
             for (let marca in database[cat]) {
                 database[cat][marca].forEach((v, i) => {
                     if ((marca + " " + v.modello).toLowerCase().includes(input)) {
                         let d = document.createElement('div');
                         d.className = 'scheda-risultato';
-                        d.innerHTML = `<strong>${marca} ${v.modello}</strong> <br> <small>${cat.toUpperCase()}</small>`;
+                        d.innerHTML = `<strong>${marca} ${v.modello}</strong><br><small>${cat.toUpperCase()}</small>`;
                         d.onclick = () => { categoriaCorrente = cat; marcaCorrente = marca; mostraScheda(i); };
-                        risultatiDiv.appendChild(d);
+                        div.appendChild(d);
                     }
                 });
             }
@@ -256,15 +242,8 @@
 
     function nascondiTutti() {
         ['livello-categoria', 'livello-marche', 'livello-modelli', 'livello-scheda', 'risultati-ricerca', 'sezione-contatti'].forEach(id => {
-            let el = document.getElementById(id);
-            if(el) el.classList.add('nascosto');
+            let el = document.getElementById(id); if(el) el.classList.add('nascosto');
         });
-    }
-
-    function tornaIndietro(id) { 
-        nascondiTutti(); 
-        document.getElementById(id).classList.remove('nascosto'); 
-        if(id=='livello-categoria') document.getElementById('sezione-contatti').classList.remove('nascosto');
     }
 </script>
 </body>
