@@ -146,8 +146,7 @@
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             display: block;
-             margin-bottom: 10px;
-            
+            margin-bottom: 10px;
         }
 
         .info-testo {
@@ -200,7 +199,6 @@
         }
 
         @media print {
-
             header,
             #barra-ricerca,
             .btn-stampa,
@@ -271,20 +269,28 @@
     <script>
         const database = {
             auto: {
-                "Fiat": [{modello: "Panda 3 serie", anni: "2012-oggi", telaio: "Aprire il bagagliaio, alzare il tappetino, si trova sulla destra fuori dal vano ruota di scorta. Può capitare di trovare una copertura in in polistirolo, va alzata anche quella.", eobd: "A sinistra dello sterzo c'è uno sportellino ad incastro, tirare dalla parte bassa. La presa si trova accanto ai fusibili" },
-                        {modello: "Panda 2 serie", anni: "2003-2013", telaio: "Aprire il bagagliaio, alzare il tappetino, si trova sulla destra fuori dal vano ruota di scorta", eobd: "A sinistra dello sterzo c'è uno sportellino, vanno svitate le viti a croce, si trova a sinistra dei fusibili proprio subito dietro lo sportellino"},
-                        {modello: "Panda 1 serie", anni: "1980-2003", telaio: "Aprire il cofano motore, si trova sopra all'ammortizzatore lato passeggero", eobd: "Non presente in questo veicolo"},
-                        {modello: "Punto 3 serie", anni: "2007-2010", telaio: "Pianale lato passeggero, alzare il tappetino si trova uno sportellino vicino al battitacco, aprire lo sportellino ed è li sotto", eobd: "Sulla sinistra dello sterzo c'è una plastica con dei pulsanti con un piccolo cassettino portaoggetti, aprire quest'ultimo poi infilando la mano tirare dalla parte superiore la plastica che si sgancia, rimane attaccato tramite la parte inferiore della plastica. La presa si trova direttamente li davanti, ha una copertura nera"},
-                        {modello: "Punto 2 serie", anni: "2003-2007", telaio: "Pianale lato passeggero, alzare il tappetino si trova uno sportellino vicino al battitacco, aprire lo sportellino ed è li sotto", eobd: "Sulla sinistra dello sterzo c'è una plastica con due viti a taglio di plastica, le sviti e levi lo sportellino davanti. La presa EOBD la trovi li dentro"}],
-                "Opel": [{modello: "Astra J", anni: "2009-2015", telaio: "Pianale lato passeggero, alzare il tappetino si trova uno sportellino vicino al battitacco, aprire lo sportellino ed è li sotto", eobd: "Sotto lo sterzo, a fine della plastica sulla sinistra lo si vede spuntare da li sotto"}],
+                "Fiat": [
+                    { modello: "Panda 3 serie", anni: "2012-oggi", telaio: "Aprire il bagagliaio, alzare il tappetino, si trova sulla destra fuori dal vano ruota di scorta. Può capitare di trovare una copertura in in polistirolo, va alzata anche quella.", eobd: "A sinistra dello sterzo c'è uno sportellino ad incastro, tirare dalla parte bassa. La presa si trova accanto ai fusibili" },
+                    { modello: "Panda 2 serie", anni: "2003-2013", telaio: "Aprire il bagagliaio, alzare il tappetino, si trova sulla destra fuori dal vano ruota di scorta", eobd: "A sinistra dello sterzo c'è uno sportellino, vanno svitate le viti a croce, si trova a sinistra dei fusibili proprio subito dietro lo sportellino" },
+                    { modello: "Panda 1 serie", anni: "1980-2003", telaio: "Aprire il cofano motore, si trova sopra all'ammortizzatore lato passeggero", eobd: "Non presente in questo veicolo" },
+                    { modello: "Punto 3 serie", anni: "2007-2010", telaio: "Pianale lato passeggero, alzare il tappetino si trova uno sportellino vicino al battitacco, aprire lo sportellino ed è li sotto", eobd: "Sulla sinistra dello sterzo c'è una plastica con dei pulsanti con un piccolo cassettino portaoggetti, aprire quest'ultimo poi infilando la mano tirare dalla parte superiore la plastica che si sgancia, rimane attaccato tramite la parte inferiore della plastica. La presa si trova direttamente li davanti, ha una copertura nera" },
+                    { modello: "Punto 2 serie", anni: "2003-2007", telaio: "Pianale lato passeggero, alzare il tappetino si trova uno sportellino vicino al battitacco, aprire lo sportellino ed è li sotto", eobd: "Sulla sinistra dello sterzo c'è una plastica con due viti a taglio di plastica, le sviti e levi lo sportellino davanti. La presa EOBD la trovi li dentro" }
+                ],
+                "Opel": [{ modello: "Astra J", anni: "2009-2015", telaio: "Pianale lato passeggero, alzare il tappetino si trova uno sportellino vicino al battitacco, aprire lo sportellino ed è li sotto", eobd: "Sotto lo sterzo, a fine della plastica sulla sinistra lo si vede spuntare da li sotto" }],
                 "Mercedes": [{ modello: "Classe C", anni: "2000-2007", telaio: "Sotto il seggiolino lato passeggero, va spostato tutto indietro. C'è un ritaglio nella moquette che va alzato", eobd: "Sotto cruscotto lato guida, piu o meno nella parte centrale. C'è uno sportellino nero che va aperto e la presa si trova li sotto" }],
-                "Audi": [{modello: "A4", anni: "2012-2016", telaio: "Sgocciolatoio sx sotto protezione VIN", eobd: "Sotto cruscotto sx (fucsia)" }],
-                "Porsche": [{modello: "Cayman, Boxster, 981", anni: "2015", telaio: "Sotto il seggiolino lato passeggero, va spostato tutto indietro e lo si trova li sotto in un ritaglio della moquette che va alzato", eobd: "Ai piedi del guidatore sulla sinistra c'è uno sportellino, tirare dal ritaglio in alto. ci sono i fusibili e in basso troveremo la presa EOBD" }],
-                "Jeep": [{modello: "Grand Cherokee terza generazione WK-WH", anni: "2004-2010", telaio: "Aprire lo sportello lato passeggero, alzare la plastica nel battitacco vicino alla guarnizione dello sportello, il telaio si trova sulla sinistra. Ci si deve sporgere un pochino dentro la macchina per vederlo meglio, altrimenti rimane sotto il battitacco", eobd: "Sotto il cruscotto lato guida, lo si trova non appena finisce la plastica" }],
-                "Toyota": [{modello: "Yaris Hybrid", anni: "2020-oggi", telaio: "Sotto sedile passeggero, va spostato il seggiolino tutto indietro e alzato il ritaglio nella moquette", eobd: "Si trova sotto il cruscotto sotto il volante, la si nota bene poiché è di colore bianca" }]
+                "Audi": [{ modello: "A4", anni: "2012-2016", telaio: "Sgocciolatoio sx sotto protezione VIN", eobd: "Sotto cruscotto sx (fucsia)" }],
+                "Porsche": [{ modello: "Cayman, Boxster, 981", anni: "2015", telaio: "Sotto il seggiolino lato passeggero, va spostato tutto indietro e lo si trova li sotto in un ritaglio della moquette che va alzato", eobd: "Ai piedi del guidatore sulla sinistra c'è uno sportellino, tirare dal ritaglio in alto. ci sono i fusibili e in basso troveremo la presa EOBD" }],
+                "Jeep": [{ modello: "Grand Cherokee terza generazione WK-WH", anni: "2004-2010", telaio: "Aprire lo sportello lato passeggero, alzare la plastica nel battitacco vicino alla guarnizione dello sportello, il telaio si trova sulla sinistra. Ci si deve sporgere un pochino dentro la macchina per vederlo meglio, altrimenti rimane sotto il battitacco", eobd: "Sotto il cruscotto lato guida, lo si trova non appena finisce la plastica" }],
+                "Toyota": [{ modello: "Yaris Hybrid", anni: "2020-oggi", telaio: "Sotto sedile passeggero, va spostato il seggiolino tutto indietro e alzato il ritaglio nella moquette", eobd: "Si trova sotto il cruscotto sotto il volante, la si nota bene poiché è di colore bianca" }]
             },
             moto: { "Ducati": [{ modello: "Monster", anni: "Tutte", telaio: "Cannotto sterzo", eobd: "Sotto sella" }] },
-            ibride: { "Toyota": [{procedura: "Macchina spenta, accendere il quadro con il cambio in P (NON premere il freno sennò va in ready e non parte il motore a scoppio), premere due volte il pedale dell'acceleratore fino in fondo, mettere il cambio in N premere due volte il pedale dell'acceleratore fino in fondo, mettere di nuovo il cambio in P e premere due volte il pedalew dell'acceleratore fino in fondo, a questo punto nel display esce fuori la scritta /"Maintenance mode/", vuol dire che ha preso i passaggi nel modo corretto. Se non esce questa scritta ripetere i passaggi in modo corretto. Puoi accendere la vettura, non ti spaventare se si accendono delle spie e tira fuori degli errori. Per uscire da questa modalità basta che spengi la macchina e poi la riaccendi normalmente" }] },
+            ibride: { 
+                "Toyota": [{ 
+                    modello: "Yaris Hybrid", 
+                    anni: "2020-oggi", 
+                    procedura: "Macchina spenta, accendere il quadro con il cambio in P (NON premere il freno sennò va in ready e non parte il motore a scoppio), premere due volte il pedale dell'acceleratore fino in fondo, mettere il cambio in N premere due volte il pedale dell'acceleratore fino in fondo, mettere di nuovo il cambio in P e premere due volte il pedale dell'acceleratore fino in fondo, a questo punto nel display esce fuori la scritta 'Maintenance mode'. Puoi accendere la vettura. Per uscire basta spegnere e riaccendere." 
+                }] 
+            },
             tagliandi: { "Fiat": [{ modello: "Panda 1.2 Fire", motore: "188A4000", tagliando: "20.000km/1anno", olio: "2.8L 5W40 ACEA C3", filtri: "Olio: L316", note: "" }] }
         };
 
@@ -338,12 +344,15 @@
             document.getElementById('livello-scheda').classList.remove('nascosto');
             let veicolo = database[categoriaCorrente][marcaCorrente][index];
             let htmlDati = `<h2>${marcaCorrente} ${veicolo.modello}</h2>`;
+            
             if (categoriaCorrente === 'tagliandi') {
-                htmlDati += `<span class="etichetta"> Codice Motore:</span><div class="info-testo">${veicolo.motore}</div> 
-                <span><div class="etichetta">Intervallo:</span><div class="info-testo">${veicolo.tagliando}</div>
-                <div class="box-ibrido" style="background:#fff3e0; border-left-color:#ff9800">
-                <span class="etichetta" style="color:#e65100">Olio:</span><div style="padding:10px; font-weight:bold; ">${veicolo.olio}</div>
-                <span class="etichetta">Filtri:</span><div class="info-testo">${veicolo.filtri}</div>
+                htmlDati += `
+                    <span class="etichetta">Codice Motore:</span><div class="info-testo">${veicolo.motore}</div> 
+                    <span class="etichetta">Intervallo:</span><div class="info-testo">${veicolo.tagliando}</div>
+                    <div class="box-ibrido" style="background:#fff3e0; border-left-color:#ff9800">
+                        <span class="etichetta" style="color:#e65100">Olio consigliato:</span><div style="padding:10px; font-weight:bold;">${veicolo.olio}</div>
+                    </div>
+                    <span class="etichetta">Filtri:</span><div class="info-testo">${veicolo.filtri}</div>
                 `;
             } else {
                 htmlDati += `<p><strong>Anni:</strong> ${veicolo.anni || 'N/D'}</p>`;
@@ -399,21 +408,14 @@
             }
             if (trovati === 0) div.innerHTML = "<p style='padding:20px; text-align:center;'>Nessun veicolo trovato.</p>";
         }
-        
-        // Gestione tasti della tastiera
-document.addEventListener('keydown', function(event) {
-    // 46 è il codice del tasto Canc, 'ArrowLeft' è la freccia sinistra
-    if (event.keyCode === 46 || event.key === 'ArrowLeft') {
-        
-        // Controlliamo che l'utente non stia scrivendo nella barra di ricerca
-        // Altrimenti, se preme Canc per cancellare una lettera, tornerebbe indietro!
-        if (document.activeElement.id !== 'barra-ricerca') {
-            vaIndietroUniversale();
-        }
-    }
-});
 
-        
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode === 46 || event.key === 'ArrowLeft') {
+                if (document.activeElement.id !== 'barra-ricerca') {
+                    vaIndietroUniversale();
+                }
+            }
+        });
     </script>
 </body>
 
