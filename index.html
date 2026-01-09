@@ -392,6 +392,21 @@
             }
             if (trovati === 0) div.innerHTML = "<p style='padding:20px; text-align:center;'>Nessun veicolo trovato.</p>";
         }
+        
+        // Gestione tasti della tastiera
+document.addEventListener('keydown', function(event) {
+    // 46 è il codice del tasto Canc, 'ArrowLeft' è la freccia sinistra
+    if (event.keyCode === 46 || event.key === 'ArrowLeft') {
+        
+        // Controlliamo che l'utente non stia scrivendo nella barra di ricerca
+        // Altrimenti, se preme Canc per cancellare una lettera, tornerebbe indietro!
+        if (document.activeElement.id !== 'barra-ricerca') {
+            vaIndietroUniversale();
+        }
+    }
+});
+
+        
     </script>
 </body>
 
