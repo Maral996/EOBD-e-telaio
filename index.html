@@ -4,6 +4,7 @@
 <head>
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="22fcdb45-4809-417b-9a01-c9683960b17b"
         type="text/javascript" async></script>
+    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HCL5TVJMD5"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -11,6 +12,9 @@
         gtag('js', new Date());
         gtag('config', 'G-HCL5TVJMD5');
     </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1515990058526887"
+     crossorigin="anonymous"></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,7 +103,6 @@
             text-transform: uppercase;
         }
 
-        /* OVERLAY PUBBLICITÀ INTERSTITIAL */
         #overlay-pubblicita {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -123,12 +126,11 @@
             font-weight: bold;
         }
 
-        /* BANNER FISSO PRIMA DEI CONTATTI */
         .banner-fisso-container {
             width: 100%;
             min-height: 100px;
             background: #ffffff;
-            margin: 40px 0 10px 0; /* Spazio sopra e sotto */
+            margin: 40px 0 10px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -230,7 +232,7 @@
         <div class="banner-fisso-container">
             <p style="color:#bbb; font-size:10px; margin-bottom:5px;">ANNUNCIO PUBBLICITARIO</p>
             <div style="width:320px; height:50px; background:#f9f9f9; border:1px solid #eee; display:flex; align-items:center; justify-content:center; color:#ccc;">
-                Banner Pubblicitario
+                In attesa di approvazione Google
             </div>
         </div>
 
@@ -327,7 +329,6 @@
             });
         }
 
-        // LOGICA PUBBLICITÀ A COMPARSA (3 SECONDI)
         function mostraScheda(index, catRicerca, marcaRicerca, modRicerca) {
             const overlay = document.getElementById('overlay-pubblicita');
             const timerEl = document.getElementById('timer-secondi');
@@ -426,7 +427,6 @@
             if (trovati === 0) div.innerHTML = "<p style='padding:20px; text-align:center;'>Nessun veicolo trovato.</p>";
         }
 
-        // REGISTRAZIONE PWA
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
@@ -440,4 +440,5 @@
         });
     </script>
 </body>
+
 </html>
