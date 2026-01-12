@@ -4,11 +4,11 @@
 <head>
     <meta name="google-adsense-account" content="ca-pub-1515990058526887">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1515990058526887"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
 
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="22fcdb45-4809-417b-9a01-c9683960b17b"
         type="text/javascript" async></script>
-    
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HCL5TVJMD5"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -20,75 +20,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car's world - Home</title>
-    
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a73e8">
 
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 80px; color: #333; }
-        .container { max-width: 650px; margin: auto; padding: 15px; }
-        header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #1a73e8; color: white; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; z-index: 10000; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
-        header h1 { font-size: 23px; margin: 0; text-transform: uppercase; flex-grow: 1; text-align: center; }
-        
-        /* Stile pulsanti e link */
-        .main-btn { 
-            width: 70%; 
-            display: block; 
-            padding: 30px; 
-            margin: 10px auto; 
-            font-size: 17px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            border-radius: 12px; 
-            background: white; 
-            color: #1a73e8; 
-            border: 2px solid #e0e0e0; 
-            text-transform: uppercase; 
-            text-decoration: none; 
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding-top: 80px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            padding: 15px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #1a73e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            z-index: 10000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 23px;
+            margin: 0;
+            text-transform: uppercase;
+            flex-grow: 1;
             text-align: center;
         }
-        
-        .btn-categoria { background: #1a73e8 !important; color: white !important; border: none; }
-        .btn-ibride { background: #28a745 !important; color: white !important; border: none; }
-        .btn-tagliandi { background: #ff9800 !important; color: white !important; border: none; opacity: 0.5; cursor: not-allowed; }
 
-        .banner-fisso-container { width: 100%; min-height: 100px; background: #ffffff; margin: 40px 0 10px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 10px; border: 1px dashed #bbb; overflow: hidden; }
-        
-        #sezione-contatti { padding: 20px; background: #fff; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-top: 20px; }
-        
-        input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-family: inherit; }
-        .btn-invia { background: #333; color: white; padding: 12px; width: 100%; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        
-        @media print { header, .banner-fisso-container, #sezione-contatti { display: none !important; } }
+        /* Stile pulsanti e link */
+        .main-btn {
+            width: 70%;
+            display: block;
+            padding: 30px;
+            margin: 10px auto;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 12px;
+            background: white;
+            color: #1a73e8;
+            border: 2px solid #e0e0e0;
+            text-transform: uppercase;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-categoria {
+            background: #1a73e8 !important;
+            color: white !important;
+            border: none;
+        }
+
+        .btn-ibride {
+            background: #28a745 !important;
+            color: white !important;
+            border: none;
+        }
+
+        .btn-tagliandi {
+            background: #ff9800 !important;
+            color: white !important;
+            border: none;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .banner-fisso-container {
+            width: 100%;
+            min-height: 100px;
+            background: #ffffff;
+            margin: 40px 0 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 1px dashed #bbb;
+            overflow: hidden;
+        }
+
+        #sezione-contatti {
+            padding: 20px;
+            background: #fff;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .btn-invia {
+            background: #333;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        @media print {
+
+            header,
+            .banner-fisso-container,
+            #sezione-contatti {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <header>
-        <div style="width: 50px;"></div> <h1>Car's world</h1>
-        <div style="width: 50px;"></div> </header>
+        <div style="width: 50px;"></div>
+        <h1>Car's world</h1>
+        <div style="width: 50px;"></div>
+    </header>
 
     <div class="container">
-        
+
         <div id="livello-categoria">
             <a href="scelta-auto.html" class="main-btn btn-categoria">AUTO (TELAIO / OBD)</a>
             <a href="scelta-moto.html" class="main-btn btn-categoria">MOTO / CICLOMOTORI</a>
             <a href="scelta-ibride.html" class="main-btn btn-ibride">AUTO IBRIDE (MANUTENZIONE)</a>
-            
+
             <button class="main-btn btn-tagliandi" disabled>PIANI TAGLIANDO (BLOCCATO)</button>
         </div>
 
         <div class="banner-fisso-container">
             <p style="color:#bbb; font-size:10px; margin-bottom:5px;">ANNUNCIO PUBBLICITARIO</p>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-1515990058526887"
-                 data-ad-slot="auto"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto"
+                data-ad-format="auto" data-full-width-responsive="true"></ins>
             <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
+                (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
         </div>
 
@@ -97,7 +190,9 @@
             <form action="https://formspree.io/f/tuocodice" method="POST" style="text-align: left;">
                 <input type="text" name="nome" placeholder="Il tuo nome" required>
                 <input type="email" name="_replyto" placeholder="La tua email" required>
-                <textarea name="messaggio" placeholder="Cosa altro vorresti trovare in questo sito?&#10;Ho dimenticato qualche veicolo? Dimmi quale e sarò lieto di aggiungerlo il prima possibile!" required style="height:100px;"></textarea>
+                <textarea name="messaggio"
+                    placeholder="Cosa altro vorresti trovare in questo sito?&#10;Ho dimenticato qualche veicolo? Dimmi quale e sarò lieto di aggiungerlo il prima possibile!"
+                    required style="height:100px;"></textarea>
                 <button type="submit" class="btn-invia">Invia Messaggio</button>
             </form>
         </div>
@@ -110,4 +205,5 @@
         }
     </script>
 </body>
+
 </html>
