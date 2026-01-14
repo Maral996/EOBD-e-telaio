@@ -17,22 +17,22 @@
         
         #search-ricambi { width: 100%; max-width: 500px; padding: 15px; border-radius: 12px; border: 2px solid #ff9800; margin-bottom: 20px; outline: none; font-size: 16px; box-sizing: border-box; }
         
-        /* MODULO PREVENTIVO RAPIDO */
-        .preventivo-rapido { background: #333; color: white; width: 100%; max-width: 500px; padding: 20px; border-radius: 15px; margin-bottom: 30px; box-sizing: border-box; text-align: left; }
-        .preventivo-rapido h3 { margin-top: 0; color: #ff9800; }
-        .preventivo-rapido p { font-size: 13px; color: #ccc; margin-bottom: 15px; }
-
-        /* LAYOUT PRODOTTI RICHIESTO */
+        /* LAYOUT PRODOTTI RIFINITO */
         .product-card { background: white; width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: flex-start; box-sizing: border-box; gap: 15px; }
         .product-img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; background: #eee; }
         .product-info { flex-grow: 1; text-align: left; }
         .product-info h4 { margin: 0; color: #333; font-size: 17px; }
         .product-info p { margin: 5px 0 10px 0; color: #666; font-size: 14px; line-height: 1.3; }
         
-        .right-side { text-align: right; display: flex; flex-direction: column; justify-content: space-between; height: 80px; min-width: 80px; }
-        .price { font-weight: bold; color: #ff9800; font-size: 18px; }
+        /* Prezzo sopra e bottone sotto a destra */
+        .right-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; min-width: 100px; min-height: 80px; }
+        .price { font-weight: bold; color: #ff9800; font-size: 18px; margin-bottom: 5px; }
+        .btn-add { background: #4caf50; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; text-transform: uppercase; width: 100%; }
 
-        .btn-add { background: #4caf50; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+        /* MODULO PREVENTIVO (SPOSTATO IN FONDO) */
+        .preventivo-rapido { background: #333; color: white; width: 100%; max-width: 500px; padding: 20px; border-radius: 15px; margin-top: 40px; margin-bottom: 30px; box-sizing: border-box; text-align: left; }
+        .preventivo-rapido h3 { margin-top: 0; color: #ff9800; }
+        .preventivo-rapido p { font-size: 13px; color: #ccc; margin-bottom: 15px; }
 
         /* LIVELLO CARRELLO FULL PAGE */
         #overlay-carrello { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; z-index: 20000; overflow-y: auto; display: none; }
@@ -40,14 +40,13 @@
         .header-carrello { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff9800; padding-bottom: 10px; margin-bottom: 20px; }
         .btn-chiudi { background: #333; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
-        .carrello-vuoto { color: #999; padding: 40px 0; }
+        .carrello-vuoto { color: #999; padding: 40px 0; text-align: center; }
         .carrello-item { background: white; padding: 10px 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .btn-remove { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
 
         /* MODULO E RIEPILOGO */
         .sezione-form { background: white; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .sezione-form h3 { margin-top: 0; color: #ff9800; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .label-titolo { font-size: 11px; font-weight: bold; color: #888; text-transform: uppercase; display: block; margin-top: 10px; }
         
         input, textarea, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 15px; }
         
@@ -71,6 +70,34 @@
 
     <div class="container">
         
+        <input type="text" id="search-ricambi" placeholder="🔍 Cerca tra i ricambi pronti..." onkeyup="filterProducts()">
+
+        <div id="lista-prodotti" style="width: 100%;">
+            <div class="product-card">
+                <img src="img/spazzole.jpg" class="product-img" alt="foto">
+                <div class="product-info">
+                    <h4>Spazzole Tergicristallo</h4>
+                    <p>Coppia di spazzole anteriori ad alta visibilità, compatibili con attacchi originali.</p>
+                </div>
+                <div class="right-side">
+                    <div class="price">25.00€</div>
+                    <button class="btn-add" onclick="aggiungiCarrello('Spazzole Tergicristallo', 25.00)">+ Aggiungi</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="img/batteria.jpg" class="product-img" alt="foto">
+                <div class="product-info">
+                    <h4>Batteria 60Ah</h4>
+                    <p>Batteria 12V 60Ah con spunto maggiorato per partenze sicure in ogni condizione climatica.</p>
+                </div>
+                <div class="right-side">
+                    <div class="price">75.00€</div>
+                    <button class="btn-add" onclick="aggiungiCarrello('Batteria 60Ah', 75.00)">+ Aggiungi</button>
+                </div>
+            </div>
+        </div>
+
         <div class="preventivo-rapido">
             <h3>Non trovi il tuo ricambio?</h3>
             <p>Inviaci i dati e ti risponderemo con un preventivo personalizzato.</p>
@@ -86,34 +113,6 @@
                 <textarea name="ricambio_cercato" placeholder="Quale ricambio stai cercando?" style="height: 80px;" required></textarea>
                 <button type="submit" class="btn-invia" style="padding: 12px; font-size: 14px;">Richiedi Preventivo</button>
             </form>
-        </div>
-
-        <input type="text" id="search-ricambi" placeholder="🔍 Cerca tra i ricambi pronti..." onkeyup="filterProducts()">
-
-        <div id="lista-prodotti" style="width: 100%;">
-            <div class="product-card">
-                <img src="img/spazzole.jpg" class="product-img" alt="foto">
-                <div class="product-info">
-                    <h4>Spazzole Tergicristallo</h4>
-                    <p>Coppia di spazzole anteriori ad alta visibilità, compatibili con attacchi originali.</p>
-                    <button class="btn-add" onclick="aggiungiCarrello('Spazzole Tergicristallo', 25.00)">+ Aggiungi</button>
-                </div>
-                <div class="right-side">
-                    <div class="price">25.00€</div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="img/batteria.jpg" class="product-img" alt="foto">
-                <div class="product-info">
-                    <h4>Batteria 60Ah</h4>
-                    <p>Batteria 12V 60Ah con spunto maggiorato per partenze sicure in ogni condizione climatica.</p>
-                    <button class="btn-add" onclick="aggiungiCarrello('Batteria 60Ah', 75.00)">+ Aggiungi</button>
-                </div>
-                <div class="right-side">
-                    <div class="price">75.00€</div>
-                </div>
-            </div>
         </div>
         
         <a href="index.html" class="back-home">← Torna alla Home</a>
@@ -148,8 +147,7 @@
                             <input type="text" name="piva" placeholder="Partita IVA">
                             <input type="text" name="sdi" placeholder="Codice SDI o PEC">
                         </div>
-                        <label class="label-titolo">Indirizzo di fatturazione</label>
-                        <textarea name="ind_fatturazione" id="ind_fatt" placeholder="Via, Civico, CAP, Città" required onkeyup="syncSped()"></textarea>
+                        <textarea name="ind_fatturazione" id="ind_fatt" placeholder="Indirizzo di fatturazione" required onkeyup="syncSped()"></textarea>
                     </div>
 
                     <div class="sezione-form">
@@ -158,7 +156,7 @@
                             <input type="checkbox" id="check_uguale" onclick="syncSped()" style="width:auto; margin:0;">
                             <label for="check_uguale" style="font-size:14px;">Spedizione uguale alla fatturazione</label>
                         </div>
-                        <textarea name="ind_spedizione" id="ind_sped" placeholder="Indirizzo di spedizione completo" required></textarea>
+                        <textarea name="ind_spedizione" id="ind_sped" placeholder="Indirizzo di spedizione" required></textarea>
                         <input type="tel" name="telefono" placeholder="Cellulare per il corriere (Facoltativo)">
                     </div>
 
