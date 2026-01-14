@@ -6,217 +6,236 @@
     <title>Store Ricambi - Car's world</title>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 80px; }
-        .container { max-width: 600px; margin: auto; padding: 15px; display: flex; flex-direction: column; align-items: center; text-align: center; }
         
-        header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #ff9800; color: white; display: flex; align-items: center; justify-content: center; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        header h1 { font-size: 22px; text-transform: uppercase; margin: 0; }
+        /* HEADER E BOTTONE CARRELLO */
+        header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #ff9800; color: white; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        header h1 { font-size: 20px; text-transform: uppercase; margin: 0; }
+        
+        .btn-apri-carrello { background: white; color: #ff9800; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+
+        .container { max-width: 650px; margin: auto; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         
         #search-ricambi { width: 100%; max-width: 500px; padding: 15px; border-radius: 12px; border: 2px solid #ff9800; margin-bottom: 20px; outline: none; font-size: 16px; box-sizing: border-box; }
         
-        .product-card { background: white; width: 100%; max-width: 500px; padding: 15px; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; box-sizing: border-box; gap: 15px; text-align: left; }
-        .product-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #eee; }
-        .product-info { flex-grow: 1; }
+        /* LAYOUT PRODOTTI RICHIESTO */
+        .product-card { background: white; width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: flex-start; box-sizing: border-box; gap: 15px; }
+        .product-img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; background: #eee; }
+        .product-info { flex-grow: 1; text-align: left; }
         .product-info h4 { margin: 0; color: #333; font-size: 17px; }
-        .price { font-weight: bold; color: #ff9800; font-size: 18px; margin-right: 10px; }
-
-        .btn-add { background: #4caf50; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.3s; }
-        .btn-add:hover { background: #45a049; }
-
-        #carrello-box { width: 100%; max-width: 500px; background: #fff; padding: 20px; border-radius: 15px; margin-top: 20px; border: 2px dashed #ff9800; box-sizing: border-box; }
-        .carrello-item { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .btn-remove { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; }
-
-        #riepilogo-prezzi { margin-top: 15px; text-align: right; font-size: 14px; line-height: 1.6; border-top: 1px solid #eee; padding-top: 10px; }
-        .totale-evidenziato { font-weight: bold; font-size: 20px; color: #ff9800; margin-top: 5px; }
-
-        #modulo-preventivo { width: 100%; max-width: 500px; background: white; padding: 25px; border-radius: 15px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box; margin-bottom: 40px; }
-        .sezione-form { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left; border: 1px solid #eee; }
-        .sezione-form label { font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; display: block; margin-bottom: 5px; }
-
-        input, textarea, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-family: inherit; font-size: 15px; }
+        .product-info p { margin: 5px 0 10px 0; color: #666; font-size: 14px; line-height: 1.3; }
         
-        .checkbox-group { display: flex; align-items: center; gap: 10px; font-size: 14px; margin-bottom: 10px; color: #444; }
-        .checkbox-group input { width: auto; margin: 0; }
+        .right-side { text-align: right; display: flex; flex-direction: column; justify-content: space-between; height: 80px; min-width: 80px; }
+        .price { font-weight: bold; color: #ff9800; font-size: 18px; }
 
-        .btn-invia { background: #ff9800; color: white; padding: 18px; width: 100%; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 16px; transition: 0.3s; }
+        .btn-add { background: #4caf50; color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; text-transform: uppercase; }
+
+        /* LIVELLO CARRELLO FULL PAGE */
+        #overlay-carrello { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; z-index: 20000; overflow-y: auto; display: none; }
+        .carrello-content { max-width: 600px; margin: 20px auto; padding: 20px; }
+        .header-carrello { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff9800; padding-bottom: 10px; margin-bottom: 20px; }
+        .btn-chiudi { background: #333; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+        .carrello-vuoto { color: #999; padding: 40px 0; }
+        .carrello-item { background: white; padding: 10px 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .btn-remove { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+
+        /* MODULO E RIEPILOGO */
+        .sezione-form { background: white; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .sezione-form h3 { margin-top: 0; color: #ff9800; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .label-titolo { font-size: 11px; font-weight: bold; color: #888; text-transform: uppercase; display: block; margin-top: 10px; }
         
+        input, textarea, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 15px; }
+        
+        .riepilogo-finale-box { background: #fff3e0; padding: 20px; border-radius: 12px; border: 2px solid #ff9800; margin: 20px 0; text-align: right; }
+        .totale-grande { font-size: 24px; font-weight: bold; color: #e65100; }
+
+        .btn-invia { background: #ff9800; color: white; padding: 20px; width: 100%; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 18px; box-shadow: 0 4px 15px rgba(255,152,0,0.3); }
+
         .hidden { display: none; }
-        .back-home { margin-top: 10px; display: inline-block; text-decoration: none; color: #666; font-weight: bold; font-size: 14px; padding-bottom: 30px; }
+        .back-home { margin: 20px 0; text-decoration: none; color: #666; font-weight: bold; }
     </style>
 </head>
 <body>
-    <header><h1>Store Ricambi</h1></header>
+
+    <header>
+        <h1>Car's World</h1>
+        <button class="btn-apri-carrello" onclick="toggleCarrello(true)">
+            🛒 CARRELLO (<span id="count-cart">0</span>)
+        </button>
+    </header>
 
     <div class="container">
-        <input type="text" id="search-ricambi" placeholder="🔍 Cerca tra i ricambi..." onkeyup="filterProducts()">
+        <input type="text" id="search-ricambi" placeholder="🔍 Cerca ricambi..." onkeyup="filterProducts()">
 
-        <div id="lista-prodotti" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div id="lista-prodotti" style="width: 100%;">
             <div class="product-card">
                 <img src="img/spazzole.jpg" class="product-img" alt="foto">
-                <div class="product-info"><h4>Spazzole Tergicristallo</h4><p>Coppia anteriore</p></div>
-                <div class="price">25.00€</div>
-                <button class="btn-add" onclick="aggiungiCarrello('Spazzole Tergicristallo', 25.00)">AGGIUNGI</button>
+                <div class="product-info">
+                    <h4>Spazzole Tergicristallo</h4>
+                    <p>Coppia di spazzole anteriori ad alta visibilità, compatibili con attacchi originali.</p>
+                    <button class="btn-add" onclick="aggiungiCarrello('Spazzole Tergicristallo', 25.00)">+ Aggiungi</button>
+                </div>
+                <div class="right-side">
+                    <div class="price">25.00€</div>
+                </div>
             </div>
+
             <div class="product-card">
                 <img src="img/batteria.jpg" class="product-img" alt="foto">
-                <div class="product-info"><h4>Batteria 60Ah</h4><p>Alta resistenza</p></div>
-                <div class="price">75.00€</div>
-                <button class="btn-add" onclick="aggiungiCarrello('Batteria 60Ah', 75.00)">AGGIUNGI</button>
+                <div class="product-info">
+                    <h4>Batteria 60Ah</h4>
+                    <p>Batteria 12V 60Ah con spunto maggiorato per partenze sicure in ogni condizione climatica.</p>
+                    <button class="btn-add" onclick="aggiungiCarrello('Batteria 60Ah', 75.00)">+ Aggiungi</button>
+                </div>
+                <div class="right-side">
+                    <div class="price">75.00€</div>
+                </div>
             </div>
-        </div>
-
-        <div id="carrello-box">
-            <h3>🛒 Il tuo carrello</h3>
-            <div id="lista-carrello"><p style="color: #999; font-size: 13px;">Nessun prodotto selezionato.</p></div>
-            
-            <div id="riepilogo-prezzi" class="hidden">
-                <div>Imponibile: <span id="val-imponibile">0.00</span>€</div>
-                <div>IVA (22%): <span id="val-iva">0.00</span>€</div>
-                <div id="box-supplemento" class="hidden" style="color: #d32f2f;">Supplemento Contrassegno: 5.00€</div>
-                <div class="totale-evidenziato">TOTALE: <span id="val-totale">0.00</span>€</div>
-            </div>
-        </div>
-
-        <div id="modulo-preventivo">
-            <h3>Dati Ordine</h3>
-            <form action="https://formspree.io/f/tuocodice" method="POST" onsubmit="preparaInvio()">
-                
-                <div class="sezione-form">
-                    <label>Tipo Cliente</label>
-                    <select name="tipo_cliente" id="tipo_cliente" onchange="switchCampiFatturazione()" required>
-                        <option value="Privato">Privato</option>
-                        <option value="Ditta">Azienda</option>
-                    </select>
-                </div>
-
-                <div id="campi-privato">
-                    <input type="text" name="nome_cognome" placeholder="Nome e Cognome" id="input_nome">
-                    <input type="text" name="codice_fiscale" placeholder="Codice Fiscale" id="input_cf">
-                </div>
-
-                <div id="campi-ditta" class="hidden">
-                    <input type="text" name="ragione_sociale" placeholder="Ragione Sociale" id="input_ragione">
-                    <input type="text" name="partita_iva" placeholder="Partita IVA" id="input_piva">
-                    <input type="text" name="codice_univoco_pec" placeholder="Codice Univoco o PEC" id="input_sdi">
-                </div>
-
-                <div class="sezione-form">
-                    <label>Indirizzi</label>
-                    <textarea name="indirizzo_fatturazione" id="ind_fatt" placeholder="Indirizzo di fatturazione" required onkeyup="gestisciSync()"></textarea>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="check_spedizione" onclick="gestisciSync()">
-                        <label for="check_spedizione">La spedizione è uguale alla fatturazione</label>
-                    </div>
-
-                    <textarea name="indirizzo_spedizione" id="ind_sped" placeholder="Indirizzo di spedizione" required></textarea>
-                    <input type="tel" name="telefono_corriere" placeholder="Cellulare per il corriere (Facoltativo)">
-                </div>
-
-                <div class="sezione-form">
-                    <label>Veicolo e Pagamento</label>
-                    <input type="text" name="targa" placeholder="Targa del veicolo" required>
-                    <select name="metodo_pagamento" id="metodo_pagamento" onchange="mostraCarrello()" required>
-                        <option value="Bonifico">Bonifico</option>
-                        <option value="Contrassegno">Contrassegno (+5.00€)</option>
-                    </select>
-                </div>
-
-                <textarea id="ordine-testo" name="riepilogo_prezzi_invio" class="hidden"></textarea>
-                <button type="submit" class="btn-invia">Invia Ordine</button>
-            </form>
         </div>
         
         <a href="index.html" class="back-home">← Torna alla Home</a>
     </div>
 
+    <div id="overlay-carrello">
+        <div class="carrello-content">
+            <div class="header-carrello">
+                <h2>Riepilogo Ordine</h2>
+                <button class="btn-chiudi" onclick="toggleCarrello(false)">Chiudi ✕</button>
+            </div>
+
+            <div id="lista-carrello-full">
+                <div class="carrello-vuoto">Il tuo carrello è attualmente vuoto.</div>
+            </div>
+
+            <div id="modulo-completo" class="hidden">
+                <form action="https://formspree.io/f/tuocodice" method="POST" onsubmit="return validaInvio()">
+                    
+                    <div class="sezione-form">
+                        <h3>1. Dati Fatturazione</h3>
+                        <select name="tipo_cliente" id="tipo_cliente" onchange="switchFatt()">
+                            <option value="Privato">Privato</option>
+                            <option value="Azienda">Azienda</option>
+                        </select>
+                        <div id="box-privato">
+                            <input type="text" name="nome" placeholder="Nome e Cognome" required>
+                            <input type="text" name="cf" placeholder="Codice Fiscale" required>
+                        </div>
+                        <div id="box-ditta" class="hidden">
+                            <input type="text" name="ragione_sociale" placeholder="Ragione Sociale">
+                            <input type="text" name="piva" placeholder="Partita IVA">
+                            <input type="text" name="sdi" placeholder="Codice SDI o PEC">
+                        </div>
+                        <label class="label-titolo">Indirizzo di fatturazione</label>
+                        <textarea name="ind_fatturazione" id="ind_fatt" placeholder="Via, Civico, CAP, Città" required onkeyup="syncSped()"></textarea>
+                    </div>
+
+                    <div class="sezione-form">
+                        <h3>2. Spedizione e Contatti</h3>
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                            <input type="checkbox" id="check_uguale" onclick="syncSped()" style="width:auto; margin:0;">
+                            <label for="check_uguale" style="font-size:14px;">Spedizione uguale alla fatturazione</label>
+                        </div>
+                        <textarea name="ind_spedizione" id="ind_sped" placeholder="Indirizzo di spedizione completo" required></textarea>
+                        <input type="tel" name="telefono" placeholder="Cellulare per il corriere (Facoltativo)">
+                    </div>
+
+                    <div class="sezione-form">
+                        <h3>3. Veicolo e Pagamento</h3>
+                        <input type="text" name="targa" placeholder="Targa del veicolo" required>
+                        <select name="pagamento" id="metodo_pag" onchange="aggiornaPrezzi()">
+                            <option value="Bonifico">Bonifico Bancario</option>
+                            <option value="Contrassegno">Contrassegno (+5.00€)</option>
+                        </select>
+                    </div>
+
+                    <div class="riepilogo-finale-box">
+                        <div>Imponibile: <span id="res-imponibile">0.00</span>€</div>
+                        <div>IVA (22%): <span id="res-iva">0.00</span>€</div>
+                        <div id="res-extra" class="hidden" style="color:red;">Supplemento Contrassegno: 5.00€</div>
+                        <div class="totale-grande">TOTALE: <span id="res-totale">0.00</span>€</div>
+                    </div>
+
+                    <input type="hidden" name="ordine_dettagliato" id="hidden_ordine">
+                    <button type="submit" class="btn-invia">Invia Ordine</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         let carrello = [];
-        let totaleLordoProdotti = 0;
+        let sommaLorda = 0;
 
-        function switchCampiFatturazione() {
-            const tipo = document.getElementById('tipo_cliente').value;
-            const isPrivato = (tipo === 'Privato');
-            document.getElementById('campi-privato').classList.toggle('hidden', !isPrivato);
-            document.getElementById('campi-ditta').classList.toggle('hidden', isPrivato);
-            document.getElementById('input_nome').required = isPrivato;
-            document.getElementById('input_cf').required = isPrivato;
-            document.getElementById('input_ragione').required = !isPrivato;
-            document.getElementById('input_piva').required = !isPrivato;
-            document.getElementById('input_sdi').required = !isPrivato;
-        }
-
-        function gestisciSync() {
-            const check = document.getElementById('check_spedizione');
-            const fatt = document.getElementById('ind_fatt');
-            const sped = document.getElementById('ind_sped');
-            if(check.checked) {
-                sped.value = fatt.value;
-                sped.readOnly = true;
-                sped.style.background = "#eee";
-            } else {
-                sped.readOnly = false;
-                sped.style.background = "#fff";
-            }
+        function toggleCarrello(show) {
+            document.getElementById('overlay-carrello').style.display = show ? 'block' : 'none';
+            document.body.style.overflow = show ? 'hidden' : 'auto';
         }
 
         function aggiungiCarrello(nome, prezzo) {
             carrello.push({nome, prezzo});
-            totaleLordoProdotti += prezzo;
-            mostraCarrello();
+            sommaLorda += prezzo;
+            document.getElementById('count-cart').innerText = carrello.length;
+            aggiornaPrezzi();
+            alert(nome + " aggiunto al carrello!");
         }
 
-        function rimuoviDalCarrello(index) {
-            totaleLordoProdotti -= carrello[index].prezzo;
+        function rimuovi(index) {
+            sommaLorda -= carrello[index].prezzo;
             carrello.splice(index, 1);
-            mostraCarrello();
+            document.getElementById('count-cart').innerText = carrello.length;
+            aggiornaPrezzi();
         }
 
-        function mostraCarrello() {
-            let lista = document.getElementById('lista-carrello');
-            let riepilogo = document.getElementById('riepilogo-prezzi');
-            let metodo = document.getElementById('metodo_pagamento').value;
+        function aggiornaPrezzi() {
+            const lista = document.getElementById('lista-carrello-full');
+            const modulo = document.getElementById('modulo-completo');
+            const pag = document.getElementById('metodo_pag').value;
 
-            if (carrello.length === 0) {
-                lista.innerHTML = '<p style="color: #999;">Il carrello è vuoto.</p>';
-                riepilogo.classList.add('hidden');
+            if(carrello.length === 0) {
+                lista.innerHTML = '<div class="carrello-vuoto">Il tuo carrello è vuoto.</div>';
+                modulo.classList.add('hidden');
                 return;
             }
 
-            riepilogo.classList.remove('hidden');
-            lista.innerHTML = "";
+            modulo.classList.remove('hidden');
+            lista.innerHTML = "<h3>Articoli selezionati:</h3>";
             carrello.forEach((item, i) => {
-                lista.innerHTML += `<div class="carrello-item"><span>${item.nome}</span><span>${item.prezzo.toFixed(2)}€ <button class="btn-remove" onclick="rimuoviDalCarrello(${i})">X</button></span></div>`;
+                lista.innerHTML += `<div class="carrello-item"><span>${item.nome}</span><span>${item.prezzo.toFixed(2)}€ <button class="btn-remove" onclick="rimuovi(${i})">X</button></span></div>`;
             });
 
-            let supplemento = (metodo === "Contrassegno") ? 5.0 : 0;
-            let totaleFinale = totaleLordoProdotti + supplemento;
-            let imponibile = totaleFinale / 1.22;
-            let iva = totaleFinale - imponibile;
+            let extra = (pag === "Contrassegno") ? 5.0 : 0;
+            let totaleSenzaIva = (sommaLorda + extra) / 1.22;
+            let soloIva = (sommaLorda + extra) - totaleSenzaIva;
 
-            document.getElementById('val-imponibile').innerText = imponibile.toFixed(2);
-            document.getElementById('val-iva').innerText = iva.toFixed(2);
-            document.getElementById('val-totale').innerText = totaleFinale.toFixed(2);
-            document.getElementById('box-supplemento').classList.toggle('hidden', supplemento === 0);
+            document.getElementById('res-imponibile').innerText = totaleSenzaIva.toFixed(2);
+            document.getElementById('res-iva').innerText = soloIva.toFixed(2);
+            document.getElementById('res-totale').innerText = (sommaLorda + extra).toFixed(2);
+            document.getElementById('res-extra').classList.toggle('hidden', extra === 0);
+            
+            // Per Formspree
+            document.getElementById('hidden_ordine').value = `Articoli: ${carrello.length} - Totale: ${(sommaLorda+extra).toFixed(2)}€`;
         }
 
-        function preparaInvio() {
-            const imp = document.getElementById('val-imponibile').innerText;
-            const iva = document.getElementById('val-iva').innerText;
-            const tot = document.getElementById('val-totale').innerText;
-            document.getElementById('ordine-testo').value = `RIEPILOGO ECONOMICO:\nImponibile: ${imp}€\nIVA: ${iva}€\nTOTALE: ${tot}€`;
-            alert("Ordine inviato! Controlleremo i dati e ti contatteremo per la conferma finale.");
+        function switchFatt() {
+            const ditta = document.getElementById('tipo_cliente').value === 'Azienda';
+            document.getElementById('box-privato').classList.toggle('hidden', ditta);
+            document.getElementById('box-ditta').classList.toggle('hidden', !ditta);
+            document.querySelector('#box-ditta input').required = ditta;
+        }
+
+        function syncSped() {
+            const check = document.getElementById('check_uguale');
+            const f = document.getElementById('ind_fatt');
+            const s = document.getElementById('ind_sped');
+            if(check.checked) { s.value = f.value; s.readOnly = true; s.style.background = "#eee"; }
+            else { s.readOnly = false; s.style.background = "#fff"; }
         }
 
         function filterProducts() {
-            let input = document.getElementById('search-ricambi').value.toLowerCase();
+            let val = document.getElementById('search-ricambi').value.toLowerCase();
             let cards = document.getElementsByClassName('product-card');
-            for (let card of cards) {
-                card.style.display = card.textContent.toLowerCase().includes(input) ? "flex" : "none";
-            }
+            for(let c of cards) { c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none"; }
         }
-        
-        switchCampiFatturazione();
     </script>
 </body>
 </html>
