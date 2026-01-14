@@ -5,107 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scelta Telai - Car's world</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-color: #f0f2f5; 
-            margin: 0; 
-            padding-top: 80px; /* Spazio per l'header fisso */
-        }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 80px; }
+        .container { max-width: 650px; margin: auto; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #1a73e8; color: white; display: flex; align-items: center; justify-content: center; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        /* BARRA RICERCA */
+        #barra-ricerca { width: 90%; max-width: 500px; padding: 15px; font-size: 18px; border-radius: 12px; border: 2px solid #1a73e8; margin-bottom: 10px; outline: none; box-sizing: border-box; }
+        #risultati-ricerca { width: 90%; max-width: 500px; background: white; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); overflow: hidden; }
+        .risultato-item { display: block; padding: 15px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; font-weight: bold; }
+        .nascosto { display: none !important; }
 
-        .container { 
-            max-width: 650px; 
-            margin: auto; 
-            padding: 15px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; /* Centra i pulsanti orizzontalmente */
-            justify-content: center;
-            min-height: 70vh; /* Centra il contenuto verticalmente nella schermata */
-        }
-
-        header { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            height: 60px; 
-            background: #1a73e8; 
-            color: white; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            z-index: 10000; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        header h1 {
-            font-size: 20px;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .main-btn { 
-            width: 90%; 
-            max-width: 450px; /* Larghezza ottimale su PC */
-            display: block; 
-            padding: 25px 15px; 
-            margin: 15px 0; 
-            font-size: 17px; 
-            font-weight: bold; 
-            border-radius: 12px; 
-            text-transform: uppercase; 
-            text-decoration: none; 
-            text-align: center; 
-            box-sizing: border-box; /* Impedisce al bordo di allargare il tasto */
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        /* Effetto al passaggio del mouse su PC */
-        .main-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn-auto { 
-            background: #1a73e8; 
-            color: white; 
-            border: 2px solid #0d47a1; 
-        }
-
-        .btn-moto { 
-            background: #ff00ff; 
-            color: #ffeb3b; 
-            border: 2px solid #800080; 
-        }
-
-        .back { 
-            margin-top: 30px; 
-            text-decoration: none; 
-            color: #666; 
-            font-weight: bold; 
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .back:hover {
-            color: #1a73e8;
-        }
+        .main-btn { width: 90%; max-width: 450px; display: block; padding: 25px 15px; margin: 10px 0; font-size: 17px; font-weight: bold; border-radius: 12px; text-transform: uppercase; text-decoration: none; text-align: center; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-auto { background: #1a73e8; color: white; border: 2px solid #0d47a1; }
+        .btn-moto { background: #ff00ff; color: #ffeb3b; border: 2px solid #800080; }
+        
+        .back { margin-top: 20px; text-decoration: none; color: #666; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Telai & EOBD</h1>
-    </header>
+    <header><h1>Telai & EOBD</h1></header>
 
     <div class="container">
+        <input type="text" id="barra-ricerca" placeholder="🔍 Cerca marca o modello..." onkeyup="ricercaVeloce()">
+        <div id="risultati-ricerca" class="nascosto"></div>
+
         <a href="scelta-auto.html" class="main-btn btn-auto">AUTO (TELAIO / OBD)</a>
         <a href="scelta-moto.html" class="main-btn btn-moto">MOTO / CICLOMOTORI</a>
         
         <a href="index.html" class="back">← Torna alla Home</a>
     </div>
 
+    <script>
+        function ricercaVeloce() {
+            let input = document.getElementById('barra-ricerca').value.toLowerCase();
+            let div = document.getElementById('risultati-ricerca');
+            const pagine = [
+                { nome: "Fiat Panda", url: "fiat-panda.html" },
+                { nome: "Fiat Punto", url: "fiat-punto.html" },
+                { nome: "Fiat 500", url: "fiat-500.html" },
+                { nome: "Opel Astra", url: "opel-astra.html" },
+                { nome: "Audi A4", url: "audi-a4.html" },
+                { nome: "Mercedes Classe C", url: "mercedes-classe-c.html" },
+                { nome: "Porsche Cayman", url: "porsche-cayman.html" },
+                { nome: "Jeep Grand Cherokee", url: "jeep-grand-cherokee.html" },
+                { nome: "Volkswagen Polo", url: "vw-polo.html" },
+                { nome: "Toyota Yaris", url: "toyota-yaris.html" },
+                { nome: "Toyota Yaris Hybrid (Ibrida)", url: "ibrida-toyota-yaris.html" },
+                { nome: "Ducati Monster", url: "moto-ducati-monster.html" }
+            ];
+            if (input.length < 2) { div.innerHTML = ""; div.classList.add('nascosto'); return; }
+            let filtrati = pagine.filter(p => p.nome.toLowerCase().includes(input));
+            if (filtrati.length > 0) {
+                div.classList.remove('nascosto');
+                div.innerHTML = filtrati.map(p => `<a href="${p.url}" class="risultato-item">${p.nome}</a>`).join('');
+            } else {
+                div.innerHTML = "<p style='padding:15px; margin:0;'>Nessun risultato trovato</p>";
+                div.classList.remove('nascosto');
+            }
+        }
+    </script>
 </body>
 </html>
