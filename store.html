@@ -17,7 +17,6 @@
         .product-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #eee; }
         .product-info { flex-grow: 1; }
         .product-info h4 { margin: 0; color: #333; font-size: 17px; }
-        .product-info p { margin: 5px 0 0; color: #666; font-size: 14px; }
         .price { font-weight: bold; color: #ff9800; font-size: 18px; margin-right: 10px; }
 
         .btn-add { background: #4caf50; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; transition: 0.3s; }
@@ -27,20 +26,22 @@
         .carrello-item { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         .btn-remove { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 11px; }
 
+        #riepilogo-prezzi { margin-top: 15px; text-align: right; font-size: 14px; line-height: 1.6; border-top: 1px solid #eee; padding-top: 10px; }
+        .totale-evidenziato { font-weight: bold; font-size: 20px; color: #ff9800; margin-top: 5px; }
+
         #modulo-preventivo { width: 100%; max-width: 500px; background: white; padding: 25px; border-radius: 15px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box; margin-bottom: 40px; }
-        #modulo-preventivo h3 { margin-top: 0; color: #ff9800; margin-bottom: 20px; }
-        
         .sezione-form { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: left; border: 1px solid #eee; }
         .sezione-form label { font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; display: block; margin-bottom: 5px; }
 
         input, textarea, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-family: inherit; font-size: 15px; }
         
-        .btn-invia { background: #ff9800; color: white; padding: 18px; width: 100%; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 16px; transition: 0.3s; }
-        .btn-invia:hover { background: #e68a00; transform: translateY(-2px); }
-        
-        .back-home { margin-top: 10px; display: inline-block; text-decoration: none; color: #666; font-weight: bold; font-size: 14px; padding-bottom: 30px; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; font-size: 14px; margin-bottom: 10px; color: #444; }
+        .checkbox-group input { width: auto; margin: 0; }
 
+        .btn-invia { background: #ff9800; color: white; padding: 18px; width: 100%; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 16px; transition: 0.3s; }
+        
         .hidden { display: none; }
+        .back-home { margin-top: 10px; display: inline-block; text-decoration: none; color: #666; font-weight: bold; font-size: 14px; padding-bottom: 30px; }
     </style>
 </head>
 <body>
@@ -67,20 +68,24 @@
         <div id="carrello-box">
             <h3>🛒 Il tuo carrello</h3>
             <div id="lista-carrello"><p style="color: #999; font-size: 13px;">Nessun prodotto selezionato.</p></div>
-            <div id="box-totale" style="display:none; margin-top:10px; font-weight:bold; border-top:1px solid #333; padding-top:5px; font-size: 20px;">
-                TOTALE: <span id="valore-totale">0</span>€
+            
+            <div id="riepilogo-prezzi" class="hidden">
+                <div>Imponibile: <span id="val-imponibile">0.00</span>€</div>
+                <div>IVA (22%): <span id="val-iva">0.00</span>€</div>
+                <div id="box-supplemento" class="hidden" style="color: #d32f2f;">Supplemento Contrassegno: 5.00€</div>
+                <div class="totale-evidenziato">TOTALE: <span id="val-totale">0.00</span>€</div>
             </div>
         </div>
 
         <div id="modulo-preventivo">
-            <h3>Dati per la Fatturazione e Spedizione</h3>
-            <form action="https://formspree.io/f/tuocodice" method="POST" onsubmit="confermaOrdine()">
+            <h3>Dati Ordine</h3>
+            <form action="https://formspree.io/f/tuocodice" method="POST" onsubmit="preparaInvio()">
                 
                 <div class="sezione-form">
                     <label>Tipo Cliente</label>
                     <select name="tipo_cliente" id="tipo_cliente" onchange="switchCampiFatturazione()" required>
                         <option value="Privato">Privato</option>
-                        <option value="Ditta">Azienda / Libero Professionista</option>
+                        <option value="Ditta">Azienda</option>
                     </select>
                 </div>
 
@@ -96,33 +101,28 @@
                 </div>
 
                 <div class="sezione-form">
-                    <label>Indirizzi e Contatto Corriere</label>
-                    <textarea name="indirizzo_fatturazione" placeholder="Indirizzo di Fatturazione completo" required></textarea>
-                    <textarea name="indirizzo_spedizione" placeholder="Indirizzo di Spedizione (Scrivi 'Come fatturazione' se uguale)" required></textarea>
-                    <input type="tel" name="telefono_corriere" placeholder="Cellulare per il corriere (Obbligatorio)" required>
+                    <label>Indirizzi</label>
+                    <textarea name="indirizzo_fatturazione" id="ind_fatt" placeholder="Indirizzo di fatturazione" required onkeyup="gestisciSync()"></textarea>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="check_spedizione" onclick="gestisciSync()">
+                        <label for="check_spedizione">La spedizione è uguale alla fatturazione</label>
+                    </div>
+
+                    <textarea name="indirizzo_spedizione" id="ind_sped" placeholder="Indirizzo di spedizione" required></textarea>
+                    <input type="tel" name="telefono_corriere" placeholder="Cellulare per il corriere (Facoltativo)">
                 </div>
 
                 <div class="sezione-form">
-                    <label>Dati Veicolo</label>
-                    <input type="text" name="targa" placeholder="Targa del veicolo (Fondamentale)" required>
-                </div>
-
-                <div class="sezione-form">
-                    <label>Pagamento e Contatto Rapido</label>
+                    <label>Veicolo e Pagamento</label>
+                    <input type="text" name="targa" placeholder="Targa del veicolo" required>
                     <select name="metodo_pagamento" id="metodo_pagamento" onchange="mostraCarrello()" required>
-                        <option value="Bonifico">Bonifico (Prezzo standard)</option>
+                        <option value="Bonifico">Bonifico</option>
                         <option value="Contrassegno">Contrassegno (+5.00€)</option>
                     </select>
-                    <select name="mezzo_contatto_preferito" required>
-                        <option value="WhatsApp">Ricontattami su WhatsApp</option>
-                        <option value="Email">Ricontattami via Email</option>
-                        <option value="Chiamata">Chiamata Telefonica</option>
-                    </select>
-                    <input type="text" name="recapito_veloce" placeholder="Numero o Email per conferma ordine" required>
                 </div>
 
-                <textarea id="ordine-testo" name="riepilogo_carrello" class="hidden"></textarea>
-                
+                <textarea id="ordine-testo" name="riepilogo_prezzi_invio" class="hidden"></textarea>
                 <button type="submit" class="btn-invia">Invia Ordine</button>
             </form>
         </div>
@@ -132,71 +132,80 @@
 
     <script>
         let carrello = [];
-        let totaleProdotti = 0;
+        let totaleLordoProdotti = 0;
 
         function switchCampiFatturazione() {
             const tipo = document.getElementById('tipo_cliente').value;
             const isPrivato = (tipo === 'Privato');
-            
             document.getElementById('campi-privato').classList.toggle('hidden', !isPrivato);
             document.getElementById('campi-ditta').classList.toggle('hidden', isPrivato);
-
-            // Rende i campi obbligatori solo se visibili
             document.getElementById('input_nome').required = isPrivato;
             document.getElementById('input_cf').required = isPrivato;
             document.getElementById('input_ragione').required = !isPrivato;
             document.getElementById('input_piva').required = !isPrivato;
             document.getElementById('input_sdi').required = !isPrivato;
         }
-        // Avvio iniziale per settare i required corretti
-        switchCampiFatturazione();
 
-        function confermaOrdine() {
-            alert("Ordine effettuato! Verificheremo la compatibilità dei pezzi tramite la targa e ti contatteremo a breve per la conferma finale.");
+        function gestisciSync() {
+            const check = document.getElementById('check_spedizione');
+            const fatt = document.getElementById('ind_fatt');
+            const sped = document.getElementById('ind_sped');
+            if(check.checked) {
+                sped.value = fatt.value;
+                sped.readOnly = true;
+                sped.style.background = "#eee";
+            } else {
+                sped.readOnly = false;
+                sped.style.background = "#fff";
+            }
         }
 
         function aggiungiCarrello(nome, prezzo) {
             carrello.push({nome, prezzo});
-            totaleProdotti += prezzo;
+            totaleLordoProdotti += prezzo;
             mostraCarrello();
         }
 
         function rimuoviDalCarrello(index) {
-            totaleProdotti -= carrello[index].prezzo;
+            totaleLordoProdotti -= carrello[index].prezzo;
             carrello.splice(index, 1);
             mostraCarrello();
         }
 
         function mostraCarrello() {
             let lista = document.getElementById('lista-carrello');
-            let boxTotale = document.getElementById('box-totale');
-            let areaTesto = document.getElementById('ordine-testo');
-            let metodoPagamento = document.getElementById('metodo_pagamento').value;
+            let riepilogo = document.getElementById('riepilogo-prezzi');
+            let metodo = document.getElementById('metodo_pagamento').value;
 
             if (carrello.length === 0) {
-                lista.innerHTML = '<p style="color: #999;">Nessun prodotto selezionato.</p>';
-                boxTotale.style.display = "none";
-                areaTesto.value = "";
+                lista.innerHTML = '<p style="color: #999;">Il carrello è vuoto.</p>';
+                riepilogo.classList.add('hidden');
                 return;
             }
 
+            riepilogo.classList.remove('hidden');
             lista.innerHTML = "";
-            let testoRiepilogo = "RIEPILOGO PRODOTTI:\n";
             carrello.forEach((item, i) => {
                 lista.innerHTML += `<div class="carrello-item"><span>${item.nome}</span><span>${item.prezzo.toFixed(2)}€ <button class="btn-remove" onclick="rimuoviDalCarrello(${i})">X</button></span></div>`;
-                testoRiepilogo += `- ${item.nome} (${item.prezzo.toFixed(2)}€)\n`;
             });
 
-            let supplemento = (metodoPagamento === "Contrassegno") ? 5.0 : 0;
-            let totaleFinale = totaleProdotti + supplemento;
+            let supplemento = (metodo === "Contrassegno") ? 5.0 : 0;
+            let totaleFinale = totaleLordoProdotti + supplemento;
+            let imponibile = totaleFinale / 1.22;
+            let iva = totaleFinale - imponibile;
 
-            if (supplemento > 0) {
-                lista.innerHTML += `<div class="carrello-item" style="color:red; font-weight:bold;"><span>Supplemento Contrassegno</span><span>+5.00€</span></div>`;
-            }
+            document.getElementById('val-imponibile').innerText = imponibile.toFixed(2);
+            document.getElementById('val-iva').innerText = iva.toFixed(2);
+            document.getElementById('val-totale').innerText = totaleFinale.toFixed(2);
+            document.getElementById('box-supplemento').classList.toggle('hidden', supplemento === 0);
+        }
 
-            document.getElementById('valore-totale').innerText = totaleFinale.toFixed(2);
-            boxTotale.style.display = "block";
-            areaTesto.value = testoRiepilogo + "\nTOTALE ORDINE: " + totaleFinale.toFixed(2) + "€\nMETODO SCELTO: " + metodoPagamento;
+        function preparaInvio() {
+            const imp = document.getElementById('val-imponibile').innerText;
+            const iva = document.getElementById('val-iva').innerText;
+            const tot = document.getElementById('val-totale').innerText;
+            document.getElementById('ordine-testo').value = `RIEPILOGO ECONOMICO:\nImponibile: ${imp}€\nIVA: ${iva}€\nTOTALE: ${tot}€`;
+            alert("Ordine inviato! Controlleremo i dati e ti contatteremo per la conferma finale.");
         }
 
         function filterProducts() {
@@ -206,6 +215,8 @@
                 card.style.display = card.textContent.toLowerCase().includes(input) ? "flex" : "none";
             }
         }
+        
+        switchCampiFatturazione();
     </script>
 </body>
 </html>
