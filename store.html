@@ -12,10 +12,18 @@
         
         #search-ricambi { width: 90%; padding: 15px; border-radius: 12px; border: 2px solid #ff9800; margin-bottom: 20px; outline: none; font-size: 16px; box-sizing: border-box; }
         
-        .product-card { background: white; width: 90%; padding: 15px; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
+        .product-card { background: white; width: 90%; padding: 15px; margin-bottom: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; box-sizing: border-box; gap: 15px; }
+        .product-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #eee; }
+        .product-info { flex-grow: 1; }
         .product-info h4 { margin: 0; color: #333; font-size: 17px; }
         .product-info p { margin: 5px 0 0; color: #666; font-size: 14px; }
-        .price { font-weight: bold; color: #ff9800; font-size: 18px; white-space: nowrap; margin-left: 10px; }
+        .price { font-weight: bold; color: #ff9800; font-size: 18px; margin-right: 10px; }
+
+        .btn-add { background: #4caf50; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; }
+
+        #carrello-box { width: 90%; background: #fff; padding: 15px; border-radius: 15px; margin-top: 20px; border: 2px dashed #ff9800; box-sizing: border-box; }
+        .carrello-item { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .btn-remove { background: #ff4444; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 11px; }
 
         #modulo-preventivo { width: 90%; background: white; padding: 20px; border-radius: 15px; margin-top: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); box-sizing: border-box; }
         #modulo-preventivo h3 { margin-top: 0; color: #ff9800; }
@@ -37,38 +45,60 @@
         <div id="lista-prodotti" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             
             <div class="product-card">
+                <img src="img/spazzole.jpg" class="product-img" alt="foto">
                 <div class="product-info"><h4>Spazzole Tergicristallo</h4><p>Coppia anteriore (Bosch/SWF)</p></div>
                 <div class="price">25.00€</div>
+                <button class="btn-add" onclick="aggiungiCarrello('Spazzole Tergicristallo', 25.00)">AGGIUNGI</button>
             </div>
 
             <div class="product-card">
+                <img src="img/h7.jpg" class="product-img" alt="foto">
                 <div class="product-info"><h4>Kit Lampadine H7</h4><p>Bianco extra vision (2 pz)</p></div>
                 <div class="price">15.00€</div>
+                <button class="btn-add" onclick="aggiungiCarrello('Kit Lampadine H7', 15.00)">AGGIUNGI</button>
             </div>
 
             <div class="product-card">
+                <img src="img/liquido.jpg" class="product-img" alt="foto">
                 <div class="product-info"><h4>Liquido Tergi 5L</h4><p>Antigelo stagionale -20°C</p></div>
                 <div class="price">8.00€</div>
+                <button class="btn-add" onclick="aggiungiCarrello('Liquido Tergi 5L', 8.00)">AGGIUNGI</button>
             </div>
 
             <div class="product-card">
+                <img src="img/batteria.jpg" class="product-img" alt="foto">
                 <div class="product-info"><h4>Batteria 60Ah</h4><p>Alta resistenza allo spunto</p></div>
                 <div class="price">75.00€</div>
+                <button class="btn-add" onclick="aggiungiCarrello('Batteria 60Ah', 75.00)">AGGIUNGI</button>
             </div>
             
+        </div>
+
+        <div id="carrello-box">
+            <h3 style="margin-top: 0; font-size: 18px;">🛒 Il tuo carrello</h3>
+            <div id="lista-carrello">
+                <p style="color: #999; font-size: 13px;">Nessun prodotto selezionato.</p>
             </div>
+            <div id="box-totale" style="display:none; margin-top:10px; font-weight:bold; border-top:1px solid #333; padding-top:5px;">
+                TOTALE: <span id="valore-totale">0</span>€
+            </div>
+        </div>
 
         <div id="modulo-preventivo">
-            <h3 style="text-align: center;">Richiedi Preventivo</h3>
-            <p style="text-align: center; font-size: 13px; color: #555; margin-bottom: 20px;">Non trovi quello che cerchi? Scrivici la targa e il pezzo che ti serve.</p>
-            
-            <form action="https://formspree.io/f/tuocodice" method="POST">
+            <h3 style="text-align: center;">Concludi Ordine o Chiedi Preventivo</h3>
+            <form action="https://formspree.io/f/tuocodice" method="POST" onsubmit="confermaOrdine()">
                 <input type="text" name="nome" placeholder="Il tuo nome" required>
                 <input type="text" name="targa" placeholder="Targa del veicolo (Obbligatoria)" required>
                 
-                <textarea name="pezzi_richiesti" placeholder="Esempio: Filtro Olio, Pastiglie anteriori, ecc..." style="height: 80px;" required></textarea>
+                <label style="font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Metodo di pagamento:</label>
+                <select name="metodo_pagamento" id="metodo_pagamento" onchange="mostraCarrello()" required>
+                    <option value="Bonifico">Bonifico (Prezzo standard)</option>
+                    <option value="Contrassegno">Contrassegno (+5.00€)</option>
+                </select>
+
+                <textarea id="ordine-testo" name="pezzi_richiesti" placeholder="Cosa ti serve? Se hai usato il carrello apparirà qui..." style="height: 100px;" required></textarea>
                 
-                <label style="font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Come preferisci essere ricontattato?</label>
+                <label style="font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px;">Come vuoi essere ricontattato?</label>
                 <select name="mezzo_contatto" required>
                     <option value="WhatsApp">WhatsApp</option>
                     <option value="Chiamata">Chiamata Telefonica</option>
@@ -77,7 +107,7 @@
                 
                 <input type="text" name="recapito" placeholder="Numero di telefono o Email" required>
                 
-                <button type="submit" class="btn-invia">Invia Richiesta Preventivo</button>
+                <button type="submit" class="btn-invia">Invia Ordine</button>
             </form>
         </div>
         
@@ -85,7 +115,66 @@
     </div>
 
     <script>
-        // Funzione per cercare tra i ricambi che hai inserito
+        let carrello = [];
+        let totaleProdotti = 0;
+
+        // FUNZIONE MESSAGGIO DI CONFERMA
+        function confermaOrdine() {
+            alert("Ordine effettuato con successo!\n\nA breve verrai contattato tramite il metodo scelto per la conferma definitiva. \n\nVerificheremo insieme i dati del veicolo tramite la targa per assicurarci che i ricambi siano corretti ed evitare ordini errati.");
+        }
+
+        function aggiungiCarrello(nome, prezzo) {
+            carrello.push({nome, prezzo});
+            totaleProdotti += prezzo;
+            mostraCarrello();
+        }
+
+        function rimuoviDalCarrello(index) {
+            totaleProdotti -= carrello[index].prezzo;
+            carrello.splice(index, 1);
+            mostraCarrello();
+        }
+
+        function mostraCarrello() {
+            let lista = document.getElementById('lista-carrello');
+            let boxTotale = document.getElementById('box-totale');
+            let areaTesto = document.getElementById('ordine-testo');
+            let metodoPagamento = document.getElementById('metodo_pagamento').value;
+
+            if (carrello.length === 0) {
+                lista.innerHTML = '<p style="color: #999; font-size: 13px;">Nessun prodotto selezionato.</p>';
+                boxTotale.style.display = "none";
+                areaTesto.value = "";
+                return;
+            }
+
+            lista.innerHTML = "";
+            let testoRiepilogo = "ORDINE DAL SITO:\n";
+            
+            carrello.forEach((item, i) => {
+                lista.innerHTML += `<div class="carrello-item">
+                    <span>${item.nome} (${item.prezzo.toFixed(2)}€)</span>
+                    <button class="btn-remove" onclick="rimuoviDalCarrello(${i})">X</button>
+                </div>`;
+                testoRiepilogo += `- ${item.nome} (${item.prezzo.toFixed(2)}€)\n`;
+            });
+
+            let supplemento = (metodoPagamento === "Contrassegno") ? 5.00 : 0.00;
+            let totaleFinale = totaleProdotti + supplemento;
+
+            if (supplemento > 0) {
+                lista.innerHTML += `<div class="carrello-item" style="color: #d32f2f; font-weight: bold;">
+                    <span>Supplemento Contrassegno</span>
+                    <span>+5.00€</span>
+                </div>`;
+                testoRiepilogo += `+ Supplemento Contrassegno (5.00€)\n`;
+            }
+
+            document.getElementById('valore-totale').innerText = totaleFinale.toFixed(2);
+            boxTotale.style.display = "block";
+            areaTesto.value = testoRiepilogo + "\nMETODO PAGAMENTO: " + metodoPagamento + "\nTOTALE DA PAGARE: " + totaleFinale.toFixed(2) + "€";
+        }
+
         function filterProducts() {
             let input = document.getElementById('search-ricambi').value.toLowerCase();
             let cards = document.getElementsByClassName('product-card');
