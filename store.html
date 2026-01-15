@@ -130,7 +130,7 @@
             <hr style="border: 0; border-top: 1px solid #555; margin: 20px 0;">
             <p><strong>Cosa devi sapere:</strong></p>
             <ul style="list-style-type: none; padding: 0; line-height: 1.6; color: #bbb;">
-                <li>🚚 <strong>Spedizioni:</strong> Consegna tramite corriere in 24/48 ore lavorative in tutta Italia.</li>
+                <li>🚚 <strong>Spedizioni:</strong> Consegna tramite corriere in 3-5 giorni lavorativi con codice di tracking.</li>
                 <li>📦 <strong>Resi:</strong> Il cliente ha diritto al recesso entro 14 giorni dalla consegna del prodotto.</li>
                 <li>💳 <strong>Pagamenti:</strong> Accettiamo Bonifico Bancario o Contrassegno (pagamento alla consegna).</li>
                 <li>🔍 <strong>Compatibilità:</strong> Per i preventivi personalizzati, la compatibilità è verificata tramite targa dal nostro staff.</li>
@@ -204,8 +204,16 @@
     </div>
 
     <script>
-        let carrello = [];
+        // Carica dati dal localStorage all'avvio
+        let carrello = JSON.parse(localStorage.getItem('carrello_carsworld')) || [];
         let sommaLorda = 0;
+
+        // Inizializza la pagina basandosi sulla memoria caricata
+        window.onload = function() {
+            ricalcolaTotale();
+            document.getElementById('count-cart').innerText = carrello.length;
+            aggiornaPrezzi();
+        }
 
         function toggleCarrello(show) {
             document.getElementById('overlay-carrello').style.display = show ? 'block' : 'none';
@@ -214,15 +222,23 @@
 
         function aggiungiCarrello(nome, prezzo) {
             carrello.push({nome, prezzo});
-            sommaLorda += prezzo;
-            document.getElementById('count-cart').innerText = carrello.length;
-            aggiornaPrezzi();
+            salvaEMostra();
             alert(nome + " aggiunto al carrello!");
         }
 
         function rimuovi(index) {
-            sommaLorda -= carrello[index].prezzo;
             carrello.splice(index, 1);
+            salvaEMostra();
+        }
+
+        function ricalcolaTotale() {
+            sommaLorda = 0;
+            carrello.forEach(item => { sommaLorda += item.prezzo; });
+        }
+
+        function salvaEMostra() {
+            localStorage.setItem('carrello_carsworld', JSON.stringify(carrello));
+            ricalcolaTotale();
             document.getElementById('count-cart').innerText = carrello.length;
             aggiornaPrezzi();
         }
@@ -233,7 +249,7 @@
             const pag = document.getElementById('metodo_pag').value;
 
             if(carrello.length === 0) {
-                lista.innerHTML = '<div class="carrello-vuoto">Il tuo carrello è vuoto.</div>';
+                lista.innerHTML = '<div class="carrello-vuoto">Il tuo carrello è attualmente vuoto.</div>';
                 modulo.classList.add('hidden');
                 return;
             }
