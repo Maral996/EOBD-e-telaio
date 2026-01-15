@@ -24,35 +24,30 @@
 
         header h1 { font-size: 18px; margin: 0; text-transform: uppercase; }
 
+        /* Struttura PC: 5 colonne (4 ads + 1 centro) */
         .wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 160px 160px 1fr 160px 160px;
+            gap: 15px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 10px;
-        }
-
-        .ads-top {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-            margin-bottom: 15px;
+            align-items: start;
         }
 
         .container { 
+            grid-column: 3; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             width: 100%;
-            max-width: 400px;
         }
 
         .main-btn { 
             width: 100%; 
-            padding: 25px; 
-            margin: 10px 0; 
+            max-width: 400px; 
+            padding: 20px; 
+            margin: 8px 0; 
             background: white; border: 2px solid #1a73e8; border-radius: 12px; 
             text-decoration: none; color: #1a73e8; font-weight: bold; 
             text-align: center; text-transform: uppercase; transition: 0.2s; 
@@ -63,10 +58,19 @@
 
         .main-btn:active { transform: scale(0.98); background: #1a73e8; color: white; }
 
+        .ads-side { display: flex; flex-direction: column; gap: 15px; }
+        
         .banner-bottom { width: 100%; margin-top: 20px; text-align: center; }
 
-        @media (max-width: 600px) {
-            .ads-top { flex-direction: column; align-items: center; }
+        /* Mobile: Scompaiono i lati, restano centro e fondo */
+        @media (max-width: 1100px) {
+            .wrapper { 
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+            }
+            .ads-side { display: none; }
+            .container { width: 100%; max-width: 450px; }
         }
     </style>
 </head>
@@ -77,26 +81,34 @@
     </header>
 
     <div class="wrapper">
-        <div class="ads-top">
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:200px" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto"></ins>
+        <div class="ads-side">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            <ins class="adsbygoogle" style="display:inline-block;width:160px;height:200px" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
+        <div class="ads-side"></div>
 
         <div class="container">
             <a href="scelta-telai.html" class="main-btn">TELAIO / EOBD</a>
             <a href="#" class="main-btn">PIANI TAGLIANDI</a>
             <a href="#" class="main-btn">UTILITÀ</a>
+            
+            <div class="banner-bottom">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
         </div>
 
-        <div class="banner-bottom">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <div class="ads-side">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            <br>
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
+        <div class="ads-side"></div>
     </div>
 </body>
 </html>
