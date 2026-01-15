@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marche Auto - Car's world</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 80px; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 80px; scroll-behavior: smooth; }
         
         header { 
             position: fixed; top: 0; left: 0; right: 0; height: 60px; 
@@ -33,8 +33,6 @@
             display: inline-block !important;
         }
 
-        /* GRIGLIA PC: 3 colonne (Lato SX | Centro | Lato DX) */
-        /* La colonna centrale ha un limite di larghezza per non far allargare troppo i bottoni */
         .wrapper { 
             display: grid; 
             grid-template-columns: 320px 1fr 320px; 
@@ -45,7 +43,6 @@
             align-items: start;
         }
 
-        /* CONTENITORE CENTRALE: Forza la centratura dei bottoni */
         .container { 
             display: flex; 
             flex-direction: column; 
@@ -55,7 +52,7 @@
         
         .main-btn { 
             width: 100%; 
-            max-width: 450px; /* Larghezza ideale per i bottoni */
+            max-width: 450px; 
             padding: 18px; 
             margin: 8px 0; 
             background: white; 
@@ -70,7 +67,28 @@
             box-sizing: border-box;
         }
 
-        /* PUBBLICITÀ LATERALE PC (2 per lato) */
+        /* TASTO TORNA SU (In basso a destra) */
+        #btnBackToTop {
+            display: none; /* Nascosto all'inizio */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            border: none;
+            outline: none;
+            background-color: #1a73e8;
+            color: white;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 22px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: opacity 0.3s;
+        }
+
+        #btnBackToTop:hover { background-color: #0d47a1; }
+
         .ads-side { 
             display: flex; 
             flex-direction: column; 
@@ -84,21 +102,12 @@
             text-align: center; 
         }
 
-        /* MOBILE: Sotto i 1100px spariscono le ads laterali e tutto si centra */
         @media (max-width: 1100px) {
-            .wrapper { 
-                display: block; 
-                padding: 10px;
-            }
-            .ads-side { 
-                display: none; /* Nasconde le ads laterali su cell per non fare confusione */
-            }
-            .container { 
-                width: 100%; 
-            }
-            .main-btn {
-                max-width: 100%; /* Su cell i bottoni prendono quasi tutta la larghezza */
-            }
+            .wrapper { display: block; padding: 10px; }
+            .ads-side { display: none; }
+            .container { width: 100%; }
+            .main-btn { max-width: 100%; }
+            #btnBackToTop { bottom: 15px; right: 15px; width: 45px; height: 45px; }
         }
     </style>
 </head>
@@ -108,6 +117,8 @@
         <h1>Marche Auto</h1>
         <a href="index.html" class="nav-fissa">Home</a>
     </header>
+
+    <button onclick="topFunction()" id="btnBackToTop" title="Torna su">▲</button>
 
     <div class="wrapper">
         <div class="ads-side">
@@ -145,5 +156,26 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
+
+    <script>
+        // Prendi il bottone
+        let mybutton = document.getElementById("btnBackToTop");
+
+        // Quando l'utente scende di 300px dal top, mostra il bottone
+        window.onscroll = function() { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // Quando clicchi, torna su
+        function topFunction() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
 </body>
 </html>
