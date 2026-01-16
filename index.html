@@ -26,7 +26,7 @@
         
         .descrizione-sito { width: 100%; background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         
-        /* RIPRISTINO GRIGLIA ORIGINALE (Sempre 3 colonne) */
+        /* GRIGLIA PULSANTI ORIGINALE (3 colonne affiancate) */
         .grid-menu { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; max-width: 600px; margin: 0 auto 15px auto; }
         
         .btn-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px 5px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 16px; text-align: center; text-transform: uppercase; transition: 0.3s; color: white; min-height: 90px; }
@@ -35,14 +35,6 @@
         .btn-store-home { background: #ff9800; border-bottom: 4px solid #e65100; }
         
         footer { text-align: center; padding: 20px; width: 100%; background: transparent; margin-top: auto; }
-        .footer-link { font-size: 13px; color: #666; cursor: pointer; text-decoration: underline; }
-
-        .modal-privacy { display: none; position: fixed; z-index: 20000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow: auto; }
-        .modal-content { background-color: white; margin: 2% auto; padding: 30px; border-radius: 12px; width: 90%; max-width: 900px; position: relative; line-height: 1.6; }
-        .close-modal { position: sticky; top: 0; float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #666; background: white; z-index: 10; padding: 0 5px; }
-        
-        .privacy-text-content { font-size: 14px; color: #444; text-align: left; white-space: pre-line; }
-        .privacy-text-content h2 { color: #1a73e8; font-size: 22px; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
 
         .ads-side { display: flex; flex-direction: column; gap: 10px; }
         .banner-home { width: 100%; max-width: 500px; margin: 10px auto; text-align: center; }
@@ -52,7 +44,6 @@
             .main-wrapper { display: flex; flex-direction: column; align-items: center; } 
             .ads-side { display: none; } 
             .container { width: 95%; } 
-            /* Rimosso il cambio a 1 colonna per mantenere i tasti affiancati */
         }
     </style>
 </head>
@@ -94,24 +85,7 @@
     </div>
 
     <footer>
-        <span class="footer-link" onclick="openPrivacy()">Informativa Privacy & Cookie</span>
-    </footer>
-
-    <div id="privacyModal" class="modal-privacy">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closePrivacy()">&times;</span>
-            <div class="privacy-text-content">
-                <h2>Privacy Policy</h2>
-                Data di entrata in vigore: 16/01/2026, 12:46:47
-                </div>
-        </div>
-    </div>
-
-    <script>
-        function openPrivacy() { document.getElementById("privacyModal").style.display = "block"; document.body.style.overflow = "hidden"; }
-        function closePrivacy() { document.getElementById("privacyModal").style.display = "none"; document.body.style.overflow = "auto"; }
-        window.onclick = function(event) { if (event.target == document.getElementById("privacyModal")) { closePrivacy(); } }
-    </script>
+        </footer>
 
 </body>
 </html>
