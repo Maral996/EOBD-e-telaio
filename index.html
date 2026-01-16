@@ -54,10 +54,10 @@
 
         .grid-menu {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Ridotto a 2 colonne dato che abbiamo rimosso un tasto */
+            grid-template-columns: 1fr 1fr 1fr; /* Ripristinate 3 colonne */
             gap: 10px;
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             margin-bottom: 15px;
         }
 
@@ -79,6 +79,7 @@
         }
 
         .btn-telai { background: #1a73e8; border-bottom: 4px solid #0d47a1; }
+        .btn-maint { background: #9acd32; border-bottom: 4px solid #6b8e23; } /* Stile pulsante ibride */
         .btn-store-home { background: #ff9800; border-bottom: 4px solid #e65100; }
 
         .ads-side { display: flex; flex-direction: column; gap: 10px; }
@@ -125,12 +126,13 @@
         <div class="container">
             <div class="descrizione-sito">
                 <h1>Car's World</h1>
-                <p>Esplora il database tecnico per telai e prese OBD.</p>
+                <p>Esplora il database tecnico per telai, prese OBD e modalità manutenzione ibride.</p>
                 <p style="font-weight: bold; color: #ff9800;">Trova il ricambio più adatto alle tue esigenze nel nostro Store!</p>
             </div>
 
             <div class="grid-menu">
                 <a href="scelta-telai.html" class="btn-box btn-telai">Telai EOBD</a>
+                <a href="scelta-ibride.html" class="btn-box btn-maint">Maintenance Mode</a>
                 <a href="store.html" class="btn-box btn-store-home">Store</a>
             </div>
 
