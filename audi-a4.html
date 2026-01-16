@@ -34,31 +34,35 @@
         .etichetta { font-weight: bold; color: #1a73e8; display: block; margin-top: 10px; text-transform: uppercase; }
         .info-testo { background: #f9f9f9; padding: 10px; border-radius: 8px; border-left: 4px solid #1a73e8; margin-top: 5px; }
         
-        /* TASTO PROPORZIONATO */
+        /* TASTO SISTEMATO: GRANDE SU PC, PROPORZIONATO SU MOBILE */
         .main-btn { 
-            width: auto; 
-            min-width: 250px; /* Non troppo piccolo su PC */
-            max-width: 90%; /* Non tocca i bordi su Mobile */
-            padding: 18px 30px; 
+            width: 100%; 
+            max-width: 450px; /* Stessa dimensione dei pulsanti Home */
+            padding: 22px 15px; 
             margin: 15px 0; 
             font-weight: bold; 
-            font-size: 16px;
-            border-radius: 50px; /* Arrotondato stile moderno */
+            font-size: 17px;
+            border-radius: 12px; 
             cursor: pointer; 
             text-transform: uppercase; 
-            transition: 0.3s;
             border: none;
-            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: 0.2s;
+            display: block;
         }
 
         .ads-side { display: flex; flex-direction: column; gap: 10px; }
         footer { text-align: center; padding: 25px; font-size: 13px; color: #666; width: 100%; margin-top: auto; }
 
-        /* Ottimizzazione Mobile */
+        /* Mobile */
         @media (max-width: 1100px) {
             .main-wrapper { grid-template-columns: 1fr; }
             .ads-side { display: none; }
-            .main-btn { width: 80%; font-size: 14px; padding: 15px; } /* Più sottile su mobile */
+            .main-btn { 
+                width: 90%; /* Occupa quasi tutta la larghezza su smartphone */
+                padding: 18px 10px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
