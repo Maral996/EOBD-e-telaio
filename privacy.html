@@ -5,9 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Car's World</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.6; color: #333; max-width: 800px; margin: auto; }
-        h1 { color: #1a73e8; }
-        a { color: #1a73e8; text-decoration: none; font-weight: bold; }
+        body { font-family: 'Segoe UI', sans-serif; padding: 40px; line-height: 1.6; color: #333; max-width: 800px; margin: auto; background-color: #f9f9f9; }
+        h1 { color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
+        h3 { color: #333; margin-top: 30px; }
+        
+        /* Stile per il pulsante Chiudi */
+        .btn-chiudi { 
+            display: inline-block; 
+            background: #666; 
+            color: white; 
+            padding: 12px 25px; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: background 0.2s;
+        }
+        .btn-chiudi:hover { background: #333; }
     </style>
 </head>
 <body>
@@ -16,14 +33,12 @@
 
     <script id="CookieDeclaration" src="https://consent.cookiebot.com/5d23d7d2-db15-446e-8c3f-297de6dfca55/cd.js" type="text/javascript" async></script>
 
-<h3>Titolare del Trattamento</h3>
-<p>Il sito Car's World (www.carsworld.it) è gestito da Marchese Alessio. Per qualsiasi richiesta relativa ai tuoi dati, puoi scriverci tramite i contatti presenti sul sito oppure all'indirizzo e-mail 996maral@gmail.com
-</p>
+    <h3>Titolare del Trattamento</h3>
+    <p>Il sito Car's World è gestito da Marchese Alessio. Per qualsiasi richiesta relativa ai tuoi dati, puoi scriverci all'indirizzo e-mail: <strong>996maral@gmail.com</strong></p>
 
-<h3>Informazioni sui Cookie</h3>
+    <h3>Informazioni sui Cookie</h3>
+    <p>La trasparenza è importante. Qui sopra è possibile consultare quali cookie vengono impostati e scegliere in qualsiasi momento di modificare il proprio consenso.</p>
 
-
-    <br><br>
-    <a href="index.html">← Torna alla Home</a>
+    <button onclick="window.history.back()" class="btn-chiudi">CHIUDI</button>
 </body>
 </html>
