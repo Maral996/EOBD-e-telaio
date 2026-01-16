@@ -22,32 +22,44 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 70px; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
         header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #1a73e8; z-index: 10000; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
-        .main-wrapper { display: grid; grid-template-columns: 160px 160px 1fr 160px 160px; gap: 10px; max-width: 1500px; margin: auto; padding: 10px; align-items: start; flex: 1; }
-        .container { grid-column: 3; display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .descrizione-sito { width: 100%; background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         
-        /* GRIGLIA PULSANTI CENTRATA */
-        .grid-menu { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%; max-width: 600px; margin: 0 auto 15px auto; }
+        /* Layout principale bilanciato */
+        .main-wrapper { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; max-width: 1400px; margin: auto; padding: 10px; flex: 1; justify-content: center; }
         
-        .btn-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px 5px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 16px; text-align: center; text-transform: uppercase; transition: 0.3s; color: white; min-height: 90px; }
+        .container { grid-column: 2; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 700px; }
+        .descrizione-sito { width: 100%; background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); box-sizing: border-box; }
+        
+        /* Griglia pulsanti: centrata e responsiva */
+        .grid-menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; margin-bottom: 15px; }
+        
+        .btn-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 14px; text-align: center; text-transform: uppercase; transition: 0.3s; color: white; min-height: 80px; box-sizing: border-box; }
         .btn-telai { background: #1a73e8; border-bottom: 4px solid #0d47a1; }
         .btn-maint { background: #9acd32; border-bottom: 4px solid #6b8e23; }
         .btn-store-home { background: #ff9800; border-bottom: 4px solid #e65100; }
         
-        footer { text-align: center; padding: 20px; width: 100%; background: transparent; margin-top: auto; }
+        footer { text-align: center; padding: 20px; width: 100%; margin-top: auto; }
         .footer-link { font-size: 13px; color: #666; cursor: pointer; text-decoration: underline; }
 
-        .modal-privacy { display: none; position: fixed; z-index: 20000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow: auto; }
-        .modal-content { background-color: white; margin: 2% auto; padding: 30px; border-radius: 12px; width: 90%; max-width: 900px; position: relative; line-height: 1.6; }
-        .close-modal { position: sticky; top: 0; float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #666; background: white; z-index: 10; padding: 0 5px; }
+        /* Modal Privacy ottimizzato per Mobile */
+        .modal-privacy { display: none; position: fixed; z-index: 20000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); overflow: auto; }
+        .modal-content { background-color: white; margin: 5% auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 800px; position: relative; line-height: 1.5; box-sizing: border-box; }
+        .close-modal { position: sticky; top: 0; float: right; font-size: 30px; font-weight: bold; cursor: pointer; color: #333; background: white; border-radius: 50%; padding: 0 10px; }
         
-        .privacy-text-content { font-size: 14px; color: #444; text-align: left; white-space: pre-line; }
-        .privacy-text-content h2 { color: #1a73e8; font-size: 22px; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .privacy-text-content { font-size: 14px; color: #444; text-align: left; white-space: pre-line; margin-top: 10px; }
+        .privacy-text-content h2 { color: #1a73e8; font-size: 20px; margin: 0 0 10px 0; border-bottom: 1px solid #eee; }
 
-        .ads-side { display: flex; flex-direction: column; gap: 10px; }
-        .banner-home { width: 100%; max-width: 500px; margin: 10px auto; text-align: center; }
-        h1 { margin: 0 0 10px 0; color:#1a73e8; font-size: 26px; }
-        @media (max-width: 1100px) { .main-wrapper { display: flex; flex-direction: column; align-items: center; } .ads-side { display: none; } .container { width: 95%; } }
+        .ads-side { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .banner-home { width: 100%; max-width: 100%; margin: 15px auto; text-align: center; }
+        h1 { margin: 0 0 10px 0; color:#1a73e8; font-size: 24px; }
+
+        /* Tablet e Mobile */
+        @media (max-width: 1100px) { 
+            .main-wrapper { display: flex; flex-direction: column; align-items: center; }
+            .ads-side { display: none; } /* Nasconde le sidebar su mobile per pulizia */
+            .container { width: 95%; }
+            .grid-menu { grid-template-columns: 1fr; } /* Pulsanti uno sotto l'altro su mobile per facilità di tocco */
+            .btn-box { min-height: 60px; font-size: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -56,10 +68,9 @@
 
     <div class="main-wrapper">
         <div class="ads-side">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
+            <ins class="adsbygoogle" style="display:block; width:160px; height:600px" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="vertical"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
-        <div class="ads-side"></div>
 
         <div class="container">
             <div class="descrizione-sito">
@@ -81,10 +92,9 @@
         </div>
 
         <div class="ads-side">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
+            <ins class="adsbygoogle" style="display:block; width:160px; height:600px" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="vertical"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
-        <div class="ads-side"></div>
     </div>
 
     <footer>
@@ -94,7 +104,6 @@
     <div id="privacyModal" class="modal-privacy">
         <div class="modal-content">
             <span class="close-modal" onclick="closePrivacy()">&times;</span>
-            
             <div class="privacy-text-content">
                 <h2>Privacy Policy</h2>
                 Data di entrata in vigore: 16/01/2026, 12:46:47
@@ -106,27 +115,22 @@
                 - Migliorare i nostri prodotti e servizi per soddisfare le esigenze in continua evoluzione dei nostri utenti.
                 - Svolgere le operazioni commerciali necessarie, come la fatturazione e la gestione degli account.
                 
-                La nostra politica è quella di trattare le informazioni personali con il massimo rispetto della privacy e della sicurezza. In caso di domande, contattateci a: 996maral@gmail.com o +39 3519095063.
+                Contatti: 996maral@gmail.com o +39 3519095063.
 
                 <strong>Ambito e applicazione</strong>
-                La nostra politica sulla privacy è stata concepita per proteggere le informazioni personali di visitatori, utenti registrati e clienti. Ci assicuriamo che i vostri dati siano trattati con i più alti standard di sicurezza su www.carsworld.it.
+                La nostra politica sulla privacy protegge le informazioni personali di visitatori, utenti registrati e clienti su www.carsworld.it.
 
                 <strong>Archiviazione e protezione dei dati</strong>
-                Le informazioni personali sono conservate su server sicuri situati in: US. Utilizziamo crittografia solida, controlli di accesso rigorosi e audit di sicurezza regolari per identificare e correggere potenziali vulnerabilità. Qualsiasi condivisione con terze parti avviene sotto la protezione di accordi sul trattamento dei dati (DPA).
+                Dati conservati su server sicuri in: US. Utilizziamo crittografia, controlli di accesso e audit regolari. Accordi DPA garantiscono la protezione nel caso di condivisione con terze parti.
 
-                <strong>Diritti e scelte dell'utente</strong>
-                In conformità al GDPR, l'utente ha diritto di:
-                - Accesso (Art. 15), Rettifica (Art. 16) e Cancellazione (Art. 17).
-                - Limitazione del trattamento (Art. 18) e Portabilità dei dati (Art. 20).
-                - Opposizione (Art. 21) e Revoca del consenso (Art. 7).
-                - Presentare un reclamo a un'autorità di vigilanza (Art. 77).
-                Per esercitare questi diritti, scriveteci a 996maral@gmail.com.
+                <strong>Diritti dell'utente (GDPR)</strong>
+                Avete diritto di: Accesso (Art. 15), Rettifica (Art. 16), Cancellazione (Art. 17), Limitazione (Art. 18), Portabilità (Art. 20), Opposizione (Art. 21) e Revoca del consenso. Per esercitarli: 996maral@gmail.com.
 
                 <strong>Cookie e tecnologie di tracciamento</strong>
-                Utilizziamo cookie essenziali (sicurezza), di prestazione (analisi), funzionali (personalizzazione) e pubblicitari (targeting). Alla prima visita, potrete accettare, rifiutare o personalizzare le preferenze tramite il banner dedicato.
+                Utilizziamo cookie essenziali, di prestazione, funzionali e pubblicitari. Il banner iniziale (Cookiebot) permette di gestire le vostre preferenze.
 
-                <strong>Trasferimenti internazionali e aggiornamenti</strong>
-                I dati possono essere trasferiti in paesi fuori dalla vostra giurisdizione sempre nel rispetto del GDPR. Ci riserviamo di aggiornare questa informativa; le modifiche significative saranno comunicate via e-mail o notifiche sul sito.
+                <strong>Aggiornamenti</strong>
+                Eventuali modifiche significative verranno comunicate via e-mail o tramite avvisi sul sito.
             </div>
         </div>
     </div>
