@@ -30,11 +30,20 @@
         .btn-telai { background: #1a73e8; border-bottom: 4px solid #0d47a1; }
         .btn-maint { background: #9acd32; border-bottom: 4px solid #6b8e23; }
         .btn-store-home { background: #ff9800; border-bottom: 4px solid #e65100; }
+        
         footer { text-align: center; padding: 20px; width: 100%; background: transparent; margin-top: auto; }
         .footer-link { font-size: 13px; color: #666; cursor: pointer; text-decoration: underline; }
+
+        /* Stile Modal Privacy */
         .modal-privacy { display: none; position: fixed; z-index: 20000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow: auto; }
-        .modal-content { background-color: white; margin: 5% auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 800px; position: relative; }
-        .close-modal { position: sticky; top: 0; float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #666; }
+        .modal-content { background-color: white; margin: 2% auto; padding: 30px; border-radius: 12px; width: 90%; max-width: 900px; position: relative; line-height: 1.6; }
+        .close-modal { position: sticky; top: 0; float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #666; background: white; z-index: 10; }
+        
+        .privacy-text-content { font-size: 14px; color: #444; margin-bottom: 30px; text-align: left; }
+        .privacy-text-content h2 { color: #1a73e8; font-size: 22px; border-bottom: 2px solid #1a73e8; padding-bottom: 5px; }
+        .privacy-text-content h3 { font-size: 18px; color: #333; margin-top: 25px; background: #f0f2f5; padding: 5px 10px; border-radius: 5px; }
+        .privacy-text-content strong { color: #000; }
+
         .ads-side { display: flex; flex-direction: column; gap: 10px; }
         .banner-home { width: 100%; max-width: 500px; margin: 10px auto; text-align: center; }
         h1 { margin: 0 0 10px 0; color:#1a73e8; font-size: 26px; }
@@ -69,11 +78,6 @@
                 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
-
-            <div class="banner-home">
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-            </div>
         </div>
 
         <div class="ads-side">
@@ -90,26 +94,39 @@
     <div id="privacyModal" class="modal-privacy">
         <div class="modal-content">
             <span class="close-modal" onclick="closePrivacy()">&times;</span>
-            <div id="usercentrics-content"></div>
+            
+            <div class="privacy-text-content">
+                <h2>Privacy Policy</h2>
+                <p><strong>Data di entrata in vigore:</strong> 16/01/2026, 12:46:47</p>
+                
+                <h3>Introduzione e informazioni sull'organizzazione</h3>
+                <p>Noi di <strong>Maral</strong>, ci impegniamo a servire i nostri clienti e contatti al meglio delle nostre possibilità. Parte del nostro impegno comporta la gestione responsabile delle informazioni personali raccolte attraverso i nostri siti web <strong>www.carsworld.it</strong>, e le relative interazioni.</p>
+                <p>I nostri obiettivi principali sono: migliorare l'esperienza utente, fornire assistenza tempestiva, migliorare i nostri prodotti e svolgere le operazioni commerciali necessarie (fatturazione e gestione account).</p>
+                <p>Per qualsiasi domanda, contattateci a: <strong>996maral@gmail.com</strong> o <strong>+39 3519095063</strong>.</p>
+
+                <h3>Ambito e applicazione</h3>
+                <p>La presente informativa si applica a tutti i visitatori, utenti registrati e clienti del sito www.carsworld.it, garantendo standard elevati di privacy e sicurezza.</p>
+
+                <h3>Archiviazione e protezione dei dati</h3>
+                <p>I dati sono conservati su server sicuri situati in: <strong>US</strong>. Utilizziamo crittografia solida, controlli di accesso rigorosi e audit di sicurezza regolari per prevenire accessi non autorizzati.</p>
+
+                <h3>Diritti e scelte dell'utente</h3>
+                <p>In conformità al <strong>GDPR</strong>, l'utente dispone dei seguenti diritti: Accesso (Art. 15), Rettifica (Art. 16), Cancellazione (Art. 17), Limitazione (Art. 18), Portabilità (Art. 20), Opposizione (Art. 21) e Revoca del consenso (Art. 7).</p>
+
+                <h3>Cookie e tecnologie di tracciamento</h3>
+                <p>Utilizziamo cookie essenziali, di prestazione, funzionali e pubblicitari. Alla prima visita è possibile personalizzare le proprie preferenze tramite il banner Cookiebot.</p>
+                
+                <hr>
+                <h3 style="background: #1a73e8; color: white;">Dichiarazione Estesa sui Cookie (Cookiebot)</h3>
+                <p>L'elenco che segue è generato automaticamente e mostra tutti i cookie rilevati sul sito:</p>
+            </div>
+
+            <script id="CookieDeclaration" src="https://consent.cookiebot.com/22fcdb45-4809-417b-9a01-c9683960b17b/cd.js" type="text/javascript" async></script>
         </div>
     </div>
 
     <script>
-        // Carica Usercentrics SOLO quando l'utente clicca il link privacy
-        function openPrivacy() {
-            document.getElementById("privacyModal").style.display = "block";
-            document.body.style.overflow = "hidden";
-            
-            if (!document.getElementById("usercentrics-script")) {
-                var script = document.createElement("script");
-                script.id = "usercentrics-script";
-                script.src = "https://policygenerator.usercentrics.eu/api/privacy-policy";
-                script.setAttribute("privacy-policy-id", "31e1696f-4f6e-4d42-8a02-dd83cef8b20b");
-                document.getElementById("usercentrics-content").innerHTML = '<div class="uc-privacy-policy"></div>';
-                document.head.appendChild(script);
-            }
-        }
-
+        function openPrivacy() { document.getElementById("privacyModal").style.display = "block"; document.body.style.overflow = "hidden"; }
         function closePrivacy() { document.getElementById("privacyModal").style.display = "none"; document.body.style.overflow = "auto"; }
         window.onclick = function(event) { if (event.target == document.getElementById("privacyModal")) { closePrivacy(); } }
     </script>
