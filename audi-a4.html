@@ -30,17 +30,35 @@
         .main-wrapper { display: grid; grid-template-columns: 160px 1fr 160px; gap: 15px; width: 100%; max-width: 1200px; margin: 0 auto; padding: 10px; align-items: start; }
         .container { display: flex; flex-direction: column; align-items: center; width: 100%; text-align: center; }
         
-        .scheda-finale { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 600px; text-align: left; margin-bottom: 20px; }
+        .scheda-finale { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%; max-width: 600px; text-align: left; margin-bottom: 20px; box-sizing: border-box; }
         .etichetta { font-weight: bold; color: #1a73e8; display: block; margin-top: 10px; text-transform: uppercase; }
         .info-testo { background: #f9f9f9; padding: 10px; border-radius: 8px; border-left: 4px solid #1a73e8; margin-top: 5px; }
         
-        .main-btn { width: 100%; max-width: 450px; padding: 15px; margin: 10px 0; font-weight: bold; border-radius: 12px; cursor: pointer; text-transform: uppercase; }
+        /* TASTO PROPORZIONATO */
+        .main-btn { 
+            width: auto; 
+            min-width: 250px; /* Non troppo piccolo su PC */
+            max-width: 90%; /* Non tocca i bordi su Mobile */
+            padding: 18px 30px; 
+            margin: 15px 0; 
+            font-weight: bold; 
+            font-size: 16px;
+            border-radius: 50px; /* Arrotondato stile moderno */
+            cursor: pointer; 
+            text-transform: uppercase; 
+            transition: 0.3s;
+            border: none;
+            box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+        }
+
         .ads-side { display: flex; flex-direction: column; gap: 10px; }
         footer { text-align: center; padding: 25px; font-size: 13px; color: #666; width: 100%; margin-top: auto; }
 
+        /* Ottimizzazione Mobile */
         @media (max-width: 1100px) {
             .main-wrapper { grid-template-columns: 1fr; }
             .ads-side { display: none; }
+            .main-btn { width: 80%; font-size: 14px; padding: 15px; } /* Più sottile su mobile */
         }
     </style>
 </head>
@@ -68,7 +86,7 @@
                 <div class="info-testo">Sotto al cruscotto sulla sinistra, lo si nota bene perché ha un colore fucsia e non ha coperture.</div>
             </div>
 
-            <button class="main-btn" style="background:#e91e63; color:white; border:none;" onclick="window.print()">STAMPA SCHEDA</button>
+            <button class="main-btn" style="background:#e91e63; color:white;" onclick="window.print()">STAMPA SCHEDA</button>
 
             <div class="banner-fisso-container" style="width:100%; max-width:500px; margin-top:20px;">
                 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
