@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="5d23d7d2-db15-446e-8c3f-297de6dfca55" data-blockingmode="auto" type="text/javascript"></script>
+    
     <meta name="google-adsense-account" content="ca-pub-1515990058526887">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1515990058526887" crossorigin="anonymous"></script>
-    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="22fcdb45-4809-417b-9a01-c9683960b17b" type="text/javascript" async></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HCL5TVJMD5"></script>
-    <script>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1515990058526887" crossorigin="anonymous" type="text/plain" data-cookieconsent="marketing"></script>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HCL5TVJMD5" type="text/plain" data-cookieconsent="statistics"></script>
+    <script type="text/plain" data-cookieconsent="statistics">
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
@@ -16,7 +19,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scelta Telai - Car's world</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 80px; color: #333; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: #f0f2f5; 
+            margin: 0; 
+            padding-top: 80px; 
+            color: #333; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
         
         header { 
             position: fixed; top: 0; left: 0; right: 0; height: 60px; 
@@ -28,21 +41,21 @@
         header h1 { font-size: 18px; margin: 0; text-transform: uppercase; flex-grow: 1; text-align: center; }
 
         .nav-fissa {
-            background: rgba(255, 255, 255, 0.2) !important; 
-            border: none !important; 
-            color: white !important; 
-            padding: 7px 12px !important; 
-            border-radius: 8px !important; 
-            font-weight: bold !important; 
-            font-size: 13px !important; 
-            text-decoration: none !important; 
-            text-transform: uppercase !important; 
-            min-width: 70px !important;
-            text-align: center !important;
-            display: inline-block !important;
+            background: rgba(255, 255, 255, 0.2); 
+            color: white; padding: 7px 12px; border-radius: 8px; 
+            font-weight: bold; font-size: 13px; text-decoration: none; 
+            text-transform: uppercase; min-width: 70px; text-align: center;
         }
 
-        .container { max-width: 650px; margin: auto; padding: 20px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
+        /* Layout centrato come Home */
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 160px 1fr 160px; 
+            gap: 15px; width: 100%; max-width: 1200px;
+            margin: 0 auto; padding: 10px; align-items: start;
+        }
+
+        .container { display: flex; flex-direction: column; align-items: center; width: 100%; box-sizing: border-box; }
         
         #barra-ricerca { width: 100%; max-width: 450px; padding: 15px; font-size: 18px; border-radius: 12px; border: 2px solid #1a73e8; margin-bottom: 5px; outline: none; box-sizing: border-box; }
         #risultati-ricerca { width: 100%; max-width: 450px; background: white; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); overflow: hidden; }
@@ -50,47 +63,69 @@
         .nascosto { display: none !important; }
         
         .main-btn { width: 100%; max-width: 450px; display: block; padding: 25px 15px; margin: 10px 0; font-size: 17px; font-weight: bold; border-radius: 12px; text-transform: uppercase; text-decoration: none; text-align: center; box-sizing: border-box; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s; }
-        
-        /* PULSANTI UGUALI: Entrambi blu come le auto */
         .btn-auto, .btn-moto { background: #1a73e8; color: white; border: 2px solid #0d47a1; }
 
         #sezione-contatti { width: 100%; max-width: 450px; padding: 20px; background: white; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); box-sizing: border-box; margin-top: 30px; }
-        input[type="text"], input[type="email"], textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-family: inherit; }
+        input[type="text"], input[type="email"], textarea { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
         .btn-invia { background: #333; color: white; padding: 12px; width: 100%; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
         
+        .ads-side { display: flex; flex-direction: column; gap: 10px; }
         .banner-box { width: 100%; max-width: 450px; margin: 20px 0; text-align: center; }
+
+        footer { text-align: center; padding: 25px; font-size: 13px; color: #666; width: 100%; margin-top: auto; }
+
+        @media (max-width: 1100px) {
+            .main-wrapper { grid-template-columns: 1fr; }
+            .ads-side { display: none; }
+        }
     </style>
 </head>
 <body>
+
     <header>
         <a href="index.html" class="nav-fissa">Indietro</a>
         <h1>Telai & EOBD</h1>
         <a href="index.html" class="nav-fissa">Home</a>
     </header>
 
-    <div class="container">
-        <input type="text" id="barra-ricerca" placeholder="🔍 Cerca marca o modello..." onkeyup="ricercaVeloce()">
-        <div id="risultati-ricerca" class="nascosto"></div>
-
-        <a href="scelta-auto.html" class="main-btn btn-auto">AUTO (TELAIO / OBD)</a>
-        <a href="scelta-moto.html" class="main-btn btn-moto">MOTO / CICLOMOTORI</a>
-
-        <div class="banner-box">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <div class="main-wrapper">
+        <div class="ads-side">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
-        <div id="sezione-contatti">
-            <h3 style="color: #1a73e8; margin-top:0;">Non trovi un veicolo?</h3>
-            <p style="font-size: 14px; margin-bottom: 15px;">Segnalaci il modello mancante e lo aggiungeremo!</p>
-            <form action="https://formspree.io/f/mlgdkage" method="POST">
-                <input type="text" name="nome" placeholder="Il tuo nome" required>
-                <input type="email" name="email" placeholder="La tua email" required>
-                <textarea name="messaggio" placeholder="Non hai trovato qualcosa? scrivimi subito quale è il modello che avevi bisogno, nel caso tu sappia dove si trova il telaio e/o la presa EOBD di un veicolo mancante scrivimi anche la posizione per facilitarmi il lavoro! Grazie!" required style="height:80px;"></textarea>
-                <button type="submit" class="btn-invia">Invia Segnalazione</button>
-            </form>
+        <div class="container">
+            <input type="text" id="barra-ricerca" placeholder="🔍 Cerca marca o modello..." onkeyup="ricercaVeloce()">
+            <div id="risultati-ricerca" class="nascosto"></div>
+
+            <a href="scelta-auto.html" class="main-btn btn-auto">AUTO (TELAIO / OBD)</a>
+            <a href="scelta-moto.html" class="main-btn btn-moto">MOTO / CICLOMOTORI</a>
+
+            <div class="banner-box">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+
+            <div id="sezione-contatti">
+                <h3 style="color: #1a73e8; margin-top:0;">Non trovi un veicolo?</h3>
+                <form action="https://formspree.io/f/mlgdkage" method="POST">
+                    <input type="text" name="nome" placeholder="Il tuo nome" required>
+                    <input type="email" name="email" placeholder="La tua email" required>
+                    <textarea name="messaggio" placeholder="Scrivimi il modello..." required style="height:80px;"></textarea>
+                    <button type="submit" class="btn-invia">Invia Segnalazione</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="ads-side">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Car's World | <a href="javascript: Cookiebot.renew()">Gestisci consenso cookie</a> | <a href="privacy.html">Privacy Policy</a></p>
+    </footer>
 
     <script>
         function ricercaVeloce() {
