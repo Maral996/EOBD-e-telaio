@@ -106,9 +106,17 @@
             font-size: 28px; font-weight: bold; cursor: pointer; color: #666;
         }
 
-        /* RIDOTTO MARGINE SOTTO IL LINK */
+        /* CONTROLLO SPAZI LINK E BANNER */
+        .footer-container {
+            text-align: center;
+            width: 100%;
+            margin: 0; /* Rimuove spazi esterni */
+            padding: 0;
+        }
+
         .footer-link {
-            margin: 10px 0 5px 0; 
+            display: inline-block;
+            margin: 5px 0; /* Spazio minimo sopra e sotto la scritta */
             font-size: 13px;
             color: #666;
             cursor: pointer;
@@ -117,13 +125,15 @@
 
         .ads-side { display: flex; flex-direction: column; gap: 10px; }
 
-        /* RIDOTTO MARGINE SUPERIORE DEL BANNER */
         .banner-home { 
             width: 100%; 
             max-width: 500px; 
-            margin: 0 auto 10px auto; 
+            margin: 0 auto; /* Centrato senza margini verticali */
             text-align: center; 
         }
+
+        /* Forza AdSense a non aggiungere spazi extra se possibile */
+        ins.adsbygoogle { margin: 0 !important; }
         
         h1 { margin: 0 0 10px 0; color:#1a73e8; font-size: 26px; }
         p { margin: 5px 0; }
@@ -166,11 +176,12 @@
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
             
-            <span class="footer-link" onclick="openPrivacy()">Informativa Privacy & Cookie</span>
-
-            <div class="banner-home">
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <div class="footer-container">
+                <span class="footer-link" onclick="openPrivacy()">Informativa Privacy & Cookie</span>
+                <div class="banner-home">
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
             </div>
         </div>
 
