@@ -13,7 +13,6 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding-top: 90px; }
         
-        /* HEADER E BOTTONE CARRELLO RIFINITO */
         header { position: fixed; top: 0; left: 0; right: 0; height: 75px; background: #ff9800; color: white; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 10000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         
         .brand-box { display: flex; flex-direction: column; align-items: flex-start; }
@@ -26,7 +25,6 @@
         
         #search-ricambi { width: 100%; max-width: 500px; padding: 15px; border-radius: 12px; border: 2px solid #ff9800; margin-bottom: 20px; outline: none; font-size: 16px; box-sizing: border-box; }
         
-        /* LAYOUT PRODOTTI RIFINITO */
         .product-card { background: white; width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; align-items: flex-start; box-sizing: border-box; gap: 15px; }
         .product-img { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; background: #eee; }
         .product-info { flex-grow: 1; text-align: left; }
@@ -37,11 +35,12 @@
         .price { font-weight: bold; color: #ff9800; font-size: 18px; margin-bottom: 5px; }
         .btn-add { background: #4caf50; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 11px; text-transform: uppercase; width: 100%; }
 
-        .preventivo-rapido { background: #333; color: white; width: 100%; max-width: 500px; padding: 20px; border-radius: 15px; margin-top: 40px; margin-bottom: 30px; box-sizing: border-box; text-align: left; }
+        /* MODULO PREVENTIVO CENTRATO */
+        .preventivo-rapido { background: #333; color: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 15px; margin: 40px auto; box-sizing: border-box; text-align: center; }
         .preventivo-rapido h3 { margin-top: 0; color: #ff9800; }
         .preventivo-rapido p { font-size: 13px; color: #ccc; margin-bottom: 15px; }
+        .preventivo-rapido form { display: flex; flex-direction: column; align-items: center; width: 100%; }
 
-        /* LIVELLO CARRELLO FULL PAGE */
         #overlay-carrello { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; z-index: 20000; overflow-y: auto; display: none; }
         .carrello-content { max-width: 600px; margin: 20px auto; padding: 20px; }
         .header-carrello { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ff9800; padding-bottom: 10px; margin-bottom: 20px; }
@@ -51,9 +50,7 @@
         .carrello-item { background: white; padding: 10px 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .btn-remove { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
 
-        /* STILE TASTO SVUOTA CARRELLO */
-        .btn-svuota { background: #666; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; margin-bottom: 15px; text-transform: uppercase; transition: background 0.3s; }
-        .btn-svuota:hover { background: #ff4444; }
+        .btn-svuota { background: #666; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; margin-bottom: 15px; text-transform: uppercase; }
 
         .sezione-form { background: white; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .sezione-form h3 { margin-top: 0; color: #ff9800; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
@@ -91,14 +88,6 @@
         <input type="text" id="search-ricambi" placeholder="🔍 Cerca tra i ricambi pronti..." onkeyup="filterProducts()">
 
         <div id="lista-prodotti" style="width: 100%;">
-
-
-
-
-
-
-
-            
             <div class="product-card">
                 <img src="img/spazzole.jpg" class="product-img" alt="foto">
                 <div class="product-info">
@@ -107,7 +96,7 @@
                 </div>
                 <div class="right-side">
                     <div class="price">30.00€</div>
-                    <button class="btn-add" onclick="aggiungiCarrello('Spazzole Tergicristallo', 25.00)">+ Aggiungi</button>
+                    <button class="btn-add" onclick="aggiungiCarrello('Spazzole Tergicristallo', 30.00)">+ Aggiungi</button>
                 </div>
             </div>
              
@@ -133,9 +122,7 @@
                     <div class="price">12.00€</div>
                     <button class="btn-add" onclick="aggiungiCarrello('Lampadina H7 Bosch', 12.00)">+ Aggiungi</button>
                 </div>
-
-
-            
+            </div>
         </div>
 
         <div class="preventivo-rapido">
@@ -193,7 +180,7 @@
             <div id="modulo-completo" class="hidden">
                 <button class="btn-svuota" onclick="svuotaCarrello()">🗑 Svuota Carrello</button>
 
-                <form action="https://formspree.io/f/mlgdkage" method="POST">
+                <form id="form-ordine" action="https://formspree.io/f/mlgdkage" method="POST" onsubmit="confermaOrdine()">
                     
                     <div class="sezione-form">
                         <h3>1. Dati Fatturazione</h3>
@@ -240,7 +227,6 @@
 
                     <input type="hidden" name="ordine_dettagliato" id="hidden_ordine">
                     <button type="submit" class="btn-invia">Invia Ordine</button>
-                    <p style="text-align: center; font-size: 13px; margin-top: 15px; color: #666;">Per assistenza mandare un’e-mail all’indirizzo 996maral@gmail.com</p>
                 </form>
             </div>
         </div>
@@ -264,6 +250,15 @@
             }, 500);
         }
 
+        // FUNZIONE ALL'INVIO DELL'ORDINE
+        function confermaOrdine() {
+            alert("Ordine inviato con successo! Ti arriverà un'e-mail con la conferma dell'ordine.");
+            // Svuota carrello dopo l'invio
+            carrello = [];
+            localStorage.removeItem('carrello_carsworld');
+            // La pagina si ricaricherà o invierà il form, il carrello sarà vuoto al ritorno.
+        }
+
         function toggleCarrello(show) {
             document.getElementById('overlay-carrello').style.display = show ? 'block' : 'none';
             document.body.style.overflow = show ? 'hidden' : 'auto';
@@ -280,7 +275,6 @@
             salvaEMostra();
         }
 
-        // NUOVA FUNZIONE SVUOTA CARRELLO
         function svuotaCarrello() {
             if(confirm("Sei sicuro di voler rimuovere tutti gli articoli dal carrello?")) {
                 carrello = [];
@@ -312,8 +306,10 @@
             }
             modulo.classList.remove('hidden');
             lista.innerHTML = "<h3>Articoli selezionati:</h3>";
+            let dettagliTesto = "";
             carrello.forEach((item, i) => {
                 lista.innerHTML += `<div class="carrello-item"><span>${item.nome}</span><span>${item.prezzo.toFixed(2)}€ <button class="btn-remove" onclick="rimuovi(${i})">X</button></span></div>`;
+                dettagliTesto += `${item.nome} (${item.prezzo.toFixed(2)}€), `;
             });
             let extra = (pag === "Contrassegno") ? 5.0 : 0;
             let totaleSenzaIva = (sommaLorda + extra) / 1.22;
@@ -322,7 +318,7 @@
             document.getElementById('res-iva').innerText = soloIva.toFixed(2);
             document.getElementById('res-totale').innerText = (sommaLorda + extra).toFixed(2);
             document.getElementById('res-extra').classList.toggle('hidden', extra === 0);
-            document.getElementById('hidden_ordine').value = `Articoli: ${carrello.length} - Totale: ${(sommaLorda+extra).toFixed(2)}€`;
+            document.getElementById('hidden_ordine').value = `Articoli: ${dettagliTesto} - TOTALE: ${(sommaLorda+extra).toFixed(2)}€ (Pagamento: ${pag})`;
         }
 
         function switchFatt() {
