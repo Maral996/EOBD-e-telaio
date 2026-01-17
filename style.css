@@ -5,20 +5,20 @@ body {
     margin: 0; 
     padding-top: 80px; 
     color: #333; 
-    /* Aggiunto per gestire il footer in fondo */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+/* Rimosso max-width fisso per non rompere la griglia della pubblicità */
 .container { 
-    max-width: 650px; 
-    margin: 0 auto; 
-    padding: 15px; 
-    /* Aggiunto per spingere il footer in basso */
     flex: 1;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra i pulsanti internamente */
+    padding: 15px;
 }
 
 /* --- HEADER --- */
@@ -39,7 +39,7 @@ header {
 }
 
 header h1 { 
-    font-size: 20px; 
+    font-size: 18px; /* Ridotto leggermente per evitare sovrapposizioni su mobile */
     margin: 0; 
     text-transform: uppercase; 
     flex-grow: 1; 
@@ -61,20 +61,20 @@ header h1 {
     text-align: center;
 }
 
-/* --- PULSANTI (CORRETTI PER PROPORZIONE) --- */
-button.main-btn, a.main-btn { 
-    width: 90%;            /* Aumentato per Mobile */
-    max-width: 500px;      /* Limitato per PC */
+/* --- PULSANTI (PERFETTI PER PC E MOBILE) --- */
+.main-btn { 
+    width: 100%;           /* Prende tutto lo spazio del contenitore */
+    max-width: 450px;      /* Ma non supera mai i 450px su PC */
     display: block; 
-    padding: 22px 15px;    /* Altezza bilanciata */
-    margin: 15px auto; 
-    font-size: 18px; 
+    padding: 20px 15px;    
+    margin: 10px 0;        /* Margine verticale costante */
+    font-size: 17px; 
     font-weight: bold; 
     cursor: pointer; 
     border-radius: 12px; 
     background: white; 
     color: #1a73e8; 
-    border: 2px solid #e0e0e0; 
+    border: 2px solid #1a73e8; 
     text-transform: uppercase; 
     text-decoration: none; 
     text-align: center; 
@@ -83,21 +83,13 @@ button.main-btn, a.main-btn {
     transition: 0.2s;
 }
 
-button.main-btn:active, a.main-btn:active {
+.main-btn:active {
     transform: scale(0.97);
 }
 
-.btn-categoria { 
-    background: #1a73e8 !important; 
-    color: white !important; 
-    border: none !important; 
-}
-
-.btn-ibride { 
-    background: #9acd32 !important; 
-    color: white !important; 
-    border: none !important; 
-}
+/* Varianti colori */
+.btn-categoria { background: #1a73e8 !important; color: white !important; }
+.btn-ibride { background: #9acd32 !important; color: white !important; border-color: #9acd32 !important; }
 
 /* --- SCHEDA TECNICA --- */
 .scheda-finale { 
@@ -107,70 +99,25 @@ button.main-btn:active, a.main-btn:active {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
     text-align: left; 
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px; /* La scheda tecnica rimane leggibile */
 }
 
-.etichetta { 
-    font-weight: bold; 
-    color: #1a73e8; 
-    text-transform: uppercase; 
-    font-size: 13px; 
-    display: block; 
-    margin-top: 15px; 
-}
-
-.info-testo, .box-ibrido { 
-    font-size: 16px; 
-    padding: 12px; 
-    border-radius: 8px; 
-    border: 1px solid #eee; 
-    margin-top: 5px;
-    line-height: 1.4;
-}
-
-.box-ibrido { 
-    background: #e8f5e9; 
-    border-left: 4px solid #28a745; 
-}
-
-/* --- BANNER PUBBLICITÀ --- */
-.banner-fisso-container { 
-    width: 100%; 
-    max-width: 500px;
-    margin: 25px auto; 
-    text-align: center;
-}
-
-/* --- FOOTER (PRIVACY/COOKIE) --- */
+/* --- FOOTER --- */
 footer {
     text-align: center;
     padding: 25px;
     font-size: 13px;
     color: #666;
-    background: #f0f2f5;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-footer a {
-    color: #666;
-    text-decoration: underline;
+    margin-top: auto;
 }
 
 /* --- OTTIMIZZAZIONE MOBILE --- */
 @media (max-width: 600px) {
-    header h1 { font-size: 17px; }
-    button.main-btn, a.main-btn { 
+    header h1 { font-size: 15px; }
+    .main-btn { 
         width: 95%; 
         font-size: 16px; 
         padding: 18px 10px;
     }
-}
-
-/* --- STAMPA --- */
-@media print { 
-    header, .banner-fisso-container, footer, .main-btn, #Cookiebot { 
-        display: none !important; 
-    } 
-    body { padding-top: 0; background-color: white; }
-    .scheda-finale { box-shadow: none; border: 1px solid #ccc; width: 100%; }
 }
