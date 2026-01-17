@@ -2,52 +2,76 @@
 <html lang="it">
 <head>
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="5d23d7d2-db15-446e-8c3f-297de6dfca55" data-blockingmode="auto" type="text/javascript"></script>
-
+    
     <meta name="google-adsense-account" content="ca-pub-1515990058526887">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1515990058526887" crossorigin="anonymous" type="text/plain" data-cookieconsent="marketing"></script>
     
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="icon" type="image/jpeg" href="logo.jpeg">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Marche Auto - Car's world</title>
     
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* Qui lascio solo le regole essenziali che non sono nel tuo style.css */
-        #btnBackToTop {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 99;
-            border: none;
-            outline: none;
-            background-color: #1a73e8;
-            color: white;
-            cursor: pointer;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 22px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: opacity 0.3s;
+        /* Fix strutturali minimi per evitare lo zoom iniziale sul cellulare */
+        html, body { 
+            overflow-x: hidden; 
+            width: 100%; 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
+        }
+
+        body { 
+            padding-top: 80px; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+        
+        header { 
+            position: fixed; top: 0; left: 0; right: 0; height: 60px; 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 10px; z-index: 10000; 
+        }
+
+        header h1 { flex-grow: 1; text-align: center; }
+
+        .wrapper { 
+            display: grid; 
+            grid-template-columns: 300px minmax(320px, 600px) 300px; 
+            justify-content: center; 
+            gap: 20px; 
+            width: 100%; 
+            max-width: 100%;
+            margin: auto; 
+            flex: 1;
+        }
+
+        .container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: stretch; 
+            width: 100%;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .ads-side { display: flex; flex-direction: column; gap: 20px; width: 300px; }
+        .banner-fisso-container { width: 100%; margin: 20px auto; text-align: center; }
+
+        @media (max-width: 1100px) {
+            .wrapper { display: block; width: 100%; }
+            .ads-side { display: none; }
         }
     </style>
 </head>
 <body>
     <header>
         <a href="scelta-telai.html" class="nav-fissa">Indietro</a>
-        <div class="logo-container">
-            <img src="logo.jpeg" alt="Logo" class="logo-img">
-            <h1>Marche Auto</h1>
-        </div>
+        <h1>Marche Auto</h1>
         <a href="index.html" class="nav-fissa">Home</a>
     </header>
-
-    <button onclick="topFunction()" id="btnBackToTop" title="Torna su">▲</button>
 
     <div class="wrapper">
         <div class="ads-side">
@@ -80,19 +104,8 @@
         </div>
     </div>
 
-    <script>
-        let mybutton = document.getElementById("btnBackToTop");
-        window.onscroll = function() { scrollFunction() };
-        function scrollFunction() {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-        }
-        function topFunction() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-    </script>
+    <footer style="text-align: center; padding: 20px; font-size: 13px; color: #666;">
+        <p>&copy; 2026 Car's World | <a href="privacy.html">Privacy</a></p>
+    </footer>
 </body>
 </html>
