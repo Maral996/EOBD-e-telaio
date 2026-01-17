@@ -149,7 +149,8 @@
             </div>
             <div id="modulo-completo" class="hidden">
                 <button class="btn-svuota" onclick="svuotaCarrello()">🗑 Svuota Carrello</button>
-                <form action="https://formspree.io/f/mlgdkage" method="POST" onsubmit="puliziaOrdine()">
+                
+                <form id="form-carrello" action="https://formspree.io/f/mlgdkage" method="POST">
                     <div class="sezione-form">
                         <h3>1. Dati Fatturazione</h3>
                         <select name="tipo_cliente" id="tipo_cliente" onchange="switchFatt()">
@@ -186,7 +187,8 @@
                         <div class="totale-grande">TOTALE: <span id="res-totale">0.00</span>€</div>
                     </div>
                     <input type="hidden" name="ordine_dettagliato" id="hidden_ordine">
-                    <button type="submit" class="btn-invia">Invia Ordine</button>
+                    
+                    <button type="button" class="btn-invia" onclick="gestisciOrdine()">Invia Ordine</button>
                 </form>
             </div>
         </div>
@@ -196,7 +198,7 @@
         let carrello = JSON.parse(localStorage.getItem('carrello_carsworld')) || [];
         
         window.onload = function() {
-            // Controllo antifrode/ritorno: se l'utente torna indietro dal browser dopo l'invio, svuota.
+            // Se torna indietro dal browser o ricarica dopo aver completato, svuota.
             if (performance.navigation.type === 2) {
                 localStorage.removeItem('carrello_carsworld');
                 carrello = [];
@@ -204,9 +206,14 @@
             aggiornaPrezzi();
         }
 
-        // Svuota istantaneamente al click dell'invio
-        function puliziaOrdine() {
-            localStorage.removeItem('carrello_carsworld');
+        // FUNZIONE CHIAVE: Svuota e poi invia
+        function gestisciOrdine() {
+            const form = document.getElementById('form-carrello');
+            if(form.reportValidity()) { // Controlla che i campi obbligatori siano pieni
+                localStorage.removeItem('carrello_carsworld'); // Svuota memoria
+                carrello = []; // Azzera variabile
+                form.submit(); // Invia a Formspree
+            }
         }
 
         function toggleCarrello(show) { document.getElementById('overlay-carrello').style.display = show ? 'block' : 'none'; document.body.style.overflow = show ? 'hidden' : 'auto'; }
