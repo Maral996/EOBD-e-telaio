@@ -51,6 +51,10 @@
         .carrello-item { background: white; padding: 10px 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .btn-remove { background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
 
+        /* STILE TASTO SVUOTA CARRELLO */
+        .btn-svuota { background: #666; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px; margin-bottom: 15px; text-transform: uppercase; transition: background 0.3s; }
+        .btn-svuota:hover { background: #ff4444; }
+
         .sezione-form { background: white; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: left; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .sezione-form h3 { margin-top: 0; color: #ff9800; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         
@@ -165,6 +169,8 @@
             </div>
 
             <div id="modulo-completo" class="hidden">
+                <button class="btn-svuota" onclick="svuotaCarrello()">🗑 Svuota Carrello</button>
+
                 <form action="https://formspree.io/f/mlgdkage" method="POST">
                     
                     <div class="sezione-form">
@@ -250,6 +256,14 @@
         function rimuovi(index) {
             carrello.splice(index, 1);
             salvaEMostra();
+        }
+
+        // NUOVA FUNZIONE SVUOTA CARRELLO
+        function svuotaCarrello() {
+            if(confirm("Sei sicuro di voler rimuovere tutti gli articoli dal carrello?")) {
+                carrello = [];
+                salvaEMostra();
+            }
         }
 
         function ricalcolaTotale() {
