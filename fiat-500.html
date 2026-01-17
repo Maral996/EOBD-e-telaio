@@ -18,16 +18,31 @@
         .container {
             display: flex !important;
             flex-direction: column !important;
-            align-items: stretch !important; /* Forza larghezza piena contro i banner */
+            align-items: stretch !important; 
             width: 100% !important;
             max-width: 800px !important;
             margin: 0 auto !important;
             box-sizing: border-box !important;
         }
 
-        .scheda-finale, .main-btn {
-            width: 100% !important; /* Impedisce alla pubblicità di rimpicciolire gli elementi */
+        .scheda-finale {
+            width: 100% !important;
             box-sizing: border-box !important;
+        }
+
+        /* RIPRISTINO COLORI ORIGINALI PULSANTE STAMPA */
+        .main-btn.btn-stampa { 
+            width: 100% !important;
+            background: #e91e63 !important; /* Il colore rosa/fucsia originale */
+            color: white !important; 
+            border: none !important; 
+            cursor: pointer !important;
+            display: block !important;
+            padding: 20px !important;
+            font-weight: bold !important;
+            text-transform: uppercase !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
         }
 
         .banner-fisso-container {
@@ -56,7 +71,7 @@
                 la presa si trova li davanti, in alcune ce una copertura di plastica</div>
         </div>
 
-        <button class="main-btn" style="background:#e91e63; color:white; border:none; cursor:pointer;" onclick="window.print()">STAMPA SCHEDA</button>
+        <button class="main-btn btn-stampa" onclick="window.print()">STAMPA SCHEDA</button>
 
         <div class="banner-fisso-container">
             <ins class="adsbygoogle" style="display:block"
@@ -75,5 +90,4 @@
         <p>© 2026 Car's World | <a href="privacy.html" style="color: #666;">Privacy Policy</a></p>
     </footer>
 </body>
-
 </html>
