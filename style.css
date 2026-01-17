@@ -10,16 +10,17 @@ body {
     min-height: 100vh;
 }
 
-/* Contenitore che centra i contenuti */
+/* IL SEGRETO: align-items: stretch forza i figli a occupare tutta la larghezza */
 .container { 
     flex: 1;
     width: 100%;
+    max-width: 600px; /* Larghezza massima della colonna centrale */
     margin: 0 auto;
-    padding: 10px;
+    padding: 15px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra i pulsanti orizzontalmente */
+    align-items: stretch; 
 }
 
 /* --- HEADER --- */
@@ -47,12 +48,10 @@ header h1 {
 
 .nav-fissa { 
     background: rgba(255, 255, 255, 0.2); 
-    border: none; 
     color: white; 
     padding: 7px 12px; 
     border-radius: 8px; 
     font-weight: bold; 
-    cursor: pointer; 
     font-size: 13px; 
     text-decoration: none; 
     text-transform: uppercase; 
@@ -60,18 +59,20 @@ header h1 {
     text-align: center;
 }
 
-/* --- PULSANTI (CORREZIONE DEFINITIVA) --- */
-/* Usiamo una classe combinata per assicurarci di colpire sia <a> che <button> */
-.main-btn, a.main-btn, button.main-btn { 
-    display: block !important;
-    width: 100% !important;           /* Prende tutto lo spazio del contenitore */
-    max-width: 550px !important;       /* Dimensione generosa su PC */
-    margin: 12px auto !important;      /* Centratura e distanziamento */
-    padding: 20px 15px !important;     /* Altezza del tasto */
+/* --- PULSANTI (VERSIONE "STRETCH") --- */
+.main-btn { 
+    display: flex !important;       /* Cambiato in flex per centrare il testo meglio */
+    align-items: center;
+    justify-content: center;
+    
+    width: auto !important;          /* Lasciamo che lo stretch del padre decida la larghezza */
+    min-height: 65px;                /* Altezza garantita */
+    margin: 10px 0 !important;       /* Spazio sopra e sotto */
+    padding: 15px 20px !important; 
     
     /* Font e Testo */
-    font-size: 20px !important;        /* Testo grande */
-    font-weight: 800 !important;       /* Testo molto evidente */
+    font-size: 20px !important; 
+    font-weight: 800 !important; 
     text-align: center !important;
     text-transform: uppercase !important;
     text-decoration: none !important;
@@ -79,19 +80,17 @@ header h1 {
     /* Colori e Bordi */
     background-color: white !important;
     color: #1a73e8 !important;
-    border: 3px solid #1a73e8 !important; /* Bordo marcato */
+    border: 3px solid #1a73e8 !important;
     border-radius: 15px !important;
     
-    /* Extra */
     box-sizing: border-box !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
     cursor: pointer;
 }
 
-/* Effetto al click/passaggio */
 .main-btn:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
     background-color: #f0f7ff !important;
 }
 
@@ -105,36 +104,8 @@ header h1 {
     padding: 25px; 
     border-radius: 15px; 
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
-    text-align: left; 
     margin-bottom: 20px;
     width: 100%;
-    max-width: 600px;
-}
-
-.etichetta { 
-    font-weight: bold; 
-    color: #1a73e8; 
-    text-transform: uppercase; 
-    font-size: 13px; 
-    display: block; 
-    margin-top: 15px; 
-}
-
-.info-testo { 
-    font-size: 16px; 
-    padding: 12px; 
-    border-radius: 8px; 
-    border: 1px solid #eee; 
-    margin-top: 5px;
-    background: #fdfdfd;
-}
-
-/* --- BANNER PUBBLICITÀ --- */
-.banner-fisso-container { 
-    width: 100%; 
-    max-width: 600px;
-    margin: 25px auto; 
-    text-align: center;
 }
 
 /* --- FOOTER --- */
@@ -146,14 +117,13 @@ footer {
     margin-top: auto;
 }
 
-footer a { color: #666; text-decoration: underline; }
-
 /* --- OTTIMIZZAZIONE PER CELLULARI --- */
-@media (max-width: 600px) {
-    header h1 { font-size: 15px; }
+@media (max-width: 1100px) {
+    .container {
+        max-width: 95%; /* Su mobile occupa quasi tutto lo schermo */
+    }
     .main-btn { 
-        width: 95% !important;  /* Quasi a filo schermo su mobile */
-        font-size: 18px !important; 
-        padding: 18px 10px !important;
+        font-size: 18px !important;
+        min-height: 60px;
     }
 }
