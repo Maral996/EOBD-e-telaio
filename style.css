@@ -4,7 +4,7 @@
 }
 
 html, body {
-    overflow-x: hidden; /* Impedisce lo scivolamento laterale su mobile */
+    overflow-x: hidden;
     width: 100%;
     margin: 0;
     padding: 0;
@@ -17,82 +17,67 @@ body {
     color: #333; 
     display: flex;
     flex-direction: column;
-    align-items: center; /* Forza la centratura orizzontale di tutti i blocchi */
+    align-items: center; /* Centro assoluto per il body */
     min-height: 100vh;
 }
 
-/* --- WRAPPER PER PUBBLICITÀ (Se presente nel tuo HTML) --- */
-.main-wrapper {
+/* --- WRAPPER PER CONTENUTO E ADS --- */
+/* Uso .wrapper perché è la classe che hai nel tuo HTML */
+.wrapper {
     display: grid;
-    grid-template-columns: 1fr minmax(320px, 600px) 1fr; /* 1fr ai lati spinge il contenuto al centro esatto */
-    gap: 15px;
-    width: 100%;
+    grid-template-columns: 1fr minmax(auto, 650px) 1fr; 
+    gap: 20px; 
+    width: 100%; 
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 auto; 
     align-items: start;
+    justify-content: center;
 }
 
-/* --- CONTAINER CENTRALE --- */
+/* --- CONTAINER CENTRALE DEI PULSANTI --- */
 .container { 
-    grid-column: 2; /* Si posiziona nella colonna centrale della griglia */
+    grid-column: 2; /* Forza il contenuto nella colonna centrale */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; /* Centra i pulsanti internamente */
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
     padding: 10px 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra i bottoni internamente */
+    box-sizing: border-box;
 }
 
-/* --- HEADER --- */
+/* --- HEADER FISSO --- */
 header { 
-    position: fixed; 
-    top: 0; left: 0; right: 0; 
-    height: 60px; 
-    background: #1a73e8; 
-    color: white; 
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between; 
-    padding: 0 10px; 
-    z-index: 10000; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
+    position: fixed; top: 0; left: 0; right: 0; height: 60px; 
+    display: flex; align-items: center; justify-content: space-between; 
+    padding: 0 10px; z-index: 10000; 
+    background: #1a73e8; color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 header h1 { 
-    font-size: 16px;
-    margin: 0; 
-    text-transform: uppercase; 
     flex-grow: 1; 
     text-align: center; 
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    font-size: 18px; 
+    margin: 0; 
+    text-transform: uppercase;
 }
 
 .nav-fissa { 
     background: rgba(255, 255, 255, 0.2); 
-    color: white; 
-    padding: 6px 12px; 
-    border-radius: 8px; 
-    font-weight: bold; 
-    font-size: 12px; 
-    text-decoration: none; 
-    text-transform: uppercase; 
-    min-width: 70px;
-    text-align: center;
+    color: white; padding: 6px 12px; border-radius: 8px; 
+    font-weight: bold; font-size: 12px; text-decoration: none; 
+    min-width: 75px; text-align: center;
 }
 
-/* --- PULSANTI --- */
+/* --- PULSANTI (Centratura e Stile) --- */
 .main-btn { 
     display: flex !important;
     align-items: center;
     justify-content: center;
-    
     width: 100%;
-    max-width: 450px; /* Evita che i tasti diventino troppo larghi su tablet */
-    min-height: 65px;
-    margin: 10px 0 !important;
+    max-width: 450px; /* Larghezza ottimale su PC */
+    min-height: 60px;
+    margin: 10px auto !important; /* Auto centra il blocco stesso */
     padding: 15px !important; 
     
     font-size: 18px !important; 
@@ -105,30 +90,20 @@ header h1 {
     color: #1a73e8 !important;
     border: 3px solid #1a73e8 !important;
     border-radius: 15px !important;
-    
     box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    transition: 0.2s ease;
-    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 .main-btn:active {
     transform: scale(0.96);
-    background-color: #f0f7ff !important;
 }
 
-/* Varianti Colore */
-.btn-categoria { background-color: #1a73e8 !important; color: white !important; }
-.btn-ibride { background-color: #9acd32 !important; color: white !important; border-color: #9acd32 !important; }
-
-/* --- SCHEDA TECNICA --- */
-.scheda-finale { 
-    background: white; 
-    padding: 20px; 
-    border-radius: 15px; 
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); 
-    margin: 15px 0;
+/* --- LATERALE ADS --- */
+.ads-side { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
     width: 100%;
-    max-width: 500px;
 }
 
 /* --- FOOTER --- */
@@ -138,32 +113,28 @@ footer {
     font-size: 13px;
     color: #666;
     margin-top: auto;
-    width: 100%;
 }
 
-/* --- OTTIMIZZAZIONE PER CELLULARI --- */
+/* --- OTTIMIZZAZIONE MOBILE --- */
 @media (max-width: 1100px) {
-    .main-wrapper {
-        grid-template-columns: 1fr; /* Rimuove le colonne laterali delle pubblicità */
-        padding: 0;
+    .wrapper { 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center;
+        width: 100%; 
     }
-
+    
     .container {
-        grid-column: 1;
         padding: 10px 20px;
+        width: 100%;
     }
 
-    .main-btn { 
+    .main-btn {
+        max-width: 100%; /* I pulsanti usano tutto lo spazio disponibile sul telefono */
         font-size: 16px !important;
-        min-height: 60px;
-        max-width: 100%; /* Su mobile occupa tutta la larghezza del container */
     }
 
-    header h1 {
-        font-size: 14px;
-    }
-
-    .ads-side {
-        display: none; /* Nasconde i banner laterali su mobile per non sfasare il centro */
+    .ads-side { 
+        display: none; /* Nasconde le ads laterali per non rompere la centratura */
     }
 }
