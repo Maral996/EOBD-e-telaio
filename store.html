@@ -1,8 +1,27 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="5d23d7d2-db15-446e-8c3f-297de6dfca55" data-blockingmode="auto" type="text/javascript"></script>
-    
+
+    <script type="text/javascript">
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'wait_for_update': 500
+        });
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HCL5TVJMD5" type="text/plain" data-cookieconsent="statistics"></script>
+    <script type="text/plain" data-cookieconsent="statistics">
+        gtag('js', new Date());
+        gtag('config', 'G-HCL5TVJMD5');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Store Ricambi - Car's world</title>
@@ -48,6 +67,7 @@
         .footer-container { max-width: 650px; margin: auto; text-align: left; }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -134,7 +154,7 @@
                 <li>💳 <strong>Pagamenti:</strong> Accettiamo Bonifico Bancario o Contrassegno (pagamento alla consegna).</li>
                 <li>🔍 <strong>Compatibilità:</strong> Per i preventivi personalizzati, la compatibilità è verificata tramite targa dal nostro staff.</li>
             </ul>
-            <p style="text-align: center; color: #888; margin-top: 20px; font-size: 12px;">&copy; 2026 Car's World - Store Ricambi Online | <a href="privacy.html" style="color: #888; text-decoration: underline;">Privacy Policy</a></p>
+            <p style="text-align: center; color: #888; margin-top: 20px; font-size: 12px;">&copy; 2026 Car's World - Store Ricambi Online | <a href="javascript:Cookiebot.renew()" style="color: #888;">Gestisci consenso cookie</a> | <a href="privacy.html" style="color: #888; text-decoration: underline;">Privacy Policy</a></p>
         </div>
     </footer>
 
@@ -198,7 +218,6 @@
         let carrello = JSON.parse(localStorage.getItem('carrello_carsworld')) || [];
         
         window.onload = function() {
-            // Se torna indietro dal browser o ricarica dopo aver completato, svuota.
             if (performance.navigation.type === 2) {
                 localStorage.removeItem('carrello_carsworld');
                 carrello = [];
@@ -206,13 +225,12 @@
             aggiornaPrezzi();
         }
 
-        // FUNZIONE CHIAVE: Svuota e poi invia
         function gestisciOrdine() {
             const form = document.getElementById('form-carrello');
-            if(form.reportValidity()) { // Controlla che i campi obbligatori siano pieni
-                localStorage.removeItem('carrello_carsworld'); // Svuota memoria
-                carrello = []; // Azzera variabile
-                form.submit(); // Invia a Formspree
+            if(form.reportValidity()) {
+                localStorage.removeItem('carrello_carsworld');
+                carrello = [];
+                form.submit();
             }
         }
 
