@@ -233,6 +233,7 @@
                         <div id="box-ditta" class="hidden">
                             <input type="text" name="ragione_sociale" placeholder="Ragione Sociale">
                             <input type="text" name="piva" placeholder="Partita IVA">
+                            <input type="text" name="codice_sdi_pec" id="sdi_pec" placeholder="Codice Univoco (SDI) o PEC">
                         </div>
                         <textarea name="ind_fatturazione" id="ind_fatt" placeholder="Indirizzo" required onkeyup="syncSped()"></textarea>
                     </div>
@@ -374,7 +375,6 @@
 
         function closeDetails(e) { document.getElementById('modal-details').style.display = 'none'; delete document.getElementById('modal-details').dataset.currentId; }
         
-        // Funzione per ingrandire la foto
         function zoomImg(src) { 
             if(!src || src === "") return; 
             document.getElementById('zoom-img').src = src; 
@@ -383,11 +383,21 @@
 
         function toggleCarrello(show) { document.getElementById('overlay-carrello').style.display = show ? 'block' : 'none'; }
         function svuotaCarrello() { if(confirm("Svuotare il carrello?")) { cart = {}; saveCart(); renderUI(); } }
+        
         function switchFatt() {
             const ditta = document.getElementById('tipo_cliente').value === 'Azienda';
             document.getElementById('box-privato').classList.toggle('hidden', ditta);
             document.getElementById('box-ditta').classList.toggle('hidden', !ditta);
+            
+            // Gestione campi obbligatori
+            document.getElementById('sdi_pec').required = ditta;
+            const inputsDitta = document.getElementById('box-ditta').querySelectorAll('input');
+            inputsDitta.forEach(input => {
+                if (ditta) input.setAttribute('required', '');
+                else input.removeAttribute('required');
+            });
         }
+        
         function syncSped() { if(document.getElementById('check_uguale').checked) document.getElementById('ind_sped').value = document.getElementById('ind_fatt').value; }
         function filterProducts() {
             let val = document.getElementById('search-ricambi').value.toLowerCase();
