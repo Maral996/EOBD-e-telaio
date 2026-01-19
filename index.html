@@ -27,36 +27,51 @@
     </script>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>Car's world - Home</title>
     
    <link rel="canonical" href="https://www.carsworld.it/" />
     <style>
+        /* RESET E BLOCCO SCIVOLAMENTO */
+        * { box-sizing: border-box !important; }
+
+        html, body { 
+            overflow-x: hidden !important; 
+            width: 100%; 
+            margin: 0; 
+            padding: 0; 
+            position: relative;
+        }
+
         body { 
             font-family: 'Segoe UI', sans-serif; 
             background-color: #f0f2f5; 
-            margin: 0; 
             padding-top: 80px; 
             color: #333; 
             display: flex;
             flex-direction: column;
-            align-items: center;
             min-height: 100vh;
         }
 
         header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #1a73e8; z-index: 10000; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
 
+        /* LAYOUT ADATTIVO */
         .main-wrapper {
-            display: grid;
-            grid-template-columns: 160px 1fr 160px; 
-            gap: 15px;
+            display: block; /* Default mobile */
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 10px;
-            align-items: start;
-            justify-content: center;
+        }
+
+        @media (min-width: 1100px) {
+            .main-wrapper {
+                display: grid;
+                grid-template-columns: 180px 1fr 180px; 
+                gap: 15px;
+                align-items: start;
+            }
         }
 
         .container { 
@@ -75,7 +90,6 @@
             border-radius: 12px;
             margin-bottom: 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            box-sizing: border-box;
         }
 
         .grid-menu {
@@ -96,7 +110,7 @@
             border-radius: 12px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 14px;
             text-align: center;
             text-transform: uppercase;
             transition: 0.3s;
@@ -108,14 +122,16 @@
         .btn-maint { background: #9acd32; border-bottom: 4px solid #6b8e23; } 
         .btn-store-home { background: #ff9800; border-bottom: 4px solid #e65100; }
 
-        .ads-side { display: flex; flex-direction: column; gap: 10px; }
-
+        /* GESTIONE ADS */
+        .ads-side { display: flex; flex-direction: column; gap: 15px; overflow: hidden; }
         .banner-home { 
             width: 100%; 
-            max-width: 500px; 
+            max-width: 100%; 
             margin: 10px auto; 
             text-align: center; 
+            overflow: hidden;
         }
+        ins.adsbygoogle { max-width: 100% !important; display: block !important; }
         
         h1 { margin: 0 0 10px 0; color:#1a73e8; font-size: 26px; }
 
@@ -128,20 +144,14 @@
             margin-top: auto;
         }
 
-        footer a { color: #666; text-decoration: underline; }
-
         @media (max-width: 1100px) {
-            .main-wrapper { 
-                grid-template-columns: 1fr;
-                padding: 15px;
-            }
-            .ads-side { display: none; }
+            .ads-side { display: none !important; }
             .grid-menu { gap: 8px; }
             .btn-box { 
                 font-size: 11px;
-                min-height: 70px;
-                padding: 5px;
+                min-height: 75px;
             }
+            .main-wrapper { padding: 15px 10px; }
         }
     </style>
 </head>
@@ -152,10 +162,10 @@
     <div class="main-wrapper">
         <div class="ads-side">
             <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
-            <script type="text/plain" data-cookieconsent="marketing">(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             
             <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
-            <script type="text/plain" data-cookieconsent="marketing">(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <div class="container">
@@ -173,26 +183,26 @@
 
             <div class="banner-home">
                 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script type="text/plain" data-cookieconsent="marketing">(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
             
             <div class="banner-home">
                 <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-                <script type="text/plain" data-cookieconsent="marketing">(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
         </div>
 
         <div class="ads-side">
             <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
-            <script type="text/plain" data-cookieconsent="marketing">(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             
             <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1515990058526887" data-ad-slot="auto" data-ad-format="rectangle"></ins>
-            <script type="text/plain" data-cookieconsent="marketing">(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 Car's World | <a href="javascript: Cookiebot.renew()">Gestisci consenso cookie</a> | <a href="privacy.html">Privacy Policy</a></p>
+        <p>&copy; 2026 Car's World | <a href="javascript: Cookiebot.renew()">Consenso cookie</a> | <a href="privacy.html">Privacy Policy</a></p>
     </footer>
 
 </body>
