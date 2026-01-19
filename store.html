@@ -55,7 +55,6 @@
         .btn-qty { background: #eee; border: none; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
         .qty-val { font-weight: bold; font-size: 15px; min-width: 22px; text-align: center; }
 
-        /* CARRELLO OVERLAY */
         #overlay-carrello { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f2f5; z-index: 20000; overflow-y: auto; display: none; }
         .header-carrello { position: sticky; top: 0; background: #f0f2f5; z-index: 20001; display: flex; flex-direction: column; gap: 10px; border-bottom: 2px solid #ff9800; padding: 20px 0 15px 0; margin-bottom: 20px; }
         .btn-continua { background: #ff9800; color: white; border: none; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px; width: 100%; }
@@ -81,12 +80,15 @@
         #zoom-overlay img { max-width: 95%; max-height: 95%; border-radius: 5px; }
 
         .hidden { display: none !important; }
-
-        /* FOOTER RESTAURATO */
         footer { background: #333; color: white; padding: 40px 20px; margin-top: 50px; text-align: left; }
-        .btn-privacy { display: inline-block; background: #555; color: #fff; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-size: 12px; margin: 5px 5px 5px 0; }
         .btn-invia { background: #ff9800; color: white; padding: 18px; width: 100%; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; }
         .note-pre-footer { max-width: 600px; margin: 40px auto 20px; text-align: center; font-size: 14px; color: #555; line-height: 1.6; }
+
+        /* STILE SCRITTE PICCOLE FINALI */
+        .footer-legal-links { margin-top: 20px; border-top: 1px solid #444; padding-top: 15px; }
+        .footer-legal-links p { font-size: 11px; color: #888; margin: 5px 0; }
+        .footer-legal-links a { color: #888; text-decoration: none; margin-right: 10px; font-size: 11px; }
+        .footer-legal-links a:hover { text-decoration: underline; }
     </style>
 </head>
 
@@ -117,7 +119,31 @@
                     <div id="ctrl-1"></div>
                 </div>
             </div>
+             
+            <div class="product-card" data-id="2">
+                <img src="img/batteria.jpg" class="product-img" onclick="zoomImg(this.src)" onerror="this.style.display='none'">
+                <div class="product-info">
+                    <h4 onclick="openDetails(2)">Batteria 60Ah</h4>
+                    <p style="margin:2px 0; font-size:12px; color:#888;">Batteria 12V 60Ah con spunto maggiorato...</p>
+                </div>
+                <div class="right-side" style="text-align:right;">
+                    <div class="price">75.00€</div>
+                    <div id="ctrl-2"></div>
+                </div>
             </div>
+
+            <div class="product-card" data-id="3">
+                <img src="img/lampadinah7bosch.jpg" class="product-img" onclick="zoomImg(this.src)" onerror="this.style.display='none'">
+                <div class="product-info">
+                    <h4 onclick="openDetails(3)">Lampadina Bosch H7</h4>
+                    <p style="margin:2px 0; font-size:12px; color:#888;">Lampadina H7 - 55W - 12V...</p>
+                </div>
+                <div class="right-side" style="text-align:right;">
+                    <div class="price">12.00€</div>
+                    <div id="ctrl-3"></div>
+                </div>
+            </div>
+        </div>
 
         <div style="background: #333; color: white; width: 100%; max-width: 500px; padding: 20px; border-radius: 15px; margin-top: 40px; text-align: left;">
             <h3>Non trovi il tuo ricambio?</h3>
@@ -144,36 +170,24 @@
         <a href="index.html" style="margin:20px 0; text-decoration:none; color:#666; font-weight:bold;">← Torna a Car's world</a>
     </div>
 
-    <div id="overlay-carrello">...</div>
-
-    <div id="modal-details" class="modal-overlay" onclick="closeDetails()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeDetails()">×</span>
-            <img id="m-img" src="" class="modal-img" onclick="zoomImg(this.src)" onerror="this.style.display='none'">
-            <h2 id="m-titolo" style="color:#333; margin:10px 0;"></h2>
-            <p id="m-desc" style="color:#666; font-size:14px; padding:0 15px;"></p>
-            <div id="m-price" class="price" style="margin: 15px 0; font-size:22px;"></div>
-            <div id="m-ctrl" style="max-width:250px; margin:auto;"></div>
-        </div>
-    </div>
-    <div id="zoom-overlay" onclick="this.style.display='none'"><img id="zoom-img" src=""></div>
-
     <footer>
         <div style="max-width: 650px; margin: auto;">
             <h3 style="color: #ff9800; margin-top: 0;">Car's World - Store Online</h3>
             <p><strong>Cosa devi sapere:</strong></p>
-            <ul style="list-style-type: none; padding: 0; line-height: 1.6; color: #bbb; font-size: 14px;">
+            <ul style="list-style-type: none; padding: 0; line-height: 1.6; color: #bbb;">
                 <li>🚚 <strong>Spedizioni:</strong> Consegna tramite corriere in 3-5 giorni lavorativi.</li>
                 <li>📦 <strong>Resi:</strong> Diritto di recesso entro 14 giorni.</li>
                 <li>💳 <strong>Pagamenti:</strong> Bonifico o Contrassegno alla consegna.</li>
                 <li>🔍 <strong>Compatibilità:</strong> Verifica tramite targa dal nostro staff.</li>
             </ul>
-            <hr style="border: 0; border-top: 1px solid #444; margin: 20px 0;">
-            <p style="font-size: 12px; color: #888;">© 2026 Car's World di G.P. - P.IVA 01683440536 - Grosseto (GR)</p>
-            <div style="margin-top: 15px;">
-                <a href="https://www.iubenda.com/privacy-policy/23746375" class="btn-privacy" target="_blank">Privacy Policy</a>
-                <a href="https://www.iubenda.com/privacy-policy/23746375/cookie-policy" class="btn-privacy" target="_blank">Cookie Policy</a>
-                <a href="#" class="btn-privacy">Termini e Condizioni</a>
+
+            <div class="footer-legal-links">
+                <p>© 2026 Car's World di G.P. - P.IVA 01683440536 - Grosseto (GR)</p>
+                <div style="margin-top: 5px;">
+                    <a href="https://www.iubenda.com/privacy-policy/23746375" target="_blank">Privacy Policy</a>
+                    <a href="https://www.iubenda.com/privacy-policy/23746375/cookie-policy" target="_blank">Cookie Policy</a>
+                    <a href="#">Termini e Condizioni</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -204,6 +218,7 @@
             saveCart(); renderUI();
         }
         function saveCart() { localStorage.setItem('cart_carsworld', JSON.stringify(cart)); }
+
         function renderUI() {
             Object.keys(prodotti).forEach(id => {
                 const container = document.getElementById(`ctrl-${id}`);
@@ -215,8 +230,9 @@
             });
             const mId = document.getElementById('modal-details').dataset.currentId;
             if(mId) updateModalQty(mId);
-            // ... (restanti chiamate logiche carrello)
+            if(typeof renderCart === "function") renderCart();
         }
+
         function openDetails(id) {
             const p = prodotti[id];
             const mImg = document.getElementById('m-img');
