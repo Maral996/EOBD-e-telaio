@@ -222,6 +222,7 @@
 
             <div id="modulo-completo" class="hidden">
                 <form id="form-carrello" action="https://formspree.io/f/mlgdkage" method="POST" onsubmit="return gestisciInvioOrdine(event)">
+                    <input type="hidden" name="_next" value="https://www.carsworld.it/store.html">
                     <div class="sezione-form">
                         <h3>1. Dati Fatturazione</h3>
                         <select name="tipo_cliente" id="tipo_cliente" onchange="switchFatt()">
@@ -556,21 +557,14 @@
         }
 
         function chiudiEInvia() {
+            // Svuota il carrello localmente prima del submit per sicurezza
+            cart = {};
+            saveCart();
+            
             document.getElementById('modal-pdf').style.display = 'none';
             allowSubmit = true;
             const form = document.getElementById('form-carrello');
-            
-            // Invio
             form.submit();
-            
-            // Svuotamento dopo invio
-            setTimeout(() => {
-                cart = {};
-                saveCart();
-                renderUI();
-                toggleCarrello(false);
-                alert("Ordine Inviato con Successo!");
-            }, 1000);
         }
 
         renderUI();
