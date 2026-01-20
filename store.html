@@ -525,13 +525,15 @@
         function chiudiEInvia() {
             document.getElementById('modal-pdf').style.display = 'none';
             allowSubmit = true;
-            
             const form = document.getElementById('form-carrello');
+            form.submit();
             
+            // Svuotiamo il carrello localmente solo dopo il comando di submit
             setTimeout(() => {
-                svuotaCarrello(false);
-                form.submit();
-            }, 500);
+                cart = {};
+                saveCart();
+                renderUI();
+            }, 1000);
         }
 
         renderUI();
