@@ -517,19 +517,21 @@
 
             // Salvataggio per anteprima
             currentDoc = doc;
-            const pdfData = doc.output('bloburl');
+            // AGGIUNTO #view=FitH per evitare lo zoom eccessivo
+            const pdfData = doc.output('bloburl') + '#view=FitH';
             document.getElementById('pdf-preview').src = pdfData;
             document.getElementById('modal-pdf').style.display = 'flex';
         }
 
-        // Funzioni pulsanti modale PDF
         function downloadPDF() {
             if(currentDoc) currentDoc.save(`Ordine_CarsWorld_${Date.now()}.pdf`);
         }
 
         function printPDF() {
-            if(currentDoc) currentDoc.autoPrint();
-            window.open(currentDoc.output('bloburl'), '_blank').print();
+            if(currentDoc) {
+                const printWindow = window.open(currentDoc.output('bloburl'), '_blank');
+                printWindow.onload = () => { printWindow.print(); };
+            }
         }
 
         function chiudiEInvia() {
