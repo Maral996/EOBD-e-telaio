@@ -262,7 +262,8 @@
                         <div class="totale-grande">TOTALE: <span id="res-totale">0.00</span>€</div>
                     </div>
                     <input type="hidden" name="ordine_dettagliato" id="hidden_ordine">
-                    <button type="submit" class="btn-invia">Visualizza Anteprima Ordine</button>
+                    <input type="hidden" name="numero_ordine_generato" id="hidden_num_ordine">
+                    <button type="submit" class="btn-invia">Visualizza Ordine</button>
                 </form>
             </div>
         </div>
@@ -270,10 +271,10 @@
 
     <div id="modal-pdf">
         <div class="pdf-actions">
-            <button class="btn-pdf" style="background:#6c757d;" onclick="modificaOrdine()">✏️ MODIFICA</button>
+            <button class="btn-pdf" style="background:#6c757d;" onclick="modificaOrdine()">✏️ INDIETRO</button>
             <button class="btn-pdf btn-download-pdf" style="background:#28a745;" onclick="downloadPDF()">💾 Download</button>
             <button class="btn-pdf" style="background:#007bff;" onclick="condividiPDF()">📲 Condividi</button>
-            <button class="btn-pdf" style="background:#ff9800;" onclick="chiudiEInvia()">🚀 INVIA E CHIUDI</button>
+            <button class="btn-pdf" style="background:#ff9800;" onclick="chiudiEInvia()">🚀 INVIA ORDINE</button>
         </div>
         <iframe id="pdf-preview"></iframe>
     </div>
@@ -303,6 +304,16 @@
 
         let cart = JSON.parse(localStorage.getItem('cart_carsworld')) || {};
         let currentDoc = null;
+        let currentOrderNum = "";
+
+        function generateOrderNumber() {
+            const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let result = "";
+            for (let i = 0; i < 10; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
 
         function updateQty(id, delta) {
             let current = cart[id] || 0;
@@ -336,7 +347,7 @@
             
             Object.keys(cart).forEach(id => {
                 let p = prodotti[id]; let qty = cart[id]; let subtot = p.prezzo * qty;
-                totalRicambi += subtot; count += qty; dettagli += `${p.nome} x${qty}, `;
+                totalRicambi += subtot; count += qty; dettagli += `${p.nome} x${qty} (${subtot.toFixed(2)}€), `;
                 lista.innerHTML += `
                     <div class="carrello-item">
                         <img src="${p.img}" class="cart-thumb" onclick="zoomImg(this.src)" onerror="this.style.display='none'">
@@ -361,7 +372,10 @@
             document.getElementById('res-totale').innerText = finale.toFixed(2);
             document.getElementById('mini-tot-prezzo').innerText = totalRicambi.toFixed(2);
             document.getElementById('mini-box-ricambi').classList.toggle('hidden', count === 0);
+            
+            // Aggiorna il valore per Formspree
             document.getElementById('hidden_ordine').value = `${dettagli} | Ricambi: ${totalRicambi.toFixed(2)}€ | Sped: ${spedizione.toFixed(2)}€ | Pagamento: ${document.getElementById('metodo_pag').value} | TOTALE: ${finale.toFixed(2)}€`;
+            
             document.getElementById('modulo-completo').classList.toggle('hidden', count === 0);
             if(count === 0) lista.innerHTML = "<p style='text-align:center; padding:20px; color:#999;'>Carrello vuoto</p>";
         }
@@ -434,6 +448,8 @@
         function gestisciInvioOrdine(e) {
             if(allowSubmit) return true;
             e.preventDefault();
+            currentOrderNum = generateOrderNumber();
+            document.getElementById('hidden_num_ordine').value = currentOrderNum;
             generaPDF();
             return false;
         }
@@ -444,47 +460,64 @@
             const ora = new Date().toLocaleString('it-IT');
             
             doc.setFontSize(22); doc.setTextColor(255, 152, 0); doc.text("Car's World - Store Ricambi", 20, 20);
-            doc.setFontSize(10); doc.setTextColor(100); doc.text(`Data: ${ora}`, 20, 30);
-            doc.line(20, 40, 190, 40);
+            doc.setFontSize(10); doc.setTextColor(100); 
+            doc.text(`Ordine N: ${currentOrderNum}`, 20, 30);
+            doc.text(`Data: ${ora}`, 140, 30);
+            doc.line(20, 35, 190, 35);
 
-            doc.setFontSize(14); doc.setTextColor(0); doc.text("Dati Cliente:", 20, 50);
-            doc.setFontSize(11);
-            let y = 58;
+            doc.setFontSize(14); doc.setTextColor(0); doc.text("Dati Fatturazione:", 20, 45);
+            doc.setFontSize(10);
+            let y = 52;
             if (document.getElementById('tipo_cliente').value === 'Azienda') {
-                doc.text(`Azienda: ${document.getElementsByName('ragione_sociale')[0].value}`, 20, y); y+=7;
+                doc.text(`Azienda: ${document.getElementsByName('ragione_sociale')[0].value}`, 20, y); y+=5;
+                doc.text(`P.IVA: ${document.getElementsByName('piva')[0].value}`, 20, y); y+=5;
+                doc.text(`Cod. Univoco: ${document.getElementById('cod_univoco').value}`, 20, y); y+=5;
             } else {
-                doc.text(`Cliente: ${document.getElementsByName('nome')[0].value}`, 20, y); y+=7;
+                doc.text(`Cliente: ${document.getElementsByName('nome')[0].value}`, 20, y); y+=5;
+                doc.text(`C.F.: ${document.getElementsByName('cf')[0].value}`, 20, y); y+=5;
             }
             doc.text(`Indirizzo: ${document.getElementById('ind_fatt').value}`, 20, y);
 
-            y += 20; doc.setFontSize(14); doc.text("Riepilogo Ricambi:", 20, y);
-            y += 10; doc.setFontSize(10); doc.line(20, y, 190, y); y += 7;
+            y += 10;
+            doc.setFontSize(14); doc.text("Dati Spedizione:", 20, y);
+            y += 7;
+            doc.setFontSize(10);
+            doc.text(`Indirizzo Spedizione: ${document.getElementById('ind_sped').value}`, 20, y); y+=5;
+            doc.text(`Telefono: ${document.getElementsByName('telefono')[0].value || "Non fornito"}`, 20, y);
+
+            y += 15; doc.setFontSize(14); doc.text("Dettaglio Ricambi:", 20, y);
+            y += 5; doc.line(20, y, 190, y); y += 8;
 
             let totaleRicambi = 0;
+            doc.setFontSize(10);
             Object.keys(cart).forEach(id => {
                 let p = prodotti[id]; let qty = cart[id]; let sub = p.prezzo * qty;
                 totaleRicambi += sub;
                 doc.text(`${p.nome} (x${qty})`, 20, y);
-                doc.text(`${sub.toFixed(2)}€`, 160, y);
-                y += 7;
+                doc.text(`${sub.toFixed(2)}€`, 170, y, { align: 'right' });
+                y += 6;
             });
 
             y += 10;
             doc.line(120, y-5, 190, y-5);
-            doc.setFontSize(11); doc.setFont(undefined, 'normal');
-            doc.text(`Totale Ricambi:`, 120, y); doc.text(`${totaleRicambi.toFixed(2)}€`, 170, y); y += 7;
+            doc.text(`Imponibile Ricambi:`, 120, y); doc.text(`${totaleRicambi.toFixed(2)}€`, 190, y, { align: 'right' }); y += 6;
             
             let spedizione = (totaleRicambi >= 100) ? 0 : 7.50;
-            doc.text(`Spedizione:`, 120, y); doc.text(`${spedizione === 0 ? "GRATIS" : "7.50€"}`, 170, y); y += 7;
+            doc.text(`Spese Spedizione:`, 120, y); doc.text(`${spedizione === 0 ? "GRATIS" : "7.50€"}`, 190, y, { align: 'right' }); y += 6;
             
             let contrassegno = document.getElementById('metodo_pag').value === "Contrassegno" ? 5 : 0;
             if(contrassegno > 0){
-                doc.text(`Contrassegno:`, 120, y); doc.text(`5.00€`, 170, y); y += 7;
+                doc.text(`Supplemento Contrassegno:`, 120, y); doc.text(`5.00€`, 190, y, { align: 'right' }); y += 6;
             }
 
             const totaleFin = (totaleRicambi + spedizione + contrassegno).toFixed(2);
             doc.setFontSize(14); doc.setFont(undefined, 'bold');
-            doc.text(`TOTALE: ${totaleFin}€`, 120, y + 5);
+            doc.text(`TOTALE ORDINE:`, 120, y + 5);
+            doc.text(`${totaleFin}€`, 190, y + 5, { align: 'right' });
+
+            y += 20;
+            doc.setFontSize(10); doc.setFont(undefined, 'normal');
+            doc.text(`Metodo di Pagamento: ${document.getElementById('metodo_pag').value}`, 20, y);
 
             currentDoc = doc;
             const pdfBlobUrl = doc.output('bloburl');
@@ -498,24 +531,24 @@
 
         function downloadPDF() {
             if(currentDoc) {
-                currentDoc.save(`Ordine_CarsWorld_${Date.now()}.pdf`);
+                currentDoc.save(`Ordine_${currentOrderNum}_CarsWorld.pdf`);
             }
         }
 
         async function condividiPDF() {
             if (!currentDoc) return;
             const pdfBlob = currentDoc.output('blob');
-            const file = new File([pdfBlob], "Riepilogo_Ordine.pdf", { type: "application/pdf" });
+            const file = new File([pdfBlob], `Riepilogo_Ordine_${currentOrderNum}.pdf`, { type: "application/pdf" });
             
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                 try {
                     await navigator.share({
                         files: [file],
-                        title: 'Riepilogo Ordine Car\'s World',
-                        text: 'Ecco il mio ordine ricambi.'
+                        title: 'Ordine Car\'s World',
+                        text: `Ecco il riepilogo del mio ordine n. ${currentOrderNum}`
                     });
                 } catch (err) {
-                    alert("Condivisione non riuscita o annullata.");
+                    alert("Condivisione annullata.");
                 }
             } else {
                 alert("La condivisione non è supportata su questo browser. Usa il tasto Download.");
@@ -526,13 +559,17 @@
             document.getElementById('modal-pdf').style.display = 'none';
             allowSubmit = true;
             const form = document.getElementById('form-carrello');
+            
+            // Invio
             form.submit();
             
-            // Svuotiamo il carrello localmente solo dopo il comando di submit
+            // Svuotamento dopo invio
             setTimeout(() => {
                 cart = {};
                 saveCart();
                 renderUI();
+                toggleCarrello(false);
+                alert("Ordine Inviato con Successo!");
             }, 1000);
         }
 
