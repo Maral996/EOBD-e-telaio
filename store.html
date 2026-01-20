@@ -231,7 +231,7 @@
                         <div id="box-ditta" class="hidden">
                             <input type="text" name="ragione_sociale" placeholder="Ragione Sociale">
                             <input type="text" name="piva" placeholder="Partita IVA">
-                            <input type="text" name="codice_univoco" id="cod_univoco" placeholder="Codice Univoco o PEC" oninput="this.value = this.value.toUpperCase()">
+                            <input type="text" name="codice_univoco" id="cod_univoco" placeholder="Codice Univoco o PEC">
                         </div>
                         <textarea name="ind_fatturazione" id="ind_fatt" placeholder="Indirizzo" required onkeyup="syncSped()"></textarea>
                     </div>
@@ -302,10 +302,8 @@
             3: { nome: "Lampadina Bosch H7", prezzo: 12.00, img: "img/lampadinah7bosch.jpg", desc: "Lampadina H7 Bosch alta luminosità per una guida notturna sicura." }
         };
 
-        // CONTROLLO RITORNO DA FORMSPREE PER SVUOTARE CARRELLO
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            // Formspree di solito reindirizza o torna alla pagina. Se torniamo e c'era un invio in corso, svuotiamo.
             if (localStorage.getItem('pending_order') === 'true') {
                 localStorage.removeItem('cart_carsworld');
                 localStorage.removeItem('pending_order');
@@ -388,7 +386,6 @@
             document.getElementById('mini-tot-prezzo').innerText = totalRicambi.toFixed(2);
             document.getElementById('mini-box-ricambi').classList.toggle('hidden', count === 0);
 
-            // Costruiamo la stringa dettagliata per Formspree
             let infoCliente = "";
             if (document.getElementById('tipo_cliente').value === 'Azienda') {
                 infoCliente = `Azienda: ${document.getElementsByName('ragione_sociale')[0].value}, P.IVA: ${document.getElementsByName('piva')[0].value}, SDI/PEC: ${document.getElementById('cod_univoco').value}`;
@@ -440,9 +437,28 @@
             const isDitta = document.getElementById('tipo_cliente').value === 'Azienda';
             document.getElementById('box-privato').classList.toggle('hidden', isDitta);
             document.getElementById('box-ditta').classList.toggle('hidden', !isDitta);
+            
+            // Gestione required campi Privato
+            const campiPrivato = document.querySelectorAll('#box-privato input');
+            campiPrivato.forEach(input => {
+                if(isDitta) input.removeAttribute('required');
+                else input.setAttribute('required', 'required');
+            });
+
+            // Gestione required campi Ditta
+            const ragSoc = document.getElementsByName('ragione_sociale')[0];
+            const piva = document.getElementsByName('piva')[0];
             const codUnivoco = document.getElementById('cod_univoco');
-            if (isDitta) codUnivoco.setAttribute('required', 'required');
-            else codUnivoco.removeAttribute('required');
+
+            if(isDitta) {
+                ragSoc.setAttribute('required', 'required');
+                piva.setAttribute('required', 'required');
+                codUnivoco.setAttribute('required', 'required');
+            } else {
+                ragSoc.removeAttribute('required');
+                piva.removeAttribute('required');
+                codUnivoco.removeAttribute('required');
+            }
         }
         
         function syncSped() { 
@@ -471,7 +487,7 @@
             if(allowSubmit) return true; 
             e.preventDefault();
             renderCart();
-            generaPDF(); // Generazione automatica senza chiedere
+            generaPDF();
             return false;
         }
 
@@ -565,7 +581,6 @@
         function chiudiEInvia() { 
             document.getElementById('modal-pdf').style.display = 'none'; 
             allowSubmit = true; 
-            // Segnaliamo che stiamo inviando l'ordine
             localStorage.setItem('pending_order', 'true');
             document.getElementById('form-carrello').submit(); 
         }
