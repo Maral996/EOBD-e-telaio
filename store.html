@@ -288,6 +288,13 @@
                 <li>💳 <strong>Pagamenti:</strong> Bonifico o Contrassegno (+5,00€).</li>
                 <li>🔍 <strong>Compatibilità:</strong> Verifica tramite targa inclusa.</li>
             </ul>
+            
+            <div style="margin-top: 20px; display: flex; gap: 15px; flex-wrap: wrap; border-top: 1px solid #444; padding-top: 15px;">
+                <a href="javascript: Cookiebot.renew()" style="color: #bbb; text-decoration: none; font-size: 12px;">🔄 Personalizza Cookie</a>
+                <a href="https://www.carsworld.it/privacy-policy.html" target="_blank" style="color: #bbb; text-decoration: none; font-size: 12px;">📄 Privacy Policy</a>
+                <a href="https://www.carsworld.it/cookie-policy.html" target="_blank" style="color: #bbb; text-decoration: none; font-size: 12px;">🍪 Cookie Policy</a>
+            </div>
+
             <p style="text-align: center; color: #888; margin-top: 20px; font-size: 12px;">&copy; 2026 Car's World - Store Ricambi Online</p>
         </div>
     </footer>
@@ -302,6 +309,13 @@
         let cart = JSON.parse(localStorage.getItem('cart_carsworld')) || {};
         let currentDoc = null;
         let currentOrderNum = "";
+
+        // Aggiorna la pagina quando si torna indietro dal browser (es. dopo invio Formspree)
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
 
         function generateOrderNumber() {
             const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
