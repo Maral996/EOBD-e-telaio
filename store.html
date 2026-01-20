@@ -107,9 +107,9 @@
 
         /* NUOVA MODALE PER PDF */
         #modal-pdf { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 50000; display: none; flex-direction: column; align-items: center; justify-content: center; }
-        .pdf-actions { background: white; padding: 15px; border-radius: 12px; display: flex; gap: 10px; margin-bottom: 10px; width: 90%; max-width: 600px; justify-content: center; flex-wrap: wrap; }
-        .btn-pdf { border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; }
-        #pdf-preview { width: 90%; height: 70vh; max-width: 800px; background: white; border-radius: 8px; border: none; }
+        .pdf-actions { background: white; padding: 15px; border-radius: 12px; display: flex; gap: 10px; margin-bottom: 10px; width: 95%; max-width: 700px; justify-content: center; flex-wrap: wrap; }
+        .btn-pdf { border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; font-size: 13px; }
+        #pdf-preview { width: 95%; height: 65vh; max-width: 800px; background: white; border-radius: 8px; border: none; }
     </style>
 </head>
 
@@ -258,7 +258,7 @@
                         <div class="totale-grande">TOTALE: <span id="res-totale">0.00</span>€</div>
                     </div>
                     <input type="hidden" name="ordine_dettagliato" id="hidden_ordine">
-                    <button type="submit" class="btn-invia">riepilogo ordine</button>
+                    <button type="submit" class="btn-invia">Genera Riepilogo PDF</button>
                 </form>
             </div>
         </div>
@@ -266,9 +266,10 @@
 
     <div id="modal-pdf">
         <div class="pdf-actions">
+            <button class="btn-pdf" style="background:#ff9800;" onclick="modificaOrdine()">✏️ Modifica Ordine</button>
             <button class="btn-pdf" style="background:#4caf50;" onclick="downloadPDF()">⬇️ Download</button>
             <button class="btn-pdf" style="background:#2196f3;" onclick="printPDF()">🖨️ Stampa</button>
-            <button class="btn-pdf" style="background:#ff9800;" onclick="chiudiEInvia()">🚀 INVIA ORDINE E CHIUDI</button>
+            <button class="btn-pdf" style="background:#d32f2f; font-size:15px; padding:10px 20px;" onclick="chiudiEInvia()">🚀 INVIA ORDINE ADESSO</button>
         </div>
         <iframe id="pdf-preview"></iframe>
     </div>
@@ -303,6 +304,7 @@
 
         let cart = JSON.parse(localStorage.getItem('cart_carsworld')) || {};
         let currentDoc = null; 
+        let allowSubmit = false; 
 
         function generateOrderNumber() {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -448,20 +450,11 @@
             for(let c of cards) { c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none"; }
         }
 
-        let allowSubmit = false; 
-
         function gestisciInvioOrdine(e) {
             if(allowSubmit) return true; 
             e.preventDefault();
-            // Aggiorna il riepilogo testuale prima di procedere
             renderCart();
-            const vuoiPDF = confirm("Vuoi creare il riepilogo PDF prima di inviare l'ordine?");
-            if (vuoiPDF) {
-                generaPDF();
-            } else {
-                allowSubmit = true;
-                document.getElementById('form-carrello').submit();
-            }
+            generaPDF(); // Generazione automatica senza chiedere
             return false;
         }
 
@@ -469,7 +462,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             const ora = new Date().toLocaleString('it-IT');
-            const numOrdine = generateOrderNumber(); // Generazione numero ordine alfanumerico
+            const numOrdine = generateOrderNumber();
 
             doc.setFontSize(22);
             doc.setTextColor(255, 152, 0); 
@@ -478,7 +471,7 @@
             doc.setFontSize(10);
             doc.setTextColor(100);
             doc.text(`Data Documento: ${ora}`, 20, 30);
-            doc.setTextColor(255, 0, 0); // Rosso per evidenziare il numero ordine
+            doc.setTextColor(255, 0, 0); 
             doc.setFont(undefined, 'bold');
             doc.text(`NUMERO ORDINE: ${numOrdine}`, 140, 30);
             doc.setFont(undefined, 'normal');
@@ -534,7 +527,6 @@
             const totaleFin = (totRicambi + sped + contr).toFixed(2);
             doc.text(`TOTALE FINALE:`, 120, y); doc.text(`${totaleFin}€`, 160, y);
             
-            // Aggiorna anche il campo nascosto con il numero ordine prima dell'invio finale
             document.getElementById('hidden_ordine').value = `ORDINE: ${numOrdine} | ` + document.getElementById('hidden_ordine').value;
             
             doc.setFontSize(9); doc.setFont(undefined, 'italic'); doc.setTextColor(150);
@@ -547,6 +539,7 @@
 
         function downloadPDF() { if(currentDoc) currentDoc.save(`Ordine_CarsWorld_${Date.now()}.pdf`); }
         function printPDF() { if(currentDoc) currentDoc.autoPrint(); window.open(currentDoc.output('bloburl'), '_blank').print(); }
+        function modificaOrdine() { document.getElementById('modal-pdf').style.display = 'none'; }
         function chiudiEInvia() { document.getElementById('modal-pdf').style.display = 'none'; allowSubmit = true; document.getElementById('form-carrello').submit(); }
 
         renderUI();
