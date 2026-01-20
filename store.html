@@ -209,20 +209,16 @@
             <h2>Riepilogo Ordine</h2>
             <button class="btn-continua" onclick="toggleCarrello(false)">← Continua lo shopping</button>
         </div>
-        
         <div class="carrello-content">
             <div id="lista-carrello-full"></div>
-            
             <div id="mini-box-ricambi" class="hidden">
                 <div class="mini-riepilogo-ricambi">
                     <span>Totale Ricambi: <strong><span id="mini-tot-prezzo">0.00</span>€</strong></span>
                     <button onclick="svuotaCarrello(true)" style="background:#d32f2f; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:12px;">🗑 Svuota</button>
                 </div>
             </div>
-
             <div id="modulo-completo" class="hidden">
                 <form id="form-carrello" action="https://formspree.io/f/mlgdkage" method="POST" onsubmit="return gestisciInvioOrdine(event)">
-                    <input type="hidden" name="_next" value="https://www.carsworld.it/store.html">
                     <div class="sezione-form">
                         <h3>1. Dati Fatturazione</h3>
                         <select name="tipo_cliente" id="tipo_cliente" onchange="switchFatt()">
@@ -336,8 +332,8 @@
                     `<div class="qty-controls"><button class="btn-qty" onclick="updateQty(${id}, -1)">-</button><span class="qty-val">${qty}</span><button class="btn-qty" onclick="updateQty(${id}, 1)">+</button></div>` :
                     `<button class="btn-add" onclick="updateQty(${id}, 1)">+ Aggiungi</button>`;
             });
-            const modalId = document.getElementById('modal-details').dataset.currentId;
-            if(modalId) updateModalQty(modalId);
+            const mDetails = document.getElementById('modal-details');
+            if(mDetails && mDetails.dataset.currentId) updateModalQty(mDetails.dataset.currentId);
             renderCart();
         }
 
@@ -374,9 +370,7 @@
             document.getElementById('mini-tot-prezzo').innerText = totalRicambi.toFixed(2);
             document.getElementById('mini-box-ricambi').classList.toggle('hidden', count === 0);
             
-            // Aggiorna il valore per Formspree
             document.getElementById('hidden_ordine').value = `${dettagli} | Ricambi: ${totalRicambi.toFixed(2)}€ | Sped: ${spedizione.toFixed(2)}€ | Pagamento: ${document.getElementById('metodo_pag').value} | TOTALE: ${finale.toFixed(2)}€`;
-            
             document.getElementById('modulo-completo').classList.toggle('hidden', count === 0);
             if(count === 0) lista.innerHTML = "<p style='text-align:center; padding:20px; color:#999;'>Carrello vuoto</p>";
         }
@@ -407,12 +401,8 @@
         function toggleCarrello(show) { document.getElementById('overlay-carrello').style.display = show ? 'block' : 'none'; }
         
         function svuotaCarrello(conferma) { 
-            if(conferma) {
-                if(!confirm("Svuotare il carrello?")) return;
-            }
-            cart = {}; 
-            saveCart(); 
-            renderUI(); 
+            if(conferma && !confirm("Svuotare il carrello?")) return;
+            cart = {}; saveCart(); renderUI(); 
         }
         
         function switchFatt() {
@@ -442,10 +432,7 @@
             for(let c of cards) { c.style.display = c.innerText.toLowerCase().includes(val) ? "flex" : "none"; }
         }
 
-        // --- GESTIONE PDF E INVIO ---
-
         let allowSubmit = false;
-
         function gestisciInvioOrdine(e) {
             if(allowSubmit) return true;
             e.preventDefault();
@@ -459,13 +446,11 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             const ora = new Date().toLocaleString('it-IT');
-            
             doc.setFontSize(22); doc.setTextColor(255, 152, 0); doc.text("Car's World - Store Ricambi", 20, 20);
             doc.setFontSize(10); doc.setTextColor(100); 
             doc.text(`Ordine N: ${currentOrderNum}`, 20, 30);
             doc.text(`Data: ${ora}`, 140, 30);
             doc.line(20, 35, 190, 35);
-
             doc.setFontSize(14); doc.setTextColor(0); doc.text("Dati Fatturazione:", 20, 45);
             doc.setFontSize(10);
             let y = 52;
@@ -477,94 +462,54 @@
                 doc.text(`Cliente: ${document.getElementsByName('nome')[0].value}`, 20, y); y+=5;
                 doc.text(`C.F.: ${document.getElementsByName('cf')[0].value}`, 20, y); y+=5;
             }
-            doc.text(`Indirizzo: ${document.getElementById('ind_fatt').value}`, 20, y);
-
-            y += 10;
-            doc.setFontSize(14); doc.text("Dati Spedizione:", 20, y);
-            y += 7;
+            doc.text(`Indirizzo: ${document.getElementById('ind_fatt').value}`, 20, y); y += 10;
+            doc.setFontSize(14); doc.text("Dati Spedizione:", 20, y); y += 7;
             doc.setFontSize(10);
             doc.text(`Indirizzo Spedizione: ${document.getElementById('ind_sped').value}`, 20, y); y+=5;
             doc.text(`Telefono: ${document.getElementsByName('telefono')[0].value || "Non fornito"}`, 20, y);
-
             y += 15; doc.setFontSize(14); doc.text("Dettaglio Ricambi:", 20, y);
             y += 5; doc.line(20, y, 190, y); y += 8;
-
-            let totaleRicambi = 0;
-            doc.setFontSize(10);
+            let totaleRicambi = 0; doc.setFontSize(10);
             Object.keys(cart).forEach(id => {
                 let p = prodotti[id]; let qty = cart[id]; let sub = p.prezzo * qty;
                 totaleRicambi += sub;
-                doc.text(`${p.nome} (x${qty})`, 20, y);
-                doc.text(`${sub.toFixed(2)}€`, 170, y, { align: 'right' });
+                doc.text(`${p.nome} (x${qty})`, 20, y); doc.text(`${sub.toFixed(2)}€`, 170, y, { align: 'right' });
                 y += 6;
             });
-
-            y += 10;
-            doc.line(120, y-5, 190, y-5);
+            y += 10; doc.line(120, y-5, 190, y-5);
             doc.text(`Imponibile Ricambi:`, 120, y); doc.text(`${totaleRicambi.toFixed(2)}€`, 190, y, { align: 'right' }); y += 6;
-            
             let spedizione = (totaleRicambi >= 100) ? 0 : 7.50;
             doc.text(`Spese Spedizione:`, 120, y); doc.text(`${spedizione === 0 ? "GRATIS" : "7.50€"}`, 190, y, { align: 'right' }); y += 6;
-            
             let contrassegno = document.getElementById('metodo_pag').value === "Contrassegno" ? 5 : 0;
             if(contrassegno > 0){
                 doc.text(`Supplemento Contrassegno:`, 120, y); doc.text(`5.00€`, 190, y, { align: 'right' }); y += 6;
             }
-
             const totaleFin = (totaleRicambi + spedizione + contrassegno).toFixed(2);
-            doc.setFontSize(14); doc.setFont(undefined, 'bold');
-            doc.text(`TOTALE ORDINE:`, 120, y + 5);
-            doc.text(`${totaleFin}€`, 190, y + 5, { align: 'right' });
-
-            y += 20;
-            doc.setFontSize(10); doc.setFont(undefined, 'normal');
+            doc.setFontSize(14); doc.setFont(undefined, 'bold'); doc.text(`TOTALE ORDINE:`, 120, y + 5); doc.text(`${totaleFin}€`, 190, y + 5, { align: 'right' });
+            y += 20; doc.setFontSize(10); doc.setFont(undefined, 'normal');
             doc.text(`Metodo di Pagamento: ${document.getElementById('metodo_pag').value}`, 20, y);
-
             currentDoc = doc;
             const pdfBlobUrl = doc.output('bloburl');
             document.getElementById('pdf-preview').src = pdfBlobUrl + '#view=FitH';
             document.getElementById('modal-pdf').style.display = 'flex';
         }
 
-        function modificaOrdine() {
-            document.getElementById('modal-pdf').style.display = 'none';
-        }
-
-        function downloadPDF() {
-            if(currentDoc) {
-                currentDoc.save(`Ordine_${currentOrderNum}_CarsWorld.pdf`);
-            }
-        }
-
+        function modificaOrdine() { document.getElementById('modal-pdf').style.display = 'none'; }
+        function downloadPDF() { if(currentDoc) currentDoc.save(`Ordine_${currentOrderNum}_CarsWorld.pdf`); }
         async function condividiPDF() {
             if (!currentDoc) return;
             const pdfBlob = currentDoc.output('blob');
             const file = new File([pdfBlob], `Riepilogo_Ordine_${currentOrderNum}.pdf`, { type: "application/pdf" });
-            
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        files: [file],
-                        title: 'Ordine Car\'s World',
-                        text: `Ecco il riepilogo del mio ordine n. ${currentOrderNum}`
-                    });
-                } catch (err) {
-                    alert("Condivisione annullata.");
-                }
-            } else {
-                alert("La condivisione non è supportata su questo browser. Usa il tasto Download.");
-            }
+                try { await navigator.share({ files: [file], title: 'Ordine Car\'s World', text: `Ecco il riepilogo del mio ordine n. ${currentOrderNum}` }); } catch (err) { alert("Condivisione annullata."); }
+            } else { alert("La condivisione non è supportata su questo browser. Usa il tasto Download."); }
         }
 
         function chiudiEInvia() {
-            // Svuota il carrello localmente prima del submit per sicurezza
-            cart = {};
-            saveCart();
-            
+            cart = {}; saveCart();
             document.getElementById('modal-pdf').style.display = 'none';
             allowSubmit = true;
-            const form = document.getElementById('form-carrello');
-            form.submit();
+            document.getElementById('form-carrello').submit();
         }
 
         renderUI();
