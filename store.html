@@ -548,6 +548,7 @@
             });
             y += 5;
             doc.line(120, y, 190, y); y += 10;
+            doc.setTextColor(0);
             doc.text(`Metodo Pagamento: ${document.getElementById('metodo_pag').value}`, 20, y);
             doc.text(`Totale Ricambi:`, 120, y); doc.text(`${totRicambi.toFixed(2)}€`, 160, y); y += 7;
             let sped = (totRicambi >= 100) ? 0 : 7.50;
@@ -556,11 +557,22 @@
             if(contr > 0) {
                 doc.text(`Suppl. Contrassegno:`, 120, y); doc.text(`5.00€`, 160, y); y += 7;
             }
-            y += 3;
-            doc.setFontSize(14); doc.setFont(undefined, 'bold');
-            const totaleFin = (totRicambi + sped + contr).toFixed(2);
-            doc.text(`TOTALE FINALE:`, 120, y); doc.text(`${totaleFin}€`, 160, y);
             
+            // --- STACCO E COLORE PER IL TOTALE FINALE ---
+            y += 5; 
+            doc.setDrawColor(255, 152, 0);
+            doc.setLineWidth(0.5);
+            doc.line(120, y, 190, y); // Linea arancione di separazione
+            
+            y += 10;
+            doc.setFontSize(16); 
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(230, 81, 0); // Colore arancione scuro
+            const totaleFin = (totRicambi + sped + contr).toFixed(2);
+            doc.text(`TOTALE FINALE:`, 120, y); 
+            doc.text(`${totaleFin}€`, 160, y);
+            // --------------------------------------------
+
             document.getElementById('hidden_ordine').value = `ORDINE: ${numOrdine} | ` + document.getElementById('hidden_ordine').value;
             
             doc.setFontSize(9); doc.setFont(undefined, 'italic'); doc.setTextColor(150);
