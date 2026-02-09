@@ -105,7 +105,7 @@
     <h2 style="margin-top:10px;">Check-out Ordine</h2>
 
     <form id="form-carrello" action="https://formspree.io/f/mlgdkage" method="POST" onsubmit="return gestisciInvioOrdine(event)">
-        <input type="hidden" name="_next" value="https://carsworld.it/store.html">
+        <input type="hidden" name="_next" value="https://carsworld.it/store.html?status=success">
         
         <h3>Contatti</h3>
         <input type="email" name="email" id="contatto_email" placeholder="Indirizzo Email">
@@ -175,6 +175,11 @@
 </div>
 
 <script>
+    // CONTROLLO DI SICUREZZA: Reindirizza allo store se la provenienza è diversa da store.html
+    if (document.referrer === "" || !document.referrer.includes("store.html")) {
+        window.location.href = "https://carsworld.it/store.html";
+    }
+
     let cart = JSON.parse(localStorage.getItem('cart_carsworld')) || {};
     const prodotti = { 
         1:{nome:"Spazzole Tergicristallo", prezzo:30}, 
@@ -311,9 +316,8 @@
     
     function chiudiEInvia() { 
         const btn = document.getElementById('btn-invia-finale');
-        btn.innerText = "invio in corso.... attendere";
+        btn.innerText = "Reindirizzamento...";
         btn.disabled = true;
-        // Metodo standard per evitare avvisi di sicurezza del browser
         localStorage.removeItem('cart_carsworld'); 
         document.getElementById('form-carrello').submit();
     }
