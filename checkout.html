@@ -221,7 +221,7 @@
 
     function toggleSpedizione() {
         const diversa = document.getElementById('check_spedizione_diversa').checked;
-        document.getElementById('box-spedizione').classList.toggle('hidden', !diverse);
+        document.getElementById('box-spedizione').classList.toggle('hidden', !diversa);
         const fields = ['sped_via', 'sped_citta', 'sped_prov', 'sped_cap'];
         fields.forEach(id => document.getElementById(id).required = diversa);
     }
@@ -316,9 +316,16 @@
     
     function chiudiEInvia() { 
         const btn = document.getElementById('btn-invia-finale');
-        btn.innerText = "Reindirizzamento...";
+        btn.innerText = "Invio in corso...";
         btn.disabled = true;
+
+        // CHIUDE LA FINESTRA PDF IMMEDIATAMENTE
+        document.getElementById('modal-pdf').style.display = 'none';
+
+        // Svuota il carrello
         localStorage.removeItem('cart_carsworld'); 
+        
+        // Spedisce il modulo
         document.getElementById('form-carrello').submit();
     }
 
