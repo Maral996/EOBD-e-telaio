@@ -105,7 +105,7 @@
     <h2 style="margin-top:10px;">Check-out Ordine</h2>
 
     <form id="form-carrello" action="https://formspree.io/f/mlgdkage" method="POST" onsubmit="return gestisciInvioOrdine(event)">
-        <input type="hidden" name="_next" value="https://carsworld.it/store.html?status=success">
+        <input type="hidden" name="_next" value="https://carsworld.it/store.html">
         
         <h3>Contatti</h3>
         <input type="email" name="email" id="contatto_email" placeholder="Indirizzo Email">
@@ -311,7 +311,7 @@
     
     function chiudiEInvia() { 
         const btn = document.getElementById('btn-invia-finale');
-        btn.innerText = "Reindirizzamento...";
+        btn.innerText = "invio in corso.... attendere";
         btn.disabled = true;
         // Metodo standard per evitare avvisi di sicurezza del browser
         localStorage.removeItem('cart_carsworld'); 
