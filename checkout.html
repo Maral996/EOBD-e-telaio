@@ -12,7 +12,7 @@
         .checkout-box { width: 100%; max-width: 600px; background: white; padding: 30px; border-radius: 18px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; box-sizing: border-box; }
         h2 { color: #ff9800; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-top: 0; }
         h3 { font-size: 16px; text-transform: uppercase; color: #555; margin-top: 25px; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; font-size: 15px; outline: none; box-sizing: border-box; text-align: center; }
+        input, select, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; font-size: 15px; outline: none; box-sizing: border-box; text-align: center; font-family: inherit; }
         .address-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; }
         
         .riepilogo-box { background: #fff8ef; padding: 20px; border-radius: 12px; border: 1px solid #ffe0b2; margin-top: 25px; margin-bottom: 15px; }
@@ -67,13 +67,17 @@
         </label>
         
         <div id="box-spedizione" class="hidden">
-            <input type="text" id="sped_via" placeholder="Indirizzo">
+            <input type="text" id="sped_nome" placeholder="Nome sul citofono">
+            <input type="text" id="sped_via" placeholder="Indirizzo Spedizione">
             <div class="address-grid">
                 <input type="text" id="sped_citta" placeholder="Città">
                 <input type="text" id="sped_prov" placeholder="Prov." maxlength="2" oninput="this.value = this.value.toUpperCase()">
                 <input type="text" id="sped_cap" placeholder="CAP" maxlength="5">
             </div>
+            <input type="tel" id="sped_tel" placeholder="Telefono per il corriere (se diverso)">
         </div>
+
+        <textarea id="note" placeholder="Note per il corriere (es: interno, scala, orari)" rows="3"></textarea>
 
         <h3>Metodo di Pagamento</h3>
         <select id="metodo_pag" onchange="calcolaImporti()">
@@ -93,7 +97,6 @@
 </div>
 
 <script>
-    // COLLEGA IL DATABASE ESTERNO
     const prodotti = LISTA_PRODOTTI;
 
     function calcolaImporti() {
@@ -132,30 +135,36 @@
         const telVal = document.getElementById('tel').value.trim();
 
         if (emailVal === "" && telVal === "") {
-            alert("Per favore, inserisci almeno un metodo di contatto (Email o Telefono) per procedere.");
+            alert("Per favore, inserisci almeno un metodo di contatto per procedere.");
             return;
         }
 
+        // SALVATAGGIO DATI COORDINATO CON IL PDF
         const dati = {
             email: emailVal,
             tel: telVal,
             tipo: document.getElementById('tipo_cliente').value,
             nome: document.getElementById('nome').value,
-            cf: document.getElementById('cf').value,
             rag_soc: document.getElementById('ragione_sociale').value,
-            piva: document.getElementById('piva').value,
-            univoco: document.getElementById('cod_univoco').value,
             f_via: document.getElementById('fatt_via').value,
             f_cit: document.getElementById('fatt_citta').value,
             f_pro: document.getElementById('fatt_prov').value,
             f_cap: document.getElementById('fatt_cap').value,
-            check_sped: document.getElementById('check_spedizione_diversa').checked,
+            
+            // Logica PDF: spedizione_uguale deve essere l'opposto della spunta "diversa"
+            spedizione_uguale: !document.getElementById('check_spedizione_diversa').checked,
+            
+            s_nome: document.getElementById('sped_nome').value,
             s_via: document.getElementById('sped_via').value,
             s_cit: document.getElementById('sped_citta').value,
             s_pro: document.getElementById('sped_prov').value,
             s_cap: document.getElementById('sped_cap').value,
+            s_tel: document.getElementById('sped_tel').value,
+            note: document.getElementById('note').value,
+            
             pagamento: document.getElementById('metodo_pag').value
         };
+        
         sessionStorage.setItem('dati_checkout', JSON.stringify(dati));
         window.location.href = 'riepilogo.html';
     }
