@@ -14,7 +14,6 @@
         .btn { border: none; padding: 15px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; color: white; font-size: 16px; flex: 1; max-width: 250px; transition: 0.3s; }
         .btn:disabled { background: #ccc !important; cursor: wait; }
         
-        /* Overlay di caricamento */
         #loader { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
         .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #ff9800; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -49,7 +48,7 @@
         3:{nome:"Lampadina Bosch H7", prezzo:12} 
     };
     let currentDoc = null;
-    let payload = {}; // Dati pronti per Formspree
+    let payload = {}; 
 
     if (!dati) { window.location.href = 'checkout.html'; }
 
@@ -103,7 +102,7 @@
         doc.text(`Supplemento: ${contrVal.toFixed(2)}€`, 130, y); y += 10;
         doc.setFontSize(14); doc.text(`TOTALE: ${totaleFin}€`, 130, y);
 
-        // Prepariamo i dati per l'invio AJAX
+        // Prepariamo l'oggetto payload
         payload = {
             email: dati.email,
             telefono: dati.tel,
@@ -126,34 +125,41 @@
         loader.style.display = 'flex';
         btn.disabled = true;
 
+        // Trasformiamo il payload in FormData (metodo più sicuro per i browser)
+        const form = new FormData();
+        for (const key in payload) {
+            form.append(key, payload[key]);
+        }
+
         fetch("https://formspree.io/f/mlgdkage", {
             method: "POST",
-            headers: { "Content-Type": "application/json", "Accept": "application/json" },
-            body: JSON.stringify(payload)
+            body: form,
+            headers: {
+                'Accept': 'application/json'
+            }
         })
         .then(response => {
             loader.style.display = 'none';
             if (response.ok) {
-                // Successo: mostriamo conferma visiva e puliamo tutto
                 document.getElementById('titolo-pagina').innerText = "✅ Ordine Inviato!";
                 document.getElementById('titolo-pagina').style.color = "green";
-                document.getElementById('istruzioni').innerText = "Grazie, abbiamo ricevuto il tuo ordine. Verrai riportato allo store...";
+                document.getElementById('istruzioni').innerText = "Grazie! Riceverai una conferma a breve.";
                 document.getElementById('azioni').style.display = "none";
                 
                 localStorage.removeItem('cart_carsworld');
                 sessionStorage.removeItem('dati_checkout');
 
                 setTimeout(() => {
-                    window.location.href = "https://carsworld.it/store.html";
+                    window.location.href = "store.html";
                 }, 4000);
             } else {
-                alert("Errore nell'invio. Controlla la connessione.");
+                alert("Errore nell'invio. Verifica la tua connessione.");
                 btn.disabled = false;
             }
         })
         .catch(error => {
             loader.style.display = 'none';
-            alert("Errore tecnico. Riprova tra poco.");
+            alert("Errore tecnico durante l'invio.");
             btn.disabled = false;
         });
     }
