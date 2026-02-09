@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riepilogo - Car's world</title>
+    
+    <script src="prodotti.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; }
@@ -40,13 +43,11 @@
 </div>
 
 <script>
+    // UTILIZZA IL DATABASE ESTERNO
+    const prodotti = LISTA_PRODOTTI;
     const dati = JSON.parse(sessionStorage.getItem('dati_checkout'));
     let cart = JSON.parse(localStorage.getItem('cart_carsworld')) || {};
-    const prodotti = { 
-        1:{nome:"Spazzole Tergicristallo", prezzo:30}, 
-        2:{nome:"Batteria 60Ah", prezzo:75}, 
-        3:{nome:"Lampadina Bosch H7", prezzo:12} 
-    };
+    
     let currentDoc = null;
     let payload = {}; 
 
@@ -86,11 +87,13 @@
         let totRicambi = 0;
         let listaTesto = "";
         Object.keys(cart).forEach(id => {
-            let p = prodotti[id]; let qty = cart[id]; let sub = p.prezzo * qty;
-            totRicambi += sub;
-            doc.text(`${p.nome} x${qty}`, 20, y); doc.text(`${sub.toFixed(2)}€`, 160, y);
-            listaTesto += `${p.nome} (x${qty}), `;
-            y += 7;
+            if(prodotti[id]) {
+                let p = prodotti[id]; let qty = cart[id]; let sub = p.prezzo * qty;
+                totRicambi += sub;
+                doc.text(`${p.nome} x${qty}`, 20, y); doc.text(`${sub.toFixed(2)}€`, 160, y);
+                listaTesto += `${p.nome} (x${qty}), `;
+                y += 7;
+            }
         });
 
         let spedVal = (totRicambi >= 100) ? 0 : 7.50;
@@ -102,7 +105,6 @@
         doc.text(`Supplemento: ${contrVal.toFixed(2)}€`, 130, y); y += 10;
         doc.setFontSize(14); doc.text(`TOTALE: ${totaleFin}€`, 130, y);
 
-        // Prepariamo l'oggetto payload
         payload = {
             email: dati.email,
             telefono: dati.tel,
@@ -125,7 +127,6 @@
         loader.style.display = 'flex';
         btn.disabled = true;
 
-        // Trasformiamo il payload in FormData (metodo più sicuro per i browser)
         const form = new FormData();
         for (const key in payload) {
             form.append(key, payload[key]);
@@ -134,9 +135,7 @@
         fetch("https://formspree.io/f/mlgdkage", {
             method: "POST",
             body: form,
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: { 'Accept': 'application/json' }
         })
         .then(response => {
             loader.style.display = 'none';
