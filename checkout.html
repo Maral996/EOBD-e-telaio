@@ -47,6 +47,13 @@
             text-align: center; 
         }
 
+        /* Stile per i campi affiancati (Città, Prov, CAP) */
+        .address-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 10px;
+        }
+
         .riepilogo-box { background: #fff8ef; padding: 20px; border-radius: 12px; border: 1px solid #ffe0b2; margin-bottom: 25px; }
         .row { display: flex; justify-content: space-between; margin-bottom: 8px; color: #666; }
         .totale-grande { display: flex; justify-content: space-between; font-weight: 800; font-size: 22px; color: #e65100; border-top: 2px solid #ffb74d; padding-top: 15px; margin-top: 10px; }
@@ -87,6 +94,7 @@
             body { padding: 10px; }
             .checkout-box { padding: 20px; }
             input, select, textarea { font-size: 16px; }
+            .address-grid { grid-template-columns: 1fr; gap: 0; }
         }
     </style>
 </head>
@@ -115,15 +123,27 @@
             <input type="text" name="piva" placeholder="Partita IVA">
             <input type="text" name="codice_univoco" id="cod_univoco" placeholder="Codice Univoco o PEC">
         </div>
-        <textarea name="ind_fatturazione" id="ind_fatt" placeholder="Indirizzo di fatturazione" rows="2" required></textarea>
+        
+        <input type="text" name="fatt_via" id="fatt_via" placeholder="Via e Numero Civico" required>
+        <div class="address-grid">
+            <input type="text" name="fatt_citta" id="fatt_citta" placeholder="Città" required>
+            <input type="text" name="fatt_prov" id="fatt_prov" placeholder="Prov." maxlength="2" oninput="this.value = this.value.toUpperCase()" required>
+            <input type="text" name="fatt_cap" id="fatt_cap" placeholder="CAP" maxlength="5" required>
+        </div>
 
         <h3>Spedizione</h3>
         <label class="checkbox-container">
             <input type="checkbox" id="check_spedizione_diversa" onchange="toggleSpedizione()">
             L'indirizzo di spedizione è diverso?
         </label>
+        
         <div id="box-spedizione" class="hidden">
-            <textarea name="ind_spedizione" id="ind_sped" placeholder="Indirizzo completo di spedizione" rows="3"></textarea>
+            <input type="text" name="sped_via" id="sped_via" placeholder="Via e Numero Civico">
+            <div class="address-grid">
+                <input type="text" name="sped_citta" id="sped_citta" placeholder="Città">
+                <input type="text" name="sped_prov" id="sped_prov" placeholder="Prov." maxlength="2" oninput="this.value = this.value.toUpperCase()">
+                <input type="text" name="sped_cap" id="sped_cap" placeholder="CAP" maxlength="5">
+            </div>
         </div>
 
         <h3>Metodo di Pagamento</h3>
@@ -195,7 +215,8 @@
     function toggleSpedizione() {
         const diversa = document.getElementById('check_spedizione_diversa').checked;
         document.getElementById('box-spedizione').classList.toggle('hidden', !diversa);
-        document.getElementById('ind_sped').required = diversa;
+        const fields = ['sped_via', 'sped_citta', 'sped_prov', 'sped_cap'];
+        fields.forEach(id => document.getElementById(id).required = diversa);
     }
 
     function gestisciInvioOrdine(e) { 
@@ -217,8 +238,23 @@
         const ora = new Date().toLocaleString('it-IT');
         const numOrdine = generateOrderNumber();
         const tipo = document.getElementById('tipo_cliente').value;
-        const indSped = document.getElementById('check_spedizione_diversa').checked ? document.getElementById('ind_sped').value : document.getElementById('ind_fatt').value;
         const metodo = document.getElementById('metodo_pag').value;
+
+        // Componi stringhe indirizzo
+        const f_via = document.getElementById('fatt_via').value;
+        const f_cit = document.getElementById('fatt_citta').value;
+        const f_pro = document.getElementById('fatt_prov').value;
+        const f_cap = document.getElementById('fatt_cap').value;
+        const indFattCompleto = `${f_via}, ${f_cap} ${f_cit} (${f_pro})`;
+
+        let indSpedCompleto = indFattCompleto;
+        if(document.getElementById('check_spedizione_diversa').checked) {
+            const s_via = document.getElementById('sped_via').value;
+            const s_cit = document.getElementById('sped_citta').value;
+            const s_pro = document.getElementById('sped_prov').value;
+            const s_cap = document.getElementById('sped_cap').value;
+            indSpedCompleto = `${s_via}, ${s_cap} ${s_cit} (${s_pro})`;
+        }
 
         doc.setFontSize(22); doc.setTextColor(255, 152, 0); 
         doc.text("Car's World - Store Ricambi", 20, 20);
@@ -232,6 +268,7 @@
         doc.setFontSize(14); doc.setTextColor(0); doc.text("Dati Fatturazione:", 20, 50);
         
         let y = 58;
+        doc.setFontSize(11); doc.setFont(undefined, 'normal');
         if (tipo === 'Azienda') {
             doc.text(`Ragione Sociale: ${document.getElementsByName('ragione_sociale')[0].value}`, 20, y); y+=7;
             doc.text(`P.IVA: ${document.getElementsByName('piva')[0].value}`, 20, y); y+=7;
@@ -240,8 +277,8 @@
             doc.text(`Nome: ${document.getElementsByName('nome')[0].value}`, 20, y); y+=7;
             doc.text(`Cod. Fiscale: ${document.getElementsByName('cf')[0].value}`, 20, y); y+=7;
         }
-        doc.text(`Indirizzo Fatturazione: ${document.getElementById('ind_fatt').value}`, 20, y); y+=7;
-        doc.text(`Indirizzo Spedizione: ${indSped}`, 20, y); y+=7;
+        doc.text(`Indirizzo Fatturazione: ${indFattCompleto}`, 20, y); y+=7;
+        doc.text(`Indirizzo Spedizione: ${indSpedCompleto}`, 20, y); y+=7;
         doc.text(`Contatto: ${document.getElementById('contatto_email').value || document.getElementById('contatto_tel').value}`, 20, y);
         
         y += 20; doc.setFontSize(14); doc.text("Riepilogo Ricambi:", 20, y);
