@@ -110,7 +110,9 @@
                     totRicambi += sub;
                     doc.text(`[${id}] ${p.nome} x${qty}`, 20, y); 
                     doc.text(`${sub.toFixed(2)}€`, 160, y);
-                    listaTesto += `${p.nome} (x${qty}), `;
+                    
+                    // Inserito Codice ID nella lista per l'email
+                    listaTesto += `Cod: ${id} - ${p.nome} (x${qty}), `;
                     y += 7;
                 }
             });
@@ -137,7 +139,7 @@
                 telefono: dati.tel,
                 pagamento: dati.pagamento,
                 note: dati.note || "Nessuna",
-                dettagli: `ORDINE ${numOrdine}: ${listaTesto} | TOTALE: ${totaleFin}€`
+                dettagli_ordine: `ORDINE ${numOrdine}: ${listaTesto} | TOTALE: ${totaleFin}€`
             };
 
             currentDoc = doc;
