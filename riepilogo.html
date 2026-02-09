@@ -40,15 +40,30 @@
 <script>
     const dati = JSON.parse(sessionStorage.getItem('dati_checkout'));
     let cart = JSON.parse(localStorage.getItem('cart_carsworld')) || {};
-    const prodotti = { 1:{nome:"Spazzole Tergicristallo", prezzo:30}, 2:{nome:"Batteria 60Ah", prezzo:75}, 3:{nome:"Lampadina Bosch H7", prezzo:12} };
+    const prodotti = { 
+        1:{nome:"Spazzole Tergicristallo", prezzo:30}, 
+        2:{nome:"Batteria 60Ah", prezzo:75}, 
+        3:{nome:"Lampadina Bosch H7", prezzo:12} 
+    };
     let currentDoc = null;
 
     if (!dati) { window.location.href = 'checkout.html'; }
 
+    // NUOVA FUNZIONE PER GENERARE IL CODICE: ANNO + 6 CARATTERI ALFANUMERICI
+    function generateOrderNumber() {
+        const anno = new Date().getFullYear(); // Es: 2025
+        const caratteri = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let casuale = '';
+        for (let i = 0; i < 6; i++) {
+            casuale += caratteri.charAt(Math.floor(Math.random() * caratteri.length));
+        }
+        return `${anno}${casuale}`; // Es: 2025XJ49PK
+    }
+
     function generaPDF() {
         const { jsPDF } = window.jspdf; const doc = new jsPDF();
         const ora = new Date().toLocaleString('it-IT');
-        const numOrdine = Date.now().toString(36).toUpperCase();
+        const numOrdine = generateOrderNumber(); // Usa la nuova funzione
         
         doc.setFontSize(22); doc.setTextColor(255, 152, 0); 
         doc.text("Car's World - Store Ricambi", 20, 20);
@@ -81,8 +96,8 @@
         let totaleFin = (totRicambi + spedVal + contrVal).toFixed(2);
 
         y += 10;
-        doc.text(`Spedizione: ${spedVal}€`, 130, y); y += 7;
-        doc.text(`Supplemento: ${contrVal}€`, 130, y); y += 10;
+        doc.text(`Spedizione: ${spedVal === 0 ? "Gratis" : spedVal.toFixed(2) + "€"}`, 130, y); y += 7;
+        doc.text(`Supplemento: ${contrVal.toFixed(2)}€`, 130, y); y += 10;
         doc.setFontSize(14); doc.text(`TOTALE: ${totaleFin}€`, 130, y);
 
         // Prepara i dati per Formspree
