@@ -33,7 +33,13 @@
         .btn-apri-carrello { background: white; color: #ff9800; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 14px; min-width: 120px; justify-content: center; transition: 0.3s; }
 
         .container { max-width: 650px; margin: auto; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        #search-ricambi { width: 100%; max-width: 500px; padding: 15px; border-radius: 12px; border: 2px solid #ff9800; margin-bottom: 25px; outline: none; font-size: 16px; }
+        #search-ricambi { width: 100%; max-width: 500px; padding: 15px; border-radius: 12px; border: 2px solid #ff9800; margin-bottom: 15px; outline: none; font-size: 16px; }
+
+        /* NUOVO: STYLE CATEGORIE */
+        .category-nav { display: flex; gap: 8px; overflow-x: auto; width: 100%; padding-bottom: 10px; margin-bottom: 20px; scrollbar-width: none; }
+        .category-nav::-webkit-scrollbar { display: none; }
+        .cat-btn { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.3s; color: #555; }
+        .cat-btn.active { background: #ff9800; color: white; border-color: #ff9800; }
         
         .product-card { background: white; width: 100%; padding: 15px; margin-bottom: 12px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); display: flex; align-items: center; gap: 15px; }
         .product-img { width: 85px; height: 85px; border-radius: 10px; object-fit: cover; background: #eee; cursor: zoom-in; }
@@ -101,6 +107,13 @@
     <div class="container">
         <input type="text" id="search-ricambi" placeholder="🔍 Cerca per nome ricambio..." onkeyup="filterProducts()">
         
+        <div class="category-nav">
+            <button class="cat-btn active" onclick="filterCategory('Tutti', this)">Tutti</button>
+            <button class="cat-btn" onclick="filterCategory('Ricambi', this)">Ricambi Auto</button>
+            <button class="cat-btn" onclick="filterCategory('Pneumatici', this)">Pneumatici</button>
+            <button class="cat-btn" onclick="filterCategory('Gadget', this)">Allestimenti e Gadget</button>
+        </div>
+
         <div id="lista-prodotti" style="width: 100%;"></div>
 
         <div class="preventivo-rapido">
@@ -224,16 +237,15 @@
     </footer>
 
     <script>
-        // CARICAMENTO PRODOTTI DA FILE ESTERNO
         const prodotti = LISTA_PRODOTTI;
         let cart = JSON.parse(localStorage.getItem('cart_carsworld')) || {};
+        let currentCategory = 'Tutti';
 
         function toggleContatto() {
             const scelta = document.getElementById('scelta_contatto').value;
             const cEmail = document.getElementById('campo_email');
             const cWa = document.getElementById('campo_whatsapp');
-            cEmail.classList.add('hidden');
-            cWa.classList.add('hidden');
+            cEmail.classList.add('hidden'); cWa.classList.add('hidden');
             if(scelta === 'Email') { cEmail.classList.remove('hidden'); } 
             else if(scelta === 'WhatsApp') { cWa.classList.remove('hidden'); }
         }
@@ -259,12 +271,8 @@
         function apriDettagli(id) {
             const p = prodotti[id];
             const imgElement = document.getElementById('dettaglio-img');
-            if (p.immagine && p.immagine !== "") {
-                imgElement.src = p.immagine;
-                imgElement.style.display = 'block';
-            } else {
-                imgElement.style.display = 'none';
-            }
+            imgElement.src = (p.immagine && p.immagine !== "") ? p.immagine : "";
+            imgElement.style.display = p.immagine ? 'block' : 'none';
             document.getElementById('dettaglio-nome').innerText = p.nome;
             document.getElementById('dettaglio-prezzo').innerText = p.prezzo.toFixed(2) + "€";
             document.getElementById('dettaglio-info-testo').innerText = p.desc || "";
@@ -292,45 +300,50 @@
         }
 
         function renderUI() {
-            // GENERAZIONE DINAMICA DELLA LISTA PRODOTTI
             const containerLista = document.getElementById('lista-prodotti');
-            containerLista.innerHTML = ""; // Pulisce la lista
+            containerLista.innerHTML = "";
 
             Object.keys(prodotti).forEach(id => {
                 const p = prodotti[id];
                 const q = cart[id] || 0;
                 
-                // Gestione immagine (nulla se non c'è)
-                let imgHtml = (p.immagine && p.immagine !== "") ? 
-                    `<img src="${p.immagine}" class="product-img" onclick="zoomFoto(this)" onerror="handleImgError(this)">` : "";
+                // FILTRO CATEGORIA E RICERCA
+                const matchesCategory = (currentCategory === 'Tutti' || p.categoria === currentCategory);
+                const searchText = document.getElementById('search-ricambi').value.toLowerCase();
+                const matchesSearch = p.nome.toLowerCase().includes(searchText);
 
-                const card = `
-                    <div class="product-card">
-                        ${imgHtml}
-                        <div class="product-info">
-                            <h4 onclick="apriDettagli(${id})">${p.nome}</h4>
-                            <p style="font-size: 12px; color: #777; margin: 0 0 5px 0;">${p.desc || ""}</p>
-                            <div class="price">${p.prezzo.toFixed(2)}€</div>
+                if (matchesCategory && matchesSearch) {
+                    let imgHtml = (p.immagine && p.immagine !== "") ? 
+                        `<img src="${p.immagine}" class="product-img" onclick="zoomFoto(this)" onerror="handleImgError(this)">` : "";
+
+                    const card = `
+                        <div class="product-card">
+                            ${imgHtml}
+                            <div class="product-info">
+                                <h4 onclick="apriDettagli(${id})">${p.nome}</h4>
+                                <p style="font-size: 12px; color: #777; margin: 0 0 5px 0;">${p.desc || ""}</p>
+                                <div class="price">${p.prezzo.toFixed(2)}€</div>
+                            </div>
+                            <div class="right-side" id="ctrl-${id}">
+                                ${q > 0 ? 
+                                    `<div class="qty-controls"><button class="btn-qty" onclick="updateQty(${id},-1)">-</button><span style="font-weight:bold">${q}</span><button class="btn-qty" onclick="updateQty(${id},1)">+</button></div>` : 
+                                    `<button class="btn-add" onclick="updateQty(${id},1)">+ Aggiungi</button>`
+                                }
+                            </div>
                         </div>
-                        <div class="right-side" id="ctrl-${id}">
-                            ${q > 0 ? 
-                                `<div class="qty-controls"><button class="btn-qty" onclick="updateQty(${id},-1)">-</button><span style="font-weight:bold">${q}</span><button class="btn-qty" onclick="updateQty(${id},1)">+</button></div>` : 
-                                `<button class="btn-add" onclick="updateQty(${id},1)">+ Aggiungi</button>`
-                            }
-                        </div>
-                    </div>
-                `;
-                containerLista.innerHTML += card;
+                    `;
+                    containerLista.innerHTML += card;
+                }
             });
 
-            // GESTIONE MINI CARRELLO OVERLAY
+            // CARRELLO
             let tot = 0; let count = 0; const list = document.getElementById('mini-lista'); list.innerHTML = "";
             const idsInCart = Object.keys(cart);
             if(idsInCart.length === 0) {
                 list.innerHTML = "<p style='text-align:center; color:#999; padding:20px;'>Il carrello è vuoto</p>";
-                document.getElementById('box-azioni-carrello').style.display = "none";
+                document.getElementById('box-actions-carrello').style.display = "none";
             } else {
-                document.getElementById('box-azioni-carrello').style.display = "block";
+                document.getElementById('box-actions-carrello').style.display = "block";
                 idsInCart.forEach(id => {
                     let p = prodotti[id]; let q = cart[id]; let sub = p.prezzo * q; tot += sub; count += q;
                     let miniImg = (p.immagine && p.immagine !== "") ? `<img src="${p.immagine}" class="mini-img" onerror="this.style.display='none'">` : "";
@@ -342,6 +355,15 @@
             document.getElementById('btn-text').innerText = tot > 0 ? tot.toFixed(2)+"€" : "CARRELLO";
         }
 
+        function filterCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderUI();
+        }
+
+        function filterProducts() { renderUI(); }
+
         function toggleCarrello(e) { if(e) e.stopPropagation(); const o = document.getElementById('overlay-carrello'); o.style.display = (o.style.display==='flex') ? 'none' : 'flex'; }
         
         window.onclick = function(event) { 
@@ -349,14 +371,6 @@
             if(event.target.classList.contains('modal')) chiudiModali();
         };
 
-        function filterProducts() {
-            let input = document.getElementById('search-ricambi').value.toLowerCase();
-            let cards = document.getElementsByClassName('product-card');
-            for (let card of cards) {
-                let name = card.getElementsByTagName('h4')[0].innerText.toLowerCase();
-                card.style.display = name.includes(input) ? "flex" : "none";
-            }
-        }
         window.onload = renderUI;
     </script>
 </body>
