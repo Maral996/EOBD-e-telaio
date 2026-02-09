@@ -70,19 +70,38 @@
         
         doc.setFontSize(22); doc.setTextColor(255, 152, 0); 
         doc.text("Car's World - Store Ricambi", 20, 20);
-        doc.setFontSize(10); doc.setTextColor(100);
-        doc.text(`Ordine: ${numOrdine} | Data: ${ora}`, 20, 30);
         
-        doc.setFontSize(12); doc.setTextColor(0);
-        doc.text("DESTINATARIO:", 20, 45);
+        doc.setFontSize(10); doc.setTextColor(100);
+        doc.setFont(undefined, 'normal');
+        doc.text(`Ordine: `, 20, 30);
+        doc.setFont(undefined, 'bold'); // NUMERO ORDINE IN GRASSETTO
+        doc.text(`${numOrdine}`, 32, 30);
+        doc.setFont(undefined, 'normal');
+        doc.text(` | Data: ${ora}`, 55, 30);
+        
+        // DESTINATARIO FATTURAZIONE
+        doc.setFontSize(11); doc.setTextColor(0);
+        doc.setFont(undefined, 'bold');
+        doc.text("DESTINATARIO (Fatturazione):", 20, 45);
         let infoFatt = dati.tipo === 'Azienda' ? dati.rag_soc : dati.nome;
         doc.setFont(undefined, 'normal');
         doc.text(`${infoFatt}\n${dati.f_via}\n${dati.f_cap} ${dati.f_cit} (${dati.f_pro})`, 20, 52);
 
-        let y = 80;
+        // INDIRIZZO SPEDIZIONE
+        doc.setFont(undefined, 'bold');
+        doc.text("INDIRIZZO DI SPEDIZIONE:", 110, 45);
+        doc.setFont(undefined, 'normal');
+        if (dati.spedizione_uguale) {
+            doc.text(`${infoFatt}\n${dati.f_via}\n${dati.f_cap} ${dati.f_cit} (${dati.f_pro})`, 110, 52);
+        } else {
+            doc.text(`${dati.s_nome}\n${dati.s_via}\n${dati.s_cap} ${dati.s_cit} (${dati.s_pro})`, 110, 52);
+        }
+
+        let y = 85;
         doc.setFont(undefined, 'bold');
         doc.text("Dettaglio Ordine:", 20, y); y += 10;
         doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
         
         let totRicambi = 0;
         let listaTesto = "";
@@ -90,9 +109,7 @@
             if(prodotti[id]) {
                 let p = prodotti[id]; let qty = cart[id]; let sub = p.prezzo * qty;
                 totRicambi += sub;
-                // MODIFICA: Inserito codice ID nel PDF
                 doc.text(`[${id}] ${p.nome} x${qty}`, 20, y); doc.text(`${sub.toFixed(2)}€`, 160, y);
-                // MODIFICA: Inserito codice ID nella lista per e-mail
                 listaTesto += `Cod: ${id} - ${p.nome} (x${qty}), `;
                 y += 7;
             }
@@ -104,14 +121,23 @@
 
         y += 10;
         doc.text(`Spedizione: ${spedVal === 0 ? "Gratis" : spedVal.toFixed(2) + "€"}`, 130, y); y += 7;
-        doc.text(`Supplemento: ${contrVal.toFixed(2)}€`, 130, y); y += 10;
-        doc.setFontSize(14); doc.text(`TOTALE: ${totaleFin}€`, 130, y);
+        
+        // GESTIONE CONTRASSEGNO / BONIFICO
+        if (dati.pagamento === "Contrassegno") {
+            doc.text(`Pagamento in contrassegno: ${contrVal.toFixed(2)}€`, 130, y); y += 10;
+        } else {
+            // Se bonifico o altro, non aggiunge la riga del supplemento e va avanti
+            y += 3;
+        }
+
+        doc.setFontSize(14); doc.setFont(undefined, 'bold');
+        doc.text(`TOTALE: ${totaleFin}€`, 130, y);
 
         payload = {
             email: dati.email,
             telefono: dati.tel,
             cliente: infoFatt,
-            indirizzo: `${dati.f_via}, ${dati.f_cit}`,
+            indirizzo: dati.spedizione_uguale ? `${dati.f_via}, ${dati.f_cit}` : `${dati.s_via}, ${dati.s_cit}`,
             pagamento: dati.pagamento,
             dettagli_ordine: `ORDINE ${numOrdine}: ${listaTesto} | TOTALE: ${totaleFin}€`
         };
