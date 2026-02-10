@@ -42,7 +42,6 @@
 </div>
 
 <script>
-    // Caricamento Dati
     const prodotti = typeof LISTA_PRODOTTI !== 'undefined' ? LISTA_PRODOTTI : {};
     const dati = JSON.parse(sessionStorage.getItem('dati_checkout'));
     let cart = JSON.parse(localStorage.getItem('cart_carsworld')) || {};
@@ -63,22 +62,20 @@
             const ora = new Date().toLocaleString('it-IT');
             const numOrdine = generateOrderNumber();
             const COSTO_PFU_SINGOLO = 2.50;
+            const POS_PREZZI = 160; // Colonna fissa per i prezzi
             
-            // Intestazione
             doc.setFontSize(22); doc.setTextColor(12, 131, 235); 
             doc.text("Car's World - Store Ricambi", 20, 20);
             
             doc.setFontSize(10); doc.setTextColor(100);
             doc.text(`Ordine: ${numOrdine} | Data: ${ora}`, 20, 30);
             
-            // FATTURAZIONE
             doc.setFontSize(11); doc.setTextColor(0); doc.setFont(undefined, 'bold');
             doc.text("DESTINATARIO (Fatturazione):", 20, 45);
             let infoFatt = dati.tipo === 'Azienda' ? (dati.rag_soc || "") : (dati.nome || "");
             doc.setFont(undefined, 'normal');
             doc.text(`${infoFatt}\n${dati.f_via || ""}\n${dati.f_cap || ""} ${dati.f_cit || ""} (${dati.f_pro || ""})\nTel: ${dati.tel || ""}`, 20, 52);
 
-            // SPEDIZIONE
             if (dati.spedizione_uguale === false) {
                 doc.setFont(undefined, 'bold');
                 doc.text("INDIRIZZO DI SPEDIZIONE:", 110, 45);
@@ -87,7 +84,6 @@
                 doc.text(`${dati.s_nome || infoFatt}\n${dati.s_via || ""}\n${dati.s_cap || ""} ${dati.s_cit || ""} (${dati.s_pro || ""})\n${telSped}`, 110, 52);
             }
 
-            // NOTE CORRIERE
             let y = 85;
             if (dati.note && dati.note.trim() !== "") {
                 doc.setFont(undefined, 'bold');
@@ -98,7 +94,6 @@
                 y += 20;
             }
 
-            // DETTAGLIO PRODOTTI
             doc.setFontSize(11); doc.setFont(undefined, 'bold');
             doc.text("Dettaglio Ordine:", 20, y); y += 10;
             doc.setFontSize(10); doc.setFont(undefined, 'normal');
@@ -113,7 +108,6 @@
                     let p = prodotti[id]; 
                     let qty = cart[id];
 
-                    // LOGICA PNEUMATICI: COPPIA OBBLIGATORIA
                     if (p.isPneumatico && qty % 2 !== 0) {
                         qty = parseInt(qty) + 1;
                         cart[id] = qty; 
@@ -122,48 +116,51 @@
                     let sub = p.prezzo * qty;
                     totRicambi += sub;
 
-                    // CALCOLO PFU
                     if (p.isPneumatico) {
                         totPFU += (COSTO_PFU_SINGOLO * qty);
                     }
                     
-                    // Scrittura nel PDF
                     doc.text(`[${id}] ${p.nome} x${qty}`, 20, y); 
-                    doc.text(`${sub.toFixed(2)}€`, 160, y);
+                    doc.text(`${sub.toFixed(2)}€`, POS_PREZZI, y);
                     
-                    // Email Stringa
                     listaTesto += `ID:${id} - ${p.nome} (x${qty}); `;
                     soliCodici += `[${id}] `;
                     y += 7;
                 }
             });
 
-            // RIGA PFU NEL PDF SE PRESENTE
+            // RIGA PFU ALLINEATA
             if (totPFU > 0) {
                 y += 2;
                 doc.setFont(undefined, 'italic');
                 doc.text(`Contributo Ambientale PFU`, 20, y);
-                doc.text(`${totPFU.toFixed(2)}€`, 160, y);
+                doc.text(`${totPFU.toFixed(2)}€`, POS_PREZZI, y);
                 y += 7;
                 doc.setFont(undefined, 'normal');
             }
 
-            // TOTALI
+            // TOTALI ALLINEATI NELLA STESSA COLONNA
             let spedVal = (totRicambi >= 100) ? 0 : 7.50;
             let contrVal = dati.pagamento === "Contrassegno" ? 5 : 0;
             let totaleFin = (totRicambi + totPFU + spedVal + contrVal).toFixed(2);
 
             y += 5;
-            doc.text(`Spedizione: ${spedVal === 0 ? "Gratis" : spedVal.toFixed(2) + "€"}`, 130, y);
+            doc.text(`Spedizione:`, 20, y);
+            doc.text(`${spedVal === 0 ? "Gratis" : spedVal.toFixed(2) + "€"}`, POS_PREZZI, y);
+            
             if (dati.pagamento === "Contrassegno") {
                 y += 7;
-                doc.text(`Supplemento Contrassegno: 5.00€`, 130, y);
+                doc.text(`Contrassegno:`, 20, y);
+                doc.text(`5.00€`, POS_PREZZI, y);
             }
-            y += 10;
-            doc.setFontSize(14); doc.setFont(undefined, 'bold');
-            doc.text(`TOTALE: ${totaleFin}€`, 130, y);
 
-            // Payload per invio email
+            y += 12;
+            doc.setDrawColor(200);
+            doc.line(20, y - 8, 190, y - 8); // Linea di separazione prima del totale
+            doc.setFontSize(14); doc.setFont(undefined, 'bold');
+            doc.text(`TOTALE:`, 20, y);
+            doc.text(`${totaleFin}€`, POS_PREZZI, y);
+
             payload = {
                 _subject: `Nuovo Ordine ${numOrdine} da ${infoFatt}`,
                 email_cliente: dati.email,
