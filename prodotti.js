@@ -22,11 +22,11 @@ const LISTA_PRODOTTI = {
         desc: "Lampadina bosch H7"
     },
     
-    
     P1: { 
-        nome: "Pneumatico Michelin 205/55 R16", 
+        nome: "Michelin Primacy 205/55 R16 91V", 
         prezzo: 85.50, 
         categoria: "Pneumatici", 
+        isPneumatico: true,
         immagine: "img/michelin.jpg", 
         desc: "Estivo, ottima tenuta" 
     },
