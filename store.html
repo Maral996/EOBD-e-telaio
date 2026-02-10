@@ -40,7 +40,6 @@
         .cat-btn { background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.3s; color: #555; flex-shrink: 0; }
         .cat-btn.active { background: #0c83eb; color: white; border-color: #0c83eb; }
         
-        /* Media query per mantenere lo scroll fluido su mobile ma centrato su PC */
         @media (max-width: 600px) {
             .category-nav { justify-content: flex-start; }
         }
@@ -293,8 +292,14 @@
         }
 
         function updateQty(id, delta) {
-            cart[id] = (cart[id] || 0) + delta;
+            const p = prodotti[id];
+            // Se è pneumatico, delta diventa 2 (per coppia)
+            const step = p.isPneumatico ? 2 : 1;
+            const finalDelta = delta > 0 ? step : -step;
+
+            cart[id] = (cart[id] || 0) + finalDelta;
             if (cart[id] <= 0) delete cart[id];
+            
             localStorage.setItem('cart_carsworld', JSON.stringify(cart));
             renderUI();
         }
@@ -339,19 +344,48 @@
                 }
             });
 
-            let tot = 0; let count = 0; const list = document.getElementById('mini-lista'); list.innerHTML = "";
+            let tot = 0; 
+            let count = 0; 
+            let totPFU = 0;
+            const COSTO_PFU_SINGOLO = 2.50;
+            const list = document.getElementById('mini-lista'); 
+            list.innerHTML = "";
             const idsInCart = Object.keys(cart);
+
             if(idsInCart.length === 0) {
                 list.innerHTML = "<p style='text-align:center; color:#999; padding:20px;'>Il carrello è vuoto</p>";
                 document.getElementById('box-azioni-carrello').style.display = "none";
             } else {
                 document.getElementById('box-azioni-carrello').style.display = "block";
                 idsInCart.forEach(id => {
-                    let p = prodotti[id]; let q = cart[id]; let sub = p.prezzo * q; tot += sub; count += q;
+                    let p = prodotti[id]; 
+                    let q = cart[id]; 
+                    let sub = p.prezzo * q; 
+                    tot += sub; 
+                    count += q;
+
+                    if (p.isPneumatico) {
+                        totPFU += (COSTO_PFU_SINGOLO * q);
+                    }
+
                     let miniImg = (p.immagine && p.immagine !== "") ? `<img src="${p.immagine}" class="mini-img" onerror="this.style.display='none'">` : "";
                     list.innerHTML += `<div class="mini-item">${miniImg}<div class="mini-details"><span class="mini-name">${p.nome}</span><div class="mini-qty-box"><button class="btn-qty" onclick="updateQty('${id}',-1)">-</button><span style="font-weight:bold">${q}</span><button class="btn-qty" onclick="updateQty('${id}',1)">+</button></div></div><span class="mini-price">${sub.toFixed(2)}€</span></div>`;
                 });
+
+                // Aggiunta riga PFU se presente
+                if (totPFU > 0) {
+                    tot += totPFU;
+                    list.innerHTML += `
+                        <div class="mini-item" style="border-bottom: 2px solid #0c83eb; padding-bottom: 5px; margin-top: 10px;">
+                            <div class="mini-details">
+                                <span class="mini-name" style="color:#0c83eb; font-style:italic;">Contributo Ambientale PFU</span>
+                            </div>
+                            <span class="mini-price" style="color:#0c83eb;">${totPFU.toFixed(2)}€</span>
+                        </div>
+                    `;
+                }
             }
+
             document.getElementById('mini-tot').innerText = tot.toFixed(2)+"€";
             document.getElementById('btn-count').innerText = count;
             document.getElementById('btn-text').innerText = tot > 0 ? tot.toFixed(2)+"€" : "CARRELLO";
