@@ -65,7 +65,8 @@
             padding: 0 15px; z-index: 10000; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        header h1 { font-size: 18px; margin: 0; text-transform: uppercase; flex-grow: 1; text-align: center; }
+        /* TITOLO PIÙ GRANDE */
+        header h1 { font-size: 20px; margin: 0; text-transform: uppercase; flex-grow: 1; text-align: center; }
 
         .nav-fissa {
             background: rgba(255, 255, 255, 0.2);
@@ -88,7 +89,7 @@
                 display: grid;
                 grid-template-columns: 1fr auto 1fr;
                 gap: 20px;
-                max-width: 95%; /* Allargato per ospitare più pulsanti in riga */
+                max-width: 95%; 
                 margin: 0 auto;
             }
             
@@ -97,14 +98,16 @@
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
-                gap: 15px;
+                gap: 20px;
                 width: 100%;
-                max-width: 1200px; /* Limite massimo per evitare righe troppo lunghe */
+                max-width: 1300px;
             }
 
             .main-btn {
-                flex: 0 0 calc(20% - 15px); /* Circa 5 pulsanti per riga */
-                min-width: 200px;
+                flex: 0 0 calc(25% - 20px); 
+                min-width: 250px; 
+                padding: 35px 20px !important; 
+                font-size: 20px !important; 
             }
         }
 
